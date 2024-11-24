@@ -3,7 +3,7 @@
     <?php if ($resource['type'] === 'style'): ?>
         <link rel="stylesheet" 
               href="<?php echo $resource['url']; ?>" 
-              integrity="<?php echo $resource['integrity']; ?>"
+              nonce="<?php echo $nonces[$key]; ?>"
               crossorigin="anonymous">
     <?php endif; ?>
 <?php endforeach; ?>
@@ -12,7 +12,7 @@
 <?php foreach ($external_resources as $key => $resource): ?>
     <?php if ($resource['type'] === 'script'): ?>
         <script src="<?php echo $resource['url']; ?>" 
-                integrity="<?php echo $resource['integrity']; ?>"
+                nonce="<?php echo $nonces[$key]; ?>"
                 crossorigin="anonymous"></script>
     <?php endif; ?>
 <?php endforeach; ?>

@@ -6,10 +6,13 @@
     # Definir a visibilidade da página
     require_once('../private/source/pages/config/page_visibility/page_public.php');
 
-    # Incluir cabeçalho de segurança
+    # Primeiro carregar os scripts locais que definem os nonces
+    require_once '../private/source/pages/layouts/components/html.scripts&endBody/php/local_scripts.php';
+
+    # Depois carregar o security headers que usa os nonces
     require_once '../private/source/pages/layouts/components/html.head&startBody/php/security_headers.php';
 
-    # Incluir o cabeçalho HTML  
+    # Por fim carregar o HTML head que também usa os nonces
     require_once '../private/source/pages/layouts/components/html.head&startBody.php';
 
     # Incluir o cabeçalho
