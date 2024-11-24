@@ -8,19 +8,18 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301,NE]
 
-# Tratar todas as variações de index
-RewriteEngine On
-RewriteRule ^index$ /index.php [L,R=301]
-RewriteRule ^index(\.php)?/?$ / [R=301,L]
+# Redirecionar QUALQUER tentativa de acessar index para a raiz
+RewriteCond %{THE_REQUEST} /index[^\s]*
+RewriteRule ^ / [L,R=301]
 
-# Adicionar .php internamente
+# Redirecionar TODOS os 404 para a home
+ErrorDocument 404 /
+
+# Adicionar .php internamente (apenas se o arquivo existir)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{DOCUMENT_ROOT}/$1.php -f
 RewriteRule ^([^/]+)/?$ $1.php [L,QSA]
-
-# Redirecionar TODOS os 404 para a home
-ErrorDocument 404 /
 
 # Personalizar página de erro 404
 ErrorDocument 404 /404.php
