@@ -1,8 +1,8 @@
 RewriteEngine On
 
 # Redirecionar para HTTPS (SSL apenas no servidor) Muitas requisições
-# RewriteCond %{HTTPS} off
-# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Limitar métodos HTTP permitidos
 # <LimitExcept GET POST HEAD>
@@ -124,4 +124,22 @@ RewriteRule ^search_results$ search_results.php [L]
 <Files "search_results.php">
     Require all granted
 </Files>
+
+# Cookies
+Header always edit Set-Cookie ^(.*)$ $1;HttpOnly;Secure;SameSite=Strict
+
+# HSTS (HTTP Strict Transport Security)
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+# X-Frame-Options
+Header always set X-Frame-Options "SAMEORIGIN"
+
+# X-Content-Type-Options
+Header set X-Content-Type-Options "nosniff"
+
+# Referrer Policy
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+# Content Security Policy (CSP)
+Header set Content-Security-Policy "frame-ancestors 'self'"
 
