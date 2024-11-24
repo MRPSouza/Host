@@ -70,10 +70,11 @@ $inline_script_hashes = [
 ];
 
 // Defina a política CSP em uma única linha
-$csp_policy = "default-src 'self'; "
+$csp_policy = "default-src 'none'; "
     . "script-src 'self' " . $script_hash_string . " " . implode(' ', $inline_script_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
+    . "connect-src 'self' https://worldtimeapi.org/; "
     . "worker-src 'self' blob: ; "
     . "style-src 'self' " . $style_hash_string . " " . implode(' ', $inline_style_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
