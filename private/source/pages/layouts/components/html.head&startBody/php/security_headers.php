@@ -70,25 +70,23 @@ $inline_script_hashes = [
 ];
 
 // Defina a política CSP em uma única linha
-$csp_policy = "default-src 'none'; "
-    . "script-src 'self' " . implode(' ', $script_hashes) . " " . implode(' ', $inline_script_hashes) . " "
+$csp_policy = "default-src 'self'; "
+    . "script-src 'self' " . $script_hash_string . " " . implode(' ', $inline_script_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
-    . "style-src 'self' " . implode(' ', $style_hashes) . " " . implode(' ', $inline_style_hashes) . " "
+    . "worker-src 'self' blob: ; "
+    . "style-src 'self' " . $style_hash_string . " " . implode(' ', $inline_style_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://cdnjs.cloudflare.com/ "
     . "https://fonts.googleapis.com/; "
     . "font-src 'self' "
     . "https://fonts.gstatic.com/ "
     . "https://cdnjs.cloudflare.com/; "
-    . "img-src 'self' data:; "
+    . "img-src 'self' data: https:; "
     . "connect-src 'self'; "
     . "frame-ancestors 'none'; "
     . "form-action 'self'; "
-    . "base-uri 'self'; "
-    . "object-src 'none'; "
-    . "worker-src 'self' blob:; "
-    . "manifest-src 'self';";
+    . "base-uri 'self';";
 
 // Modifique o CSP para incluir report-only temporariamente
 header("Content-Security-Policy: $csp_policy");
@@ -102,13 +100,8 @@ header("X-Frame-Options: DENY");
 // Proteger contra MIME Sniffing
 header("X-Content-Type-Options: nosniff");
 
-// Verificação mais robusta de HTTPS
-if (
-    (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
-    (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
-) {
-    header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
-}
+// Forçar HTTPS
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
 
 // Prevenir vazamento de informações de referência
 header("Referrer-Policy: strict-origin-when-cross-origin");
