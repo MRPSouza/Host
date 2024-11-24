@@ -10,7 +10,8 @@ $nonces = [
     'content_dynamic' => base64_encode(random_bytes(16)),
     'resize_body' => base64_encode(random_bytes(16)),
     'iframe_restrict' => base64_encode(random_bytes(16)),
-    'tooltip' => base64_encode(random_bytes(16))
+    'tooltip' => base64_encode(random_bytes(16)),
+    'page_styles' => base64_encode(random_bytes(16))
 ];
 
 // Scripts locais
