@@ -70,7 +70,7 @@ $inline_script_hashes = [
 ];
 
 // Defina a política CSP em uma única linha
-$csp_policy = "default-src 'self'; "
+$csp_policy = "default-src 'none'; "
     . "script-src 'self' " . $script_hash_string . " " . implode(' ', $inline_script_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
@@ -86,7 +86,10 @@ $csp_policy = "default-src 'self'; "
     . "connect-src 'self'; "
     . "frame-ancestors 'none'; "
     . "form-action 'self'; "
-    . "base-uri 'self';";
+    . "base-uri 'self'; "
+    . "object-src 'none'; "
+    . "worker-src 'self' blob:; "
+    . "manifest-src 'self';";
 
 // Modifique o CSP para incluir report-only temporariamente
 header("Content-Security-Policy: $csp_policy");
