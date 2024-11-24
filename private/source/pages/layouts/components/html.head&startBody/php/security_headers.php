@@ -54,12 +54,27 @@ print_r($script_hashes);
 echo "\n<!-- Style Hashes: -->\n";
 print_r($style_hashes);
 
+$inline_style_hashes = [
+    "'sha256-lSQTU/F1/ZmmX3RPh56utZLWWyMEu9Uch9bC475QvPA='",
+    "'sha256-muFRSnplr5N3iEjTOjXk+DFAY53hts6pBpEoEDnY4W0='",
+    "'sha256-0qxSfKRkLT0a0s7bdPKt0OzTgaGpWK4YjJngQBs766A='",
+    "'sha256-SYJUZ32nvWNLb7A/RnSwtdSuCB+zBLAtWdp1JBTfO9w='",
+    "'sha256-rlx+YSsXcrPIXjRJ3Khg65SeaMFQI/6MyJvLVGaWSaA='",
+    "'sha256-eoYVeC34m1+4tLjM76MjpaPlMCFnZl6oAJ+wf8124Tk='",
+    "'sha256-iZkb53UPZKGjsK/QWVA4U2P7yf+8joKG6vfOAdY8pFk='"
+];
+
+$inline_script_hashes = [
+    "'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk='",
+    "'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY='"
+];
+
 // Defina a política CSP em uma única linha
 $csp_policy = "default-src 'self'; "
-    . "script-src 'self' " . $script_hash_string . " "
+    . "script-src 'self' " . $script_hash_string . " " . implode(' ', $inline_script_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
-    . "style-src 'self' " . $style_hash_string . " "
+    . "style-src 'self' " . $style_hash_string . " " . implode(' ', $inline_style_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://cdnjs.cloudflare.com/ "
     . "https://fonts.googleapis.com/; "
