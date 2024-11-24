@@ -8,14 +8,14 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301,NE]
 
-# Redirecionar QUALQUER tentativa de acessar index para a raiz
-RewriteCond %{THE_REQUEST} /index[^\s]*
-RewriteRule ^ / [L,R=301]
+# Redirecionar index para raiz
+RewriteRule ^index/?$ / [R=301,L]
+RewriteRule ^index\.php/?$ / [R=301,L]
 
-# Redirecionar TODOS os 404 para a home
-ErrorDocument 404 /
+# Redirecionar 404 para o script PHP
+ErrorDocument 404 /404.php
 
-# Adicionar .php internamente (apenas se o arquivo existir)
+# Adicionar .php internamente
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{DOCUMENT_ROOT}/$1.php -f
@@ -103,9 +103,9 @@ LimitRequestBody 1048576
 # Proteger contra vazamento de informações de erro
 Header set X-Permitted-Cross-Domain-Policies "none"
 
-ErrorDocument 403 '<script>window.location.href = "403";</script>'
-ErrorDocument 404 '<script>window.location.href = "404";</script>'
-ErrorDocument 500 '<script>window.location.href = "500";</script>'
+ErrorDocument 403 /403.php
+ErrorDocument 404 /404.php
+ErrorDocument 500 /500.php
 
 # Configurar cache do navegador
 <IfModule mod_expires.c>
