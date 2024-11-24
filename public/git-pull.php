@@ -18,14 +18,9 @@ if ($hash !== $signature) {
     die('Assinatura inválida');
 }
 
-// Executa o pull usando exec em vez de shell_exec
-error_log("Iniciando pull...");
-chdir('/home/defaultwebsite');
+// Cria um arquivo de flag pra indicar que precisa atualizar
+$flag_file = "/home/defaultwebsite/update_needed.flag";
+file_put_contents($flag_file, date('Y-m-d H:i:s'));
+error_log("Flag de atualização criada em: " . $flag_file);
 
-$output = [];
-$return_var = 0;
-exec('git pull origin main 2>&1', $output, $return_var);
-error_log("Resultado do pull: " . implode("\n", $output));
-error_log("Código de retorno: " . $return_var);
-
-echo "Pull executado!";
+echo "Flag de atualização criada!";
