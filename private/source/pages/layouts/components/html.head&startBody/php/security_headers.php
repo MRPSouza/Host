@@ -67,23 +67,34 @@ $script_hashes = [
     "'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY='"
 ];
 
+// Estilos inline
+$style_hashes = [
+    "'sha256-lSQTU/F1/ZmmX3RPh56utZLWWyMEu9Uch9bC475QvPA='",
+    "'sha256-muFRSnplr5N3iEjTOjXk+DFAY53hts6pBpEoEDnY4W0='",
+    "'sha256-0qxSfKRkLT0a0s7bdPKt0OzTgaGpWK4YjJngQBs766A='",
+    "'sha256-SYJUZ32nvWNLb7A/RnSwtdSuCB+zBLAtWdp1JBTfO9w='",
+    "'sha256-rlx+YSsXcrPIXjRJ3Khg65SeaMFQI/6MyJvLVGaWSaA='",
+    "'sha256-eoYVeC34m1+4tLjM76MjpaPlMCFnZl6oAJ+wf8124Tk='",
+    "'sha256-iZkb53UPZKGjsK/QWVA4U2P7yf+8joKG6vfOAdY8pFk='"
+];
+
 // Adicionar os hashes dos scripts de redirecionamento
 $script_hashes[] = "'sha256-wDIFZ0qYjE60YyzUhO06kA6OYdPSOhKirRnTyS3j11Y='";
 $script_hashes[] = "'sha256-90ZdoC9kHId7WVKDYd0K5xvj/8aZ6oM9udkLtBGNx7Q='";
 $script_hashes[] = "'sha256-bdvmA4hVgUddpVZwV8uXYAu2k8BHz1VWRzH8ho+6np0='";
 $script_hashes[] = "'sha256-NV330IZQnSrhvXKo1Kh3LGeVmXKxN9pg2Z3JLD3h4Gw='";
-
-// Adicionar o novo hash ao array de hashes permitidos
 $script_hashes[] = "'sha256-vwpS6YH5eqNzzhCNBNu0fim2y+q7qFKaRs7+n/oqlP0='";
-
-// Adicionar o novo hash
 $script_hashes[] = "'sha256-SfsaUXDtEB2wbEB1qNV7Wwmg1s5a0sikns9gPLA8DBc='";
 
-// CSP com os hashes fixos
+// CSP com os hashes organizados
 $csp_policy = "default-src 'self'; "
     . "script-src 'self' " . implode(' ', $script_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
-    . "https://code.jquery.com/; ";
+    . "https://code.jquery.com/; "
+    . "style-src 'self' " . implode(' ', $style_hashes) . " "
+    . "https://cdn.jsdelivr.net/ "
+    . "https://cdnjs.cloudflare.com/ "
+    . "https://fonts.googleapis.com/; ";
 
 header("Content-Security-Policy: $csp_policy");
 
