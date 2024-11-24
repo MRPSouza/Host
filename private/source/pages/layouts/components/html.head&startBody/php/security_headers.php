@@ -77,8 +77,14 @@ $style_hashes = [
     "'sha256-iZkb53UPZKGjsK/QWVA4U2P7yf+8joKG6vfOAdY8pFk='"
 ];
 
+// Adicionar os hashes dos scripts de redirecionamento
+$script_hashes[] = "'sha256-wDIFZ0qYjE60YyzUhO06kA6OYdPSOhKirRnTyS3j11Y='";
+$script_hashes[] = "'sha256-90ZdoC9kHId7WVKDYd0K5xvj/8aZ6oM9udkLtBGNx7Q='";
+$script_hashes[] = "'sha256-bdvmA4hVgUddpVZwV8uXYAu2k8BHz1VWRzH8ho+6np0='";
+$script_hashes[] = "'sha256-NV330IZQnSrhvXKo1Kh3LGeVmXKxN9pg2Z3JLD3h4Gw='";
+
 // CSP com os hashes
-$csp_policy = "default-src 'none'; "
+$csp_policy = "default-src 'self'; "
     . "script-src 'self' " . implode(' ', $script_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
