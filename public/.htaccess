@@ -3,11 +3,12 @@
     RewriteEngine On
     RewriteBase /
     
-    # Força HTTPS e remove www
-    RewriteCond %{HTTPS} off
-    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-    RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+    # Força HTTPS e remove www (regras simplificadas)
+    RewriteCond %{HTTPS} !=on [NC]
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+    
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^(.*)$ https://%1%{REQUEST_URI} [R=301,L]
     
     # Remove extensão .php
     RewriteCond %{REQUEST_FILENAME} !-f
