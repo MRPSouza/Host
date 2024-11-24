@@ -1,7 +1,13 @@
 <?php
 
 # Política de Segurança
-include_once('../private/source/pages/config/page_visibility/page_restricted.php');  // Proibe o acesso a essa página caso o .htaccess falhe.
+// Comentar temporariamente para teste
+// include_once('../private/source/pages/config/page_visibility/page_restricted.php');
+
+// Antes do include
+error_log("Tentando incluir page_restricted.php");
+include_once('../private/source/pages/config/page_visibility/page_restricted.php');
+error_log("Include realizado com sucesso");
 
 // Adicione no início do arquivo
 error_reporting(E_ALL);
