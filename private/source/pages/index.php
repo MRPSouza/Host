@@ -21,7 +21,7 @@
                     <button class="custom-button" type="button">
                         <span class="button-content">
                             <i class="fab fa-whatsapp me-2"></i>
-                            Solicitar Orçamento 2024 - 3
+                            Solicitar Orçamento
                         </span>
                     </button>
                 </div>
