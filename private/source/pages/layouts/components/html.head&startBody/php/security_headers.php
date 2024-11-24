@@ -102,8 +102,10 @@ header("X-Frame-Options: DENY");
 // Proteger contra MIME Sniffing
 header("X-Content-Type-Options: nosniff");
 
-// Forçar HTTPS
-header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
+// Apenas envie HSTS se já estiver em HTTPS
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+    header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
+}
 
 // Prevenir vazamento de informações de referência
 header("Referrer-Policy: strict-origin-when-cross-origin");
