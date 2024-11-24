@@ -14,7 +14,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Gerar nonce único para a sessão
-$nonce = base64_encode(random_bytes(16));
+session_start();
+$_SESSION['nonce'] = base64_encode(random_bytes(16));
 
 // Função para gerar hash de um arquivo
 function generateFileHash($filePath) {
@@ -89,9 +90,9 @@ $script_hashes[] = "'sha256-vwpS6YH5eqNzzhCNBNu0fim2y+q7qFKaRs7+n/oqlP0='";
 // Adicionar o novo hash
 $script_hashes[] = "'sha256-SfsaUXDtEB2wbEB1qNV7Wwmg1s5a0sikns9gPLA8DBc='";
 
-// CSP com nonce
+// CSP com nonce da sessão
 $csp_policy = "default-src 'self'; "
-    . "script-src 'self' 'nonce-{$nonce}' "
+    . "script-src 'self' 'nonce-{$_SESSION['nonce']}' "
     . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
     . "style-src 'self' " . implode(' ', $style_hashes) . " "
