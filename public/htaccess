@@ -12,6 +12,11 @@ RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301,NE]
 RewriteRule ^index/?$ / [R=301,L]
 RewriteRule ^index\.php/?$ / [R=301,L]
 
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^home\.matheusrpsouza\.com$ [NC]
+RewriteRule ^$ /startpage.html [L]
+
+
 # Redirecionar 404 para o script PHP
 ErrorDocument 404 /404.php
 
