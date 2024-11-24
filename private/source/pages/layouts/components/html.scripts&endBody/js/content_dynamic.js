@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    fetch("../private/source/pages/data/seo_pages.json").then(t => t.json()).then(t => {
+    fetch("/../private/source/pages/data/seo_pages.json").then(t => t.json()).then(t => {
         e = t;
         checkAndPerformSearch();
         let a = window.location.pathname.split("/").pop() || "index";
