@@ -1,17 +1,25 @@
 <?php
-$EXTERNAL_SCRIPT_HASHES = [];
-
-$external_scripts = [
-    'jquery' => [
-        'url' => 'https://code.jquery.com/jquery-3.6.0.min.js',
-        'integrity' => 'sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK',
-        'hash' => null
+// Scripts e recursos externos
+$external_resources = [
+    'bootstrap_css' => [
+        'type' => 'style',
+        'url' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+        'nonce' => $nonces['bootstrap_css']
+    ],
+    'popper_js' => [
+        'type' => 'script',
+        'url' => 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js',
+        'nonce' => $nonces['popper_js']
+    ],
+    'bootstrap_js' => [
+        'type' => 'script',
+        'url' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+        'nonce' => $nonces['bootstrap_js']
+    ],
+    'fontawesome' => [
+        'type' => 'style',
+        'url' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css',
+        'nonce' => $nonces['fontawesome']
     ]
-    // Adicione mais scripts externos aqui
 ];
-
-// Gerar hash para cada script externo
-foreach ($external_scripts as $key => &$script) {
-    $EXTERNAL_SCRIPT_HASHES[$key] = $script['integrity'];
-}
 ?>

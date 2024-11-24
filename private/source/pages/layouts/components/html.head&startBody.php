@@ -1,3 +1,27 @@
+# Estilos externos
+<?php foreach ($external_resources as $resource): ?>
+    <?php if ($resource['type'] === 'style'): ?>
+        <link rel="stylesheet" 
+              href="<?php echo $resource['url']; ?>" 
+              nonce="<?php echo $resource['nonce']; ?>">
+    <?php endif; ?>
+<?php endforeach; ?>
+
+# Scripts externos
+<?php foreach ($external_resources as $resource): ?>
+    <?php if ($resource['type'] === 'script'): ?>
+        <script src="<?php echo $resource['url']; ?>" 
+                nonce="<?php echo $resource['nonce']; ?>"></script>
+    <?php endif; ?>
+<?php endforeach; ?>
+
+# Scripts locais
+<?php foreach ($local_scripts as $key => $script): ?>
+    <script nonce="<?php echo $script['nonce']; ?>">
+        /* código do <?php echo $key; ?> aqui */
+    </script>
+<?php endforeach; ?>
+
 <?php
 
 include_once('html.head&startBody/php/all-pages.php');
@@ -73,4 +97,5 @@ echo '<!DOCTYPE html><html lang="pt-br"><head>'.
 '<meta name="apple-mobile-web-app-title" content="" id="apple-title">'.
 '<link rel="apple-touch-startup-image" href="" id="apple-image">'.
 '</head><body>';
+
 ?>

@@ -1,9 +1,23 @@
 <?php
-$csp = "script-src 'self' " .
-    "'nonce-{$script_nonce_1}' " .
-    "'nonce-{$script_nonce_2}' " .
-    "'nonce-{$script_nonce_3}' " .
-    "'nonce-{$script_nonce_4}'";
+// Construir string de nonces para CSP
+$nonce_string = "";
+foreach ($nonces as $nonce) {
+    $nonce_string .= "'nonce-{$nonce}' ";
+}
+
+$csp = "default-src 'self'; " .
+    "script-src 'self' 'strict-dynamic' " . 
+    $nonce_string .
+    "https://cdn.jsdelivr.net " .
+    "https://cdnjs.cloudflare.com " .
+    "https://*.cloudflare.com; " .
+    "style-src 'self' 'unsafe-inline' " .
+    "https://cdn.jsdelivr.net " .
+    "https://cdnjs.cloudflare.com; " .
+    "font-src 'self' " .
+    "https://cdnjs.cloudflare.com; " .
+    "img-src 'self' data: https:; " .
+    "connect-src 'self'";
 
 header("Content-Security-Policy: " . $csp);
 ?>
