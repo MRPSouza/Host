@@ -131,3 +131,8 @@ RewriteRule ^search_results$ search_results.php [L]
     Require all granted
 </Files>
 
+# Forçar HTTPS
+RewriteEngine On
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
