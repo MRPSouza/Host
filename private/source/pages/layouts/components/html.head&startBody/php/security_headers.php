@@ -71,10 +71,10 @@ $inline_script_hashes = [
 
 // Defina a política CSP em uma única linha
 $csp_policy = "default-src 'none'; "
-    . "script-src 'self' "
+    . "script-src 'self' " . implode(' ', $script_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
-    . "style-src 'self' "
+    . "style-src 'self' " . implode(' ', $style_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://cdnjs.cloudflare.com/ "
     . "https://fonts.googleapis.com/; "
@@ -82,10 +82,10 @@ $csp_policy = "default-src 'none'; "
     . "https://fonts.gstatic.com/ "
     . "https://cdnjs.cloudflare.com/; "
     . "img-src 'self' data:; "
-    . "connect-src 'self' https://worldtimeapi.org/; "
+    . "connect-src 'self'; "
     . "frame-ancestors 'none'; "
     . "form-action 'self'; "
-    . "base-uri 'self'";
+    . "base-uri 'self';";
 
 // Remova os implode() por enquanto até resolvermos a sintaxe
 header("Content-Security-Policy: $csp_policy");
