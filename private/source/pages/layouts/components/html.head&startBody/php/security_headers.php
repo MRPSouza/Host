@@ -6,20 +6,56 @@ include_once('../private/source/pages/config/page_visibility/page_restricted.php
 // Gere um único nonce para a página
 $nonce = base64_encode(random_bytes(16));
 
+// Função para gerar hash de um arquivo
+function generateFileHash($filePath) {
+    if (file_exists($filePath)) {
+        $content = file_get_contents($filePath);
+        return "'sha256-" . base64_encode(hash('sha256', $content, true)) . "'";
+    }
+    return null;
+}
+
+// Gerar hashes para todos os arquivos JS locais
+$script_hashes = [];
+foreach ($local_scripts as $script) {
+    $fullPath = $_SERVER['DOCUMENT_ROOT'] . $script['path'];
+    $hash = generateFileHash($fullPath);
+    if ($hash) {
+        $script_hashes[] = $hash;
+    }
+}
+
+// Gerar hashes para arquivos CSS locais
+$style_hashes = [];
+$css_files = [
+    '/css/style.css',
+    // adicione outros arquivos CSS aqui
+];
+foreach ($css_files as $css) {
+    $fullPath = $_SERVER['DOCUMENT_ROOT'] . $css;
+    $hash = generateFileHash($fullPath);
+    if ($hash) {
+        $style_hashes[] = $hash;
+    }
+}
+
+// Juntar todos os hashes em strings
+$script_hash_string = implode(' ', $script_hashes);
+$style_hash_string = implode(' ', $style_hashes);
+
 // Defina a política CSP em uma única linha
 $csp_policy = "default-src 'self'; "
-    . "script-src 'self' 'nonce-{$nonce}' "
-    . "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/ "
-    . "https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/ "
+    . "script-src 'self' " . $script_hash_string . " "
+    . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
-    . "style-src 'self' 'nonce-{$nonce}' "
-    . "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/ "
-    . "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/ "
+    . "style-src 'self' " . $style_hash_string . " "
+    . "https://cdn.jsdelivr.net/ "
+    . "https://cdnjs.cloudflare.com/ "
     . "https://fonts.googleapis.com/; "
     . "font-src 'self' "
     . "https://fonts.gstatic.com/ "
     . "https://cdnjs.cloudflare.com/; "
-    . "img-src 'self' data:; "
+    . "img-src 'self' data: https:; "
     . "connect-src 'self'; "
     . "frame-ancestors 'none'; "
     . "form-action 'self'; "
