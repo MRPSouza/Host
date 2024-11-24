@@ -84,16 +84,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    fetch("/../private/source/pages/data/seo_pages.json").then(t => t.json()).then(t => {
-        e = t;
-        checkAndPerformSearch();
-        let a = window.location.pathname.split("/").pop() || "index";
-        a = a.replace('.php', '');
-        if (!a || a === '/') a = "index";
-        if (!window.location.search) {
-            n(a);
-        }
-    }).catch(t => console.error("Erro ao carregar seo_pages.json:", t)),
+    fetch(window.location.pathname + "?get_seo_data=1")
+        .then(t => t.json())
+        .then(t => {
+            e = t;
+            checkAndPerformSearch();
+            let a = window.location.pathname.split("/").pop() || "index";
+            a = a.replace('.php', '');
+            if (!a || a === '/') a = "index";
+            if (!window.location.search) {
+                n(a);
+            }
+        }).catch(t => console.error("Erro ao carregar seo_pages.json:", t)),
     
     document.body.addEventListener("click", function(t) {
         let e = t.target.closest("a[data-page]");
