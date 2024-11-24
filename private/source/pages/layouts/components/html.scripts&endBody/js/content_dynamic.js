@@ -85,9 +85,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     fetch(window.location.pathname + "?get_seo_data=1")
-        .then(t => t.json())
-        .then(t => {
-            e = t;
+        .then(response => response.json())
+        .then(data => {
+            console.log("Dados disponíveis:", data);
+            e = data;
             checkAndPerformSearch();
             let a = window.location.pathname.split("/").pop() || "index";
             a = a.replace('.php', '');
