@@ -54,7 +54,14 @@ $style_hash_string = implode(' ', $style_hashes);
 // echo "\n<!-- Style Hashes: -->\n";
 // print_r($style_hashes);
 
-$inline_style_hashes = [
+// Scripts inline
+$script_hashes = [
+    "'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk='",
+    "'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY='"
+];
+
+// Estilos inline
+$style_hashes = [
     "'sha256-lSQTU/F1/ZmmX3RPh56utZLWWyMEu9Uch9bC475QvPA='",
     "'sha256-muFRSnplr5N3iEjTOjXk+DFAY53hts6pBpEoEDnY4W0='",
     "'sha256-0qxSfKRkLT0a0s7bdPKt0OzTgaGpWK4YjJngQBs766A='",
@@ -64,12 +71,7 @@ $inline_style_hashes = [
     "'sha256-iZkb53UPZKGjsK/QWVA4U2P7yf+8joKG6vfOAdY8pFk='"
 ];
 
-$inline_script_hashes = [
-    "'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk='",
-    "'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY='"
-];
-
-// Defina a política CSP em uma única linha
+// CSP com os hashes
 $csp_policy = "default-src 'none'; "
     . "script-src 'self' " . implode(' ', $script_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
@@ -85,9 +87,8 @@ $csp_policy = "default-src 'none'; "
     . "connect-src 'self'; "
     . "frame-ancestors 'none'; "
     . "form-action 'self'; "
-    . "base-uri 'self';";
+    . "base-uri 'self'";
 
-// Remova os implode() por enquanto até resolvermos a sintaxe
 header("Content-Security-Policy: $csp_policy");
 
 // Proteger contra XSS
@@ -127,7 +128,7 @@ ini_set('log_errors', 1);
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 
 if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-    header("Strict-Transport-Security: max-age=300");  // Começando com 5 minutos
+    header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
 }
 
 ?>
