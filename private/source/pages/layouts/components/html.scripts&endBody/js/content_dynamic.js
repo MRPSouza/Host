@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    fetch("/../php/get-seo-data.php")
+    fetch("/../private/source/pages/layouts/components/html.scripts&endBody/php/get-seo-data.php")
         .then(t => t.json())
         .then(t => {
             e = t;
