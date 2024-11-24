@@ -1,14 +1,12 @@
 RewriteEngine On
 
-# Redirecionar para HTTPS (versão corrigida para Umbler)
+# Redirecionar para HTTPS
 RewriteEngine On
-RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
-RewriteCond %{HTTPS} !=on
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteCond %{HTTP:X-Forwarded-Proto} =http
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-# Remover www (mantenha após o redirecionamento HTTPS)
-RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
 
 # Limitar métodos HTTP permitidos
 # <LimitExcept GET POST HEAD>
@@ -130,8 +128,3 @@ RewriteRule ^search_results$ search_results.php [L]
 <Files "search_results.php">
     Require all granted
 </Files>
-
-# Forçar HTTPS
-RewriteEngine On
-RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
