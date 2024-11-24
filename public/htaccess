@@ -8,15 +8,17 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301,NE]
 
-# Redirecionar /index diretamente para a raiz
-RewriteRule ^index$ / [R=301,L]
-RewriteRule ^index/$ / [R=301,L]
+# Tratar todas as variações de index
+RewriteRule ^index(\.php)?/?$ / [R=301,L]
 
 # Adicionar .php internamente
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{DOCUMENT_ROOT}/$1.php -f
 RewriteRule ^([^/]+)/?$ $1.php [L,QSA]
+
+# Redirecionar TODOS os 404 para a home
+ErrorDocument 404 /
 
 # Personalizar página de erro 404
 ErrorDocument 404 /404.php

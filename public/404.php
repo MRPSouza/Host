@@ -1,4 +1,9 @@
 <?php   
+
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: /");
+    exit();
+    
     # Definir o nome da página atual dinamicamente
     $current_page = basename($_SERVER['PHP_SELF'], '.php');
     $current_page = ucfirst(str_replace('-', ' ', $current_page));
