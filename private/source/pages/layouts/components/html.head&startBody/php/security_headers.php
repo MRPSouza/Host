@@ -49,10 +49,10 @@ $script_hash_string = implode(' ', $script_hashes);
 $style_hash_string = implode(' ', $style_hashes);
 
 // Adicione antes de definir o CSP
-echo "<!-- Script Hashes: -->\n";
-print_r($script_hashes);
-echo "\n<!-- Style Hashes: -->\n";
-print_r($style_hashes);
+// echo "<!-- Script Hashes: -->\n";
+// print_r($script_hashes);
+// echo "\n<!-- Style Hashes: -->\n";
+// print_r($style_hashes);
 
 $inline_style_hashes = [
     "'sha256-lSQTU/F1/ZmmX3RPh56utZLWWyMEu9Uch9bC475QvPA='",
