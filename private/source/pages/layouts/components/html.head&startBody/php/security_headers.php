@@ -83,6 +83,9 @@ $script_hashes[] = "'sha256-90ZdoC9kHId7WVKDYd0K5xvj/8aZ6oM9udkLtBGNx7Q='";
 $script_hashes[] = "'sha256-bdvmA4hVgUddpVZwV8uXYAu2k8BHz1VWRzH8ho+6np0='";
 $script_hashes[] = "'sha256-NV330IZQnSrhvXKo1Kh3LGeVmXKxN9pg2Z3JLD3h4Gw='";
 
+// Adicionar o novo hash ao array de hashes permitidos
+$script_hashes[] = "'sha256-vwpS6YH5eqNzzhCNBNu0fim2y+q7qFKaRs7+n/oqlP0='";
+
 // CSP com os hashes
 $csp_policy = "default-src 'self'; "
     . "script-src 'self' " . implode(' ', $script_hashes) . " "
