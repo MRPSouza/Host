@@ -64,7 +64,14 @@ $style_hash_string = implode(' ', $style_hashes);
 // Scripts inline
 $script_hashes = [
     "'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk='",
-    "'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY='"
+    "'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY='",
+    "'sha256-wDIFZ0qYjE60YyzUhO06kA6OYdPSOhKirRnTyS3j11Y='",
+    "'sha256-90ZdoC9kHId7WVKDYd0K5xvj/8aZ6oM9udkLtBGNx7Q='",
+    "'sha256-bdvmA4hVgUddpVZwV8uXYAu2k8BHz1VWRzH8ho+6np0='",
+    "'sha256-NV330IZQnSrhvXKo1Kh3LGeVmXKxN9pg2Z3JLD3h4Gw='",
+    "'sha256-vwpS6YH5eqNzzhCNBNu0fim2y+q7qFKaRs7+n/oqlP0='",
+    "'sha256-SfsaUXDtEB2wbEB1qNV7Wwmg1s5a0sikns9gPLA8DBc='",
+    "'sha256-cp9x4kfEZ7tgGslqq2xjqzqLh9oOABvOmU4KF5WDMH0='"
 ];
 
 // Estilos inline
@@ -94,7 +101,9 @@ $csp_policy = "default-src 'self'; "
     . "style-src 'self' " . implode(' ', $style_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://cdnjs.cloudflare.com/ "
-    . "https://fonts.googleapis.com/; ";
+    . "https://fonts.googleapis.com/; "
+    . "font-src 'self' https://cdnjs.cloudflare.com/ data:; "
+    . "img-src 'self' data: https:; ";
 
 header("Content-Security-Policy: $csp_policy");
 
