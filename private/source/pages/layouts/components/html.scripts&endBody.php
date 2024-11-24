@@ -12,9 +12,13 @@ foreach ($external_scripts as $script) {
         crossorigin="anonymous"></script>';
 }
 
-# Renderizar scripts locais
+# Renderizar scripts locais - Agora lendo o conteúdo dos arquivos
 foreach ($local_scripts as $script) {
-    echo '<script nonce="' . $nonce . '" src="' . $script['path'] . '?v=' . $script['version'] . '"></script>';
+    $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/../private/source/pages/js/' . basename($script['path']);
+    if (file_exists($fullPath)) {
+        $content = file_get_contents($fullPath);
+        echo '<script nonce="' . $nonce . '">' . $content . '</script>';
+    }
 }
 
 echo '</body></html>';
