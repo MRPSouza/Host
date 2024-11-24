@@ -71,7 +71,8 @@ $script_hashes = [
     "'sha256-NV330IZQnSrhvXKo1Kh3LGeVmXKxN9pg2Z3JLD3h4Gw='",
     "'sha256-vwpS6YH5eqNzzhCNBNu0fim2y+q7qFKaRs7+n/oqlP0='",
     "'sha256-SfsaUXDtEB2wbEB1qNV7Wwmg1s5a0sikns9gPLA8DBc='",
-    "'sha256-cp9x4kfEZ7tgGslqq2xjqzqLh9oOABvOmU4KF5WDMH0='"
+    "'sha256-cp9x4kfEZ7tgGslqq2xjqzqLh9oOABvOmU4KF5WDMH0='",
+    "'sha256-67BSwurHsxG2bb4oXUw0Rb7vMq4Yh2O98S22xvU7SsI='"
 ];
 
 // Estilos inline
