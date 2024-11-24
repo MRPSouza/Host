@@ -94,61 +94,54 @@ $script_hashes[] = "'sha256-NV330IZQnSrhvXKo1Kh3LGeVmXKxN9pg2Z3JLD3h4Gw='";
 $script_hashes[] = "'sha256-vwpS6YH5eqNzzhCNBNu0fim2y+q7qFKaRs7+n/oqlP0='";
 $script_hashes[] = "'sha256-SfsaUXDtEB2wbEB1qNV7Wwmg1s5a0sikns9gPLA8DBc='";
 
-// CSP com os hashes organizados
+// Simplificar a política CSP para garantir que a sintaxe esteja correta
 $csp_policy = "default-src 'self'; "
-    . "script-src 'self' " . implode(' ', $script_hashes) . " "
-    . "https://cdn.jsdelivr.net/ "
-    . "https://code.jquery.com/; "
-    . "style-src 'self' " . implode(' ', $style_hashes) . " "
-    . "https://cdn.jsdelivr.net/ "
-    . "https://cdnjs.cloudflare.com/ "
-    . "https://fonts.googleapis.com/; "
-    . "font-src 'self' https://cdnjs.cloudflare.com/ data:; "
-    . "img-src 'self' data: https:; ";
+    . "script-src 'self' 'unsafe-inline' " . implode(' ', array_unique($script_hashes)) . " "
+    . "https://cdn.jsdelivr.net https://code.jquery.com; "
+    . "style-src 'self' 'unsafe-inline' " . implode(' ', array_unique($style_hashes)) . " "
+    . "https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; "
+    . "font-src 'self' https://cdnjs.cloudflare.com data:; "
+    . "img-src 'self' data: https:; "
+    . "frame-ancestors 'none'; "
+    . "base-uri 'self'; "
+    . "form-action 'self'";
 
-header("Content-Security-Policy: $csp_policy");
+// Configurar cookies com flags de segurança apropriadas
+session_start();
+$cookieParams = session_get_cookie_params();
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => $_SERVER['HTTP_HOST'],
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
 
-// Proteger contra XSS
-header("X-XSS-Protection: 1; mode=block");
+// Definir headers de segurança
+$headers = [
+    'Content-Security-Policy' => $csp_policy,
+    'X-XSS-Protection' => '1; mode=block',
+    'X-Frame-Options' => 'DENY',
+    'X-Content-Type-Options' => 'nosniff',
+    'Referrer-Policy' => 'strict-origin-when-cross-origin',
+    'Permissions-Policy' => 'accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()',
+    'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+    'Pragma' => 'no-cache'
+];
 
-// Proteger contra Clickjacking
-header("X-Frame-Options: DENY");
-
-// Proteger contra MIME Sniffing
-header("X-Content-Type-Options: nosniff");
-
-// Apenas envie HSTS se já estiver em HTTPS
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
-    header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
+// Adicionar HSTS apenas se estiver em HTTPS
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' || 
+    isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload';
 }
 
-// Prevenir vazamento de informações de referência
-header("Referrer-Policy: strict-origin-when-cross-origin");
-
-// Desabilitar cache para conteúdo sensível
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Pragma: no-cache");
-
-// Desabilitar recursos de rastreamento do navegador
-header("Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()");
-
-// Limpar cookies de sessão após o fechamento do navegador
-ini_set('session.cookie_lifetime', 0);
-ini_set('session.use_only_cookies', 1);
-ini_set('session.cookie_secure', 1);
-ini_set('session.cookie_httponly', 1);
-ini_set('session.cookie_samesite', 'Strict');
-
-// Configurar o PHP para relatar erros sem exibir informações sensíveis
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
-error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
-
-if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-    header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
+// Aplicar todos os headers
+foreach ($headers as $header => $value) {
+    header("$header: $value");
 }
 
-// Para debug, vamos logar a política completa
-error_log("CSP Policy: " . $csp_policy);
+// Log para debug
+error_log("CSP Policy aplicada: " . $csp_policy);
 
 ?>
