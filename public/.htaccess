@@ -1,7 +1,6 @@
 RewriteEngine On
 
 # Redirecionar para HTTPS
-RewriteEngine On
 RewriteCond %{HTTPS} off [OR]
 RewriteCond %{HTTP_HOST} ^www\. [NC]
 RewriteCond %{HTTP:X-Forwarded-Proto} =http
