@@ -3,6 +3,10 @@
 # Política de Segurança
 include_once('../private/source/pages/config/page_visibility/page_restricted.php');  // Proibe o acesso a essa página caso o .htaccess falhe.
 
+// Adicione no início do arquivo
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Gere um único nonce para a página
 $nonce = base64_encode(random_bytes(16));
 
@@ -19,6 +23,7 @@ function generateFileHash($filePath) {
 $script_hashes = [];
 foreach ($local_scripts as $script) {
     $fullPath = $_SERVER['DOCUMENT_ROOT'] . $script['path'];
+    echo "Checking: $fullPath - Exists: " . (file_exists($fullPath) ? 'Yes' : 'No') . "\n";
     $hash = generateFileHash($fullPath);
     if ($hash) {
         $script_hashes[] = $hash;
@@ -43,6 +48,12 @@ foreach ($css_files as $css) {
 $script_hash_string = implode(' ', $script_hashes);
 $style_hash_string = implode(' ', $style_hashes);
 
+// Adicione antes de definir o CSP
+echo "<!-- Script Hashes: -->\n";
+print_r($script_hashes);
+echo "\n<!-- Style Hashes: -->\n";
+print_r($style_hashes);
+
 // Defina a política CSP em uma única linha
 $csp_policy = "default-src 'self'; "
     . "script-src 'self' " . $script_hash_string . " "
@@ -62,8 +73,8 @@ $csp_policy = "default-src 'self'; "
     . "base-uri 'self'; "
     . "upgrade-insecure-requests;";
 
-// Defina o cabeçalho CSP
-header("Content-Security-Policy: $csp_policy");
+// Modifique o CSP para incluir report-only temporariamente
+header("Content-Security-Policy-Report-Only: $csp_policy");
 
 // Proteger contra XSS
 header("X-XSS-Protection: 1; mode=block");
