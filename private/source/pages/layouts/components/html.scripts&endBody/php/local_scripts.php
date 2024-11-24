@@ -1,6 +1,19 @@
 <?php
 session_start();
 
+// Criar nonce único para cada script
+$script_nonce_1 = base64_encode(random_bytes(16));
+$script_nonce_2 = base64_encode(random_bytes(16));
+$script_nonce_3 = base64_encode(random_bytes(16));
+$script_nonce_4 = base64_encode(random_bytes(16));
+
+// Associar cada script com seu nonce
+$local_scripts = [
+    'content_dynamic' => ['nonce' => $script_nonce_1],
+    'resize_body' => ['nonce' => $script_nonce_2],
+    'iframe_restrict' => ['nonce' => $script_nonce_3],
+    'tooltip' => ['nonce' => $script_nonce_4]
+]; 
 // Criar variáveis únicas para cada script
 $script_var_1 = base64_encode(random_bytes(16));
 $script_var_2 = base64_encode(random_bytes(16));
