@@ -1,6 +1,6 @@
 RewriteEngine On
 
-# Redirecionar para HTTPS e remover www (combinado)
+# Redirecionar para HTTPS e remover www
 RewriteEngine On
 RewriteCond %{HTTPS} off [OR]
 RewriteCond %{HTTP_HOST} ^www\. [NC]
@@ -8,19 +8,14 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301,NE]
 
-# Regra específica para index
-RewriteRule ^index/?$ index.php [L]
+# Regra específica para index - mais permissiva
+RewriteRule ^index$ index.php [L,QSA]
+RewriteRule ^index/$ index.php [L,QSA]
 
-# Adicionar .php ou .html internamente (para outros arquivos)
-RewriteCond %{REQUEST_FILENAME} !-d
+# Para outros arquivos
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php [NC,L]
-
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.*)$ $1.html [NC,L]
+RewriteRule ^([^/]+)$ $1.php [L,QSA]
 
 # Remover extensões visíveis
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.(php|html) [NC]
