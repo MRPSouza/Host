@@ -5,7 +5,7 @@ $local_scripts = [
         'version' => '1.0'
     ],
     'resize_body_bootstrap' => [
-        'path' => 'esize_body_bootstrap.js',
+        'path' => 'resize_body_bootstrap.js',
         'version' => '1.0'
     ],
     'restriction_against_iframe' => [
