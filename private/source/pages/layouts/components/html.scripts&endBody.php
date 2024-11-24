@@ -12,14 +12,14 @@ foreach ($external_scripts as $script) {
         crossorigin="anonymous"></script>';
 }
 
-# Renderizar scripts locais - Usando caminho absoluto
-foreach ($local_scripts as $script) {
+# Renderizar scripts locais
+foreach ($local_scripts as $key => $script) {
     $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/../private/source/pages/layouts/components/html.scripts&endBody/js/' . basename($script['path']);
     if (file_exists($fullPath)) {
         $content = file_get_contents($fullPath);
-        echo '<script nonce="' . $_SESSION['nonce'] . '">' . $content . '</script>';
+        echo "<script nonce='{$script['nonce']}'>" . $content . "</script>";
     } else {
-        error_log("Arquivo não encontrado: " . $fullPath);  // Log para debug
+        error_log("Arquivo não encontrado: " . $fullPath);
     }
 }
 

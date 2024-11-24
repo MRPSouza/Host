@@ -13,12 +13,11 @@ error_log("Include realizado com sucesso");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Gerar nonce único para a sessão
-session_start();
-if (!isset($_SESSION['nonce'])) {
-    $_SESSION['nonce'] = base64_encode(random_bytes(16));
+// Gerar um único nonce por sessão
+if (!isset($_SESSION['csp_nonce'])) {
+    $_SESSION['csp_nonce'] = base64_encode(random_bytes(16));
 }
-$nonce = $_SESSION['nonce'];
+$nonce = $_SESSION['csp_nonce'];
 
 // Função para gerar hash de um arquivo
 function generateFileHash($filePath) {
@@ -64,7 +63,7 @@ $style_hash_string = implode(' ', $style_hashes);
 // echo "\n<!-- Style Hashes: -->\n";
 // print_r($style_hashes);
 
-// Scripts inline
+// Definir todos os hashes de script em um único array, sem duplicatas
 $script_hashes = [
     "'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk='",
     "'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY='",
@@ -78,7 +77,10 @@ $script_hashes = [
     "'sha256-67BSwurHsxG2bb4oXUw0Rb7vMq4Yh2O98S22xvU7SsI='"
 ];
 
-// Estilos inline
+// Remover duplicatas do array de scripts
+$script_hashes = array_unique($script_hashes);
+
+// Definir hashes de estilo
 $style_hashes = [
     "'sha256-lSQTU/F1/ZmmX3RPh56utZLWWyMEu9Uch9bC475QvPA='",
     "'sha256-muFRSnplr5N3iEjTOjXk+DFAY53hts6pBpEoEDnY4W0='",
@@ -89,32 +91,33 @@ $style_hashes = [
     "'sha256-iZkb53UPZKGjsK/QWVA4U2P7yf+8joKG6vfOAdY8pFk='"
 ];
 
-// Adicionar os hashes dos scripts de redirecionamento
-$script_hashes[] = "'sha256-wDIFZ0qYjE60YyzUhO06kA6OYdPSOhKirRnTyS3j11Y='";
-$script_hashes[] = "'sha256-90ZdoC9kHId7WVKDYd0K5xvj/8aZ6oM9udkLtBGNx7Q='";
-$script_hashes[] = "'sha256-bdvmA4hVgUddpVZwV8uXYAu2k8BHz1VWRzH8ho+6np0='";
-$script_hashes[] = "'sha256-NV330IZQnSrhvXKo1Kh3LGeVmXKxN9pg2Z3JLD3h4Gw='";
-$script_hashes[] = "'sha256-vwpS6YH5eqNzzhCNBNu0fim2y+q7qFKaRs7+n/oqlP0='";
-$script_hashes[] = "'sha256-SfsaUXDtEB2wbEB1qNV7Wwmg1s5a0sikns9gPLA8DBc='";
+// Construir a lista de nonces para o CSP
+$script_nonces = array_map(function($script) {
+    return "'nonce-{$script['nonce']}'";
+}, $local_scripts);
 
-// CSP com strict-dynamic e usando o nonce da sessão
-$csp_policy = "default-src 'self'; "
-    . "script-src 'self' 'strict-dynamic' 'nonce-{$_SESSION['nonce']}' "
-    . implode(' ', array_unique($script_hashes)) . "; "
-    . "style-src 'self' " 
-    . implode(' ', array_unique($style_hashes)) . " "
-    . "https://cdn.jsdelivr.net "
-    . "https://cdnjs.cloudflare.com "
-    . "https://fonts.googleapis.com; "
-    . "font-src 'self' "
-    . "https://cdnjs.cloudflare.com "
-    . "https://fonts.gstatic.com "
-    . "data:; "
-    . "img-src 'self' data: https:; "
-    . "connect-src 'self'; "
-    . "frame-ancestors 'none'; "
-    . "base-uri 'self'; "
-    . "form-action 'self'";
+// Construir a lista de hashes para o CSP
+$all_script_hashes = array_merge($SCRIPT_HASHES, $EXTERNAL_SCRIPT_HASHES);
+
+// Hash para cada script específico
+$login_validation_hash = generateScriptHash($login_validation_content);
+$form_handler_hash = generateScriptHash($form_handler_content);
+$user_interface_hash = generateScriptHash($user_interface_content);
+$data_processor_hash = generateScriptHash($data_processor_content);
+// ... e assim por diante
+
+// Criar variáveis únicas para cada script
+$script_var_1 = base64_encode(random_bytes(16));
+$script_var_2 = base64_encode(random_bytes(16));
+$script_var_3 = base64_encode(random_bytes(16));
+$script_var_4 = base64_encode(random_bytes(16));
+
+// Então usar essas variáveis no CSP
+$csp_policy = "default-src 'self'; script-src 'self' " .
+    "'nonce-{$script_var_1}' " .
+    "'nonce-{$script_var_2}' " .
+    "'nonce-{$script_var_3}' " .
+    "'nonce-{$script_var_4}'";
 
 header("Content-Security-Policy: $csp_policy");
 
