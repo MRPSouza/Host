@@ -1,12 +1,16 @@
 RewriteEngine On
 
-# Forçar HTTPS - versão simplificada para Umbler
+# Forçar HTTPS - versão para Umbler com prevenção de loop
 RewriteEngine On
-RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
 
-# Remover regras duplicadas de HTTPS
-# Remover header HSTS do .htaccess
+# Verificar se não está em HTTPS
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+
+# Não redirecionar se já estiver tentando acessar HTTPS
+RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/
+
+# Redirecionar para HTTPS
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
 
 # Remover www (mantenha após o redirecionamento HTTPS)
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
