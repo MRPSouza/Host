@@ -3,11 +3,18 @@
 
 # Headers de segurança
 <IfModule mod_headers.c>
+    # Configurações de cookies mais seguras
+    Header always edit Set-Cookie (.*) "$1; HttpOnly; Secure; SameSite=Strict"
+    
+    # Headers de segurança aprimorados
     Header set X-XSS-Protection "1; mode=block"
-    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Frame-Options "DENY"
     Header set X-Content-Type-Options "nosniff"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
-    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    
+    # Content Security Policy (CSP)
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'strict-dynamic'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'; object-src 'none'"
 </IfModule>
 
 # Configurações de diretório
