@@ -74,6 +74,7 @@ $csp_policy = "default-src 'self'; "
     . "script-src 'self' " . $script_hash_string . " " . implode(' ', $inline_script_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
+    . "worker-src 'self' blob: ; "
     . "style-src 'self' " . $style_hash_string . " " . implode(' ', $inline_style_hashes) . " "
     . "https://cdn.jsdelivr.net/ "
     . "https://cdnjs.cloudflare.com/ "
@@ -85,11 +86,10 @@ $csp_policy = "default-src 'self'; "
     . "connect-src 'self'; "
     . "frame-ancestors 'none'; "
     . "form-action 'self'; "
-    . "base-uri 'self'; "
-    . "upgrade-insecure-requests;";
+    . "base-uri 'self';";
 
 // Modifique o CSP para incluir report-only temporariamente
-header("Content-Security-Policy-Report-Only: $csp_policy");
+header("Content-Security-Policy: $csp_policy");
 
 // Proteger contra XSS
 header("X-XSS-Protection: 1; mode=block");
