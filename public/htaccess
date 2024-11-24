@@ -13,12 +13,13 @@ RewriteCond %{THE_REQUEST} \s/+(.+?)\.php[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L,NE]
 
 # Redirecionar /index para /
-RewriteCond %{THE_REQUEST} \s/+(index|index\.php)[\s?/] [NC]
+RewriteCond %{REQUEST_URI} ^/index/?$ [NC]
 RewriteRule ^ / [R=301,L]
 
-# Adicionar .php internamente
+# Adicionar .php internamente (apenas para arquivos na raiz)
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1.php -f
 RewriteRule ^([^/]+)/?$ $1.php [L,QSA]
 
 # Remover extensões visíveis
