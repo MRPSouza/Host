@@ -86,6 +86,9 @@ $script_hashes[] = "'sha256-NV330IZQnSrhvXKo1Kh3LGeVmXKxN9pg2Z3JLD3h4Gw='";
 // Adicionar o novo hash ao array de hashes permitidos
 $script_hashes[] = "'sha256-vwpS6YH5eqNzzhCNBNu0fim2y+q7qFKaRs7+n/oqlP0='";
 
+// Adicionar o novo hash
+$script_hashes[] = "'sha256-SfsaUXDtEB2wbEB1qNV7Wwmg1s5a0sikns9gPLA8DBc='";
+
 // CSP com os hashes
 $csp_policy = "default-src 'self'; "
     . "script-src 'self' " . implode(' ', $script_hashes) . " "
@@ -145,5 +148,8 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
     header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
 }
+
+// Para debug, vamos logar a política completa
+error_log("CSP Policy: " . $csp_policy);
 
 ?>
