@@ -3,8 +3,6 @@ $secret = "umbler-nao-me-pegue-2024-webhook-secreto";
 
 // Log inicial
 error_log("Webhook acionado em: " . date('Y-m-d H:i:s'));
-error_log("Headers recebidos: " . print_r($_SERVER, true));
-error_log("Payload recebido: " . file_get_contents("php://input"));
 
 $signature = $_SERVER['HTTP_X_HUB_SIGNATURE'] ?? '';
 if (!$signature) {
@@ -20,10 +18,14 @@ if ($hash !== $signature) {
     die('Assinatura inválida');
 }
 
-// Executa o pull
+// Executa o pull usando exec em vez de shell_exec
 error_log("Iniciando pull...");
 chdir('/home/defaultwebsite');
-$output = shell_exec('git pull origin main 2>&1');
-error_log("Resultado do pull: " . $output);
 
-echo "Pull executado com sucesso!"; 
+$output = [];
+$return_var = 0;
+exec('git pull origin main 2>&1', $output, $return_var);
+error_log("Resultado do pull: " . implode("\n", $output));
+error_log("Código de retorno: " . $return_var);
+
+echo "Pull executado!";
