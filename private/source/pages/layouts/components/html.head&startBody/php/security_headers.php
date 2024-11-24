@@ -15,7 +15,10 @@ ini_set('display_errors', 1);
 
 // Gerar nonce único para a sessão
 session_start();
-$_SESSION['nonce'] = base64_encode(random_bytes(16));
+if (!isset($_SESSION['nonce'])) {
+    $_SESSION['nonce'] = base64_encode(random_bytes(16));
+}
+$nonce = $_SESSION['nonce'];
 
 // Função para gerar hash de um arquivo
 function generateFileHash($filePath) {
@@ -94,54 +97,68 @@ $script_hashes[] = "'sha256-NV330IZQnSrhvXKo1Kh3LGeVmXKxN9pg2Z3JLD3h4Gw='";
 $script_hashes[] = "'sha256-vwpS6YH5eqNzzhCNBNu0fim2y+q7qFKaRs7+n/oqlP0='";
 $script_hashes[] = "'sha256-SfsaUXDtEB2wbEB1qNV7Wwmg1s5a0sikns9gPLA8DBc='";
 
-// Simplificar a política CSP para garantir que a sintaxe esteja correta
+// CSP com strict-dynamic e usando o nonce da sessão
 $csp_policy = "default-src 'self'; "
-    . "script-src 'self' 'unsafe-inline' " . implode(' ', array_unique($script_hashes)) . " "
-    . "https://cdn.jsdelivr.net https://code.jquery.com; "
-    . "style-src 'self' 'unsafe-inline' " . implode(' ', array_unique($style_hashes)) . " "
-    . "https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; "
-    . "font-src 'self' https://cdnjs.cloudflare.com data:; "
+    . "script-src 'self' 'strict-dynamic' 'nonce-{$_SESSION['nonce']}' "
+    . implode(' ', array_unique($script_hashes)) . "; "
+    . "style-src 'self' " 
+    . implode(' ', array_unique($style_hashes)) . " "
+    . "https://cdn.jsdelivr.net "
+    . "https://cdnjs.cloudflare.com "
+    . "https://fonts.googleapis.com; "
+    . "font-src 'self' "
+    . "https://cdnjs.cloudflare.com "
+    . "https://fonts.gstatic.com "
+    . "data:; "
     . "img-src 'self' data: https:; "
+    . "connect-src 'self'; "
     . "frame-ancestors 'none'; "
     . "base-uri 'self'; "
     . "form-action 'self'";
 
-// Configurar cookies com flags de segurança apropriadas
-session_start();
-$cookieParams = session_get_cookie_params();
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'domain' => $_SERVER['HTTP_HOST'],
-    'secure' => true,
-    'httponly' => true,
-    'samesite' => 'Strict'
-]);
+header("Content-Security-Policy: $csp_policy");
 
-// Definir headers de segurança
-$headers = [
-    'Content-Security-Policy' => $csp_policy,
-    'X-XSS-Protection' => '1; mode=block',
-    'X-Frame-Options' => 'DENY',
-    'X-Content-Type-Options' => 'nosniff',
-    'Referrer-Policy' => 'strict-origin-when-cross-origin',
-    'Permissions-Policy' => 'accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()',
-    'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
-    'Pragma' => 'no-cache'
-];
+// Proteger contra XSS
+header("X-XSS-Protection: 1; mode=block");
 
-// Adicionar HSTS apenas se estiver em HTTPS
-if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' || 
-    isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
-    $headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload';
+// Proteger contra Clickjacking
+header("X-Frame-Options: DENY");
+
+// Proteger contra MIME Sniffing
+header("X-Content-Type-Options: nosniff");
+
+// Apenas envie HSTS se já estiver em HTTPS
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+    header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
 }
 
-// Aplicar todos os headers
-foreach ($headers as $header => $value) {
-    header("$header: $value");
+// Prevenir vazamento de informações de referência
+header("Referrer-Policy: strict-origin-when-cross-origin");
+
+// Desabilitar cache para conteúdo sensível
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
+
+// Desabilitar recursos de rastreamento do navegador
+header("Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()");
+
+// Limpar cookies de sessão após o fechamento do navegador
+ini_set('session.cookie_lifetime', 0);
+ini_set('session.use_only_cookies', 1);
+ini_set('session.cookie_secure', 1);
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_samesite', 'Strict');
+
+// Configurar o PHP para relatar erros sem exibir informações sensíveis
+ini_set('display_errors', 0);
+ini_set('log_errors', 1);
+error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
+
+if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
 }
 
-// Log para debug
-error_log("CSP Policy aplicada: " . $csp_policy);
+// Para debug, vamos logar a política completa
+error_log("CSP Policy: " . $csp_policy);
 
 ?>

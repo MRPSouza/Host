@@ -7,7 +7,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/../private/source/pages/layouts/compo
 
 # Renderizar scripts externos
 foreach ($external_scripts as $script) {
-    echo '<script nonce="' . $nonce . '" src="' . $script['url'] . '" 
+    echo '<script nonce="' . $_SESSION['nonce'] . '" src="' . $script['url'] . '" 
         integrity="' . $script['integrity'] . '" 
         crossorigin="anonymous"></script>';
 }
@@ -17,7 +17,7 @@ foreach ($local_scripts as $script) {
     $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/../private/source/pages/layouts/components/html.scripts&endBody/js/' . basename($script['path']);
     if (file_exists($fullPath)) {
         $content = file_get_contents($fullPath);
-        echo '<script nonce="' . $nonce . '">' . $content . '</script>';
+        echo '<script nonce="' . $_SESSION['nonce'] . '">' . $content . '</script>';
     } else {
         error_log("Arquivo não encontrado: " . $fullPath);  // Log para debug
     }
