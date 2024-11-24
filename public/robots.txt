@@ -1,0 +1,18 @@
+# Regras globais
+User-agent: *
+Disallow: /search_engine.php
+Disallow: /404.php
+Disallow: /500.php
+Disallow: /403.php
+Allow: /img/
+Allow: /sitemap.xml
+
+# Regras específicas para bots de redes sociais
+User-agent: Twitterbot
+Allow: /img/
+
+# Sitemap
+Sitemap: https://seusite.com/sitemap.xml
+
+# Tempo de espera entre requisições
+Crawl-delay: 10

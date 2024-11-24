@@ -1,0 +1,87 @@
+{
+    "index": {
+      "extension": ".php",
+      "titulo_da_aba": "Página Inicial - Matheus R P Souza",
+      "meta_titulo": "Página Inicial",
+      "meta_descricao": "Bem-vindo à página inicial de Matheus R P Souza. Descubra nossos serviços e soluções.",
+      "link_canonico": "https://www.exemplo.com/",
+      "meta_palavras_chaves": "Matheus R P Souza, página inicial, serviços",
+      "imagem_da_pagina_atual": "https://www.exemplo.com/images/home.jpg",
+      "robots": "follow, index",
+      "googlebot": "index,follow",
+      "googlebot_news": "noindex"
+    },
+    "404": {
+      "extension": ".php",
+      "titulo_da_aba": "Página não encontrada - Matheus R P Souza",
+      "meta_titulo": "Erro 404 - Página não encontrada",
+      "meta_descricao": "Desculpe, a página que você está procurando não foi encontrada.",
+      "link_canonico": "https://www.exemplo.com/404",
+      "meta_palavras_chaves": "404, erro, página não encontrada",
+      "imagem_da_pagina_atual": "https://www.exemplo.com/images/404.jpg",
+      "robots": "nofollow, noindex",
+      "googlebot": "noindex,nofollow",
+      "googlebot_news": "noindex"
+    },
+    "500": {
+      "extension": ".php",
+      "titulo_da_aba": "Erro do Servidor - Matheus R P Souza",
+      "meta_titulo": "Erro 500 - Erro do Servidor",
+      "meta_descricao": "Desculpe, ocorreu um erro no servidor. Por favor, tente novamente mais tarde.",
+      "link_canonico": "https://www.exemplo.com/500",
+      "meta_palavras_chaves": "500, erro, servidor",
+      "imagem_da_pagina_atual": "https://www.exemplo.com/images/500.jpg",
+      "robots": "nofollow, noindex",
+      "googlebot": "noindex,nofollow",
+      "googlebot_news": "noindex"
+    },
+    "politica_de_uso": {
+      "extension": ".php",
+      "titulo_da_aba": "Termos de Uso - Matheus R P Souza",
+      "meta_titulo": "Termos de Uso",
+      "meta_descricao": "Leia nossos termos de uso para entender seus direitos e responsabilidades ao usar nossos serviços.",
+      "link_canonico": "https://www.exemplo.com/terms",
+      "meta_palavras_chaves": "termos de uso, condições, legal",
+      "imagem_da_pagina_atual": "https://www.exemplo.com/images/terms.jpg",
+      "robots": "nofollow, noindex",
+      "googlebot": "noindex,nofollow",
+      "googlebot_news": "noindex"
+    },
+    "politica_de_privacidade": {
+      "extension": ".php",
+      "titulo_da_aba": "Política de Privacidade - Matheus R P Souza",
+      "meta_titulo": "Política de Privacidade",
+      "meta_descricao": "Saiba como protegemos e utilizamos suas informações pessoais em nossa política de privacidade.",
+      "link_canonico": "https://www.exemplo.com/privacy",
+      "meta_palavras_chaves": "privacidade, política, dados pessoais",
+      "imagem_da_pagina_atual": "https://www.exemplo.com/images/privacy.jpg",
+      "robots": "nofollow, noindex",
+      "googlebot": "noindex,nofollow",
+      "googlebot_news": "noindex"
+    },
+    "politica_de_cookies": {
+      "extension": ".php",
+      "titulo_da_aba": "Política de Privacidade - Matheus R P Souza",
+      "meta_titulo": "Política de Privacidade",
+      "meta_descricao": "Saiba como protegemos e utilizamos suas informações pessoais em nossa política de privacidade.",
+      "link_canonico": "https://www.exemplo.com/privacy",
+      "meta_palavras_chaves": "privacidade, política, dados pessoais",
+      "imagem_da_pagina_atual": "https://www.exemplo.com/images/privacy.jpg",
+      "robots": "nofollow, noindex",
+      "googlebot": "noindex,nofollow",
+      "googlebot_news": "noindex"
+    },
+    "cadastro": {
+      "extension": ".php",
+      "titulo_da_aba": "Cadastro de Usuário - Matheus R P Souza",
+      "meta_titulo": "Cadastro de Usuário",
+      "meta_descricao": "Crie sua conta para acessar nossos serviços exclusivos.",
+      "link_canonico": "https://www.exemplo.com/cad-usuario",
+      "meta_palavras_chaves": "cadastro, usuário, conta",
+      "imagem_da_pagina_atual": "https://www.exemplo.com/images/cadastro.jpg",
+      "robots": "nofollow, noindex",
+      "googlebot": "noindex,nofollow",
+      "googlebot_news": "noindex"
+    }
+  }
+  

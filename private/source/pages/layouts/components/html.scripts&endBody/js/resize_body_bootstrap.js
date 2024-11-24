@@ -1,0 +1,1 @@
+function adjustPadding(){const navbar=document.querySelector(".navbar.fixed-top");if(navbar){const navbarHeight=navbar.offsetHeight;document.body.style.paddingTop=navbarHeight+"px";}}; window.addEventListener("resize",adjustPadding);

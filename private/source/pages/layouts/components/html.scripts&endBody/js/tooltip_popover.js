@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",function(){adjustPadding();const tooltipElements=document.querySelectorAll('[data-bs-toggle="tooltip"]');tooltipElements.forEach(element=>new bootstrap.Tooltip(element));const popoverElements=document.querySelectorAll('[data-bs-toggle="popover"]');popoverElements.forEach(element=>new bootstrap.Popover(element));});

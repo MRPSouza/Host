@@ -1,0 +1,131 @@
+RewriteEngine On
+
+# Redirecionar para HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteCond %{HTTP:X-Forwarded-Proto} =http
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+
+# Limitar métodos HTTP permitidos
+# <LimitExcept GET POST HEAD>
+#     Deny from all
+# </LimitExcept>
+
+# Ativar HSTS (HTTP Strict Transport Security)
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+# Permitir acesso a arquivos CSS, JS, PNG, JPG, JPEG, GIF, WEBP, SVG, ICO em qualquer nível
+RewriteRule \.(css|js|png|jpg|jpeg|gif|webp|svg|ico|svgz)$ - [L]
+
+# Bloquear acesso a diretórios (não é necessário se não houver diretórios acessíveis)
+RewriteRule ^(.*)/ - [R=403,L]
+
+# Reescrever URLs para arquivos PHP
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# Prevenir hotlinking de imagens
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www\.)?seudominio.com [NC]
+RewriteRule \.(jpg|jpeg|png|gif)$ - [NC,F,L]
+
+# Bloquear acesso a arquivos sensíveis
+<FilesMatch "\.(env|config|ini|log)$">
+    Require all denied
+</FilesMatch>
+
+####################
+
+# Prevenir Ataques de Clickjacking
+Header always append X-Frame-Options SAMEORIGIN
+
+# Proteger contra injeção de scripts XSS
+Header set X-XSS-Protection "1; mode=block"
+
+# Desativar listagem de diretórios
+Options -Indexes
+
+# Proteger o arquivo .htaccess e outros arquivos de controle
+<FilesMatch "^\.ht">
+    Require all denied
+</FilesMatch>
+
+
+################################################
+# Permitir apenas GET e POST
+<LimitExcept GET POST>
+    Require all denied
+</LimitExcept>
+
+# Impedir MIME Sniffing
+Header set X-Content-Type-Options "nosniff"
+
+# Proteger contra CSRF
+Header set Referrer-Policy "same-origin"
+
+# Proteger contra injeções de SQL em parâmetros de URL
+<IfModule mod_rewrite.c>
+    RewriteCond %{QUERY_STRING} [;\'\"<>] [NC]
+    RewriteRule ^ - [F,L]
+</IfModule>
+
+# Limitar Tamanho de Solicitações
+LimitRequestBody 1048576 
+
+
+# Bloquear Acesso a Agentes de Usuário Maliciosos
+<IfModule mod_setenvif.c>
+    SetEnvIfNoCase User-Agent "BadBot|AnotherBadBot" bad_bot
+</IfModule>
+<RequireAll>
+    Require all granted
+    Require not env bad_bot
+</RequireAll>
+
+# Proteger contra vazamento de informações de erro
+Header set X-Permitted-Cross-Domain-Policies "none"
+
+ErrorDocument 403 '<script>window.location.href = "403";</script>'
+ErrorDocument 404 '<script>window.location.href = "404";</script>'
+ErrorDocument 500 '<script>window.location.href = "500";</script>'
+
+# Configurar cache do navegador
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType text/x-javascript "access plus 1 month"
+    ExpiresByType application/x-shockwave-flash "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresDefault "access plus 2 days"
+</IfModule>
+
+#####################################################
+# Acesso a área restrita (apenas para o diretório "source")
+# <Directory "source">
+#     # Permitir acesso interno do servidor
+#     Require local
+
+#     # Bloquear acesso direto do usuário
+#     RewriteEngine On
+#     RewriteCond %{REQUEST_URI} ^/source/
+#     RewriteCond %{HTTP_REFERER} !^http://localhost/
+#     RewriteRule ^ - [F,L]
+# </Directory>
+
+# Permitir acesso a search_results.php
+RewriteRule ^search_results$ search_results.php [L]
+
+# Permitir acesso a search_results.php
+<Files "search_results.php">
+    Require all granted
+</Files>
+

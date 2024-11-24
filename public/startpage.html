@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>MisterCel - Assistência Técnica</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f8f9fa;
+            color: #333;
+            transition: background-color 1s ease;
+        }
+
+        body.inactive-mode {
+            background-color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 150px 2rem 2rem;
+            text-align: center;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: transparent;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 1s ease;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: #2b2d2c;
+            border-radius: 0 0 110% 110% / 0 0 100% 100%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            border-color: transparent;
+        }
+
+        header img.logo-image {
+            position: relative;
+            z-index: 2;
+            height: 50px;
+            filter: drop-shadow(0 2px 4px rgba(255,255,255,0.1));
+            transition: all 0.3s ease;
+        }
+
+        header img.logo-image:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 2px 8px rgba(255,255,255,0.2));
+        }
+
+        .time-display {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 2rem;
+            text-align: center;
+            padding: 5px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .time-mismatch {
+            border-bottom: 1px dashed #666;
+        }
+
+        .time-mismatch:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .search-section {
+            position: relative;
+            margin: 4rem auto;
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .search-engine-logo {
+            height: 100px;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-engines {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-engine {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-engine.active {
+            color: #1a73e8;
+            position: relative;
+        }
+
+        .search-engine.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #1a73e8;
+        }
+
+        .search-input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 120px 1rem 1.5rem;
+            font-size: 1.1rem;
+            border-radius: 24px;
+            border: 1px solid #dfe1e5;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 6px rgba(32,33,36,0.08);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 5px;
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+            padding: 0 1rem;
+        }
+
+        .quick-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .quick-link:hover {
+            background: rgba(0,0,0,0.03);
+            transform: translateY(-2px);
+        }
+
+        .quick-link img {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-link span {
+            font-size: 0.9rem;
+        }
+
+        .header-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 90px;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .featured-logo {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            margin: 2rem auto;
+            padding: 1rem;
+            border: 2px solid #0099ff;
+            border-radius: 8px;
+        }
+
+        .search-section {
+            margin-top: 3rem;
+        }
+
+        .time-display {
+            margin-top: 1rem;
+            color: #666;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            color: #666;
+            font-size: 1.5rem;
+            transition: color 0.2s ease;
+        }
+
+        .social-link:hover {
+            color: #1a73e8;
+        }
+
+        .search-section,
+        .quick-links,
+        .social-links,
+        .time-display {
+            transition: opacity 0.5s ease;
+        }
+
+        body.inactive-mode .header::after {
+            display: none;
+        }
+
+        body.inactive-mode header img.logo-image {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-left: -15%;
+            margin-top: -10%;
+            transform: scale(3);
+            filter: brightness(0.01) drop-shadow(0 0 20px rgba(0, 0, 0, 0.8));
+            transition: all 1s ease;
+            z-index: 9999;
+            background: transparent;
+            backdrop-filter: none;
+        }
+
+        body.inactive-mode header img.logo-image::after {
+            display: none;
+        }
+
+        body.inactive-mode .header img.logo-image::after {
+            display: none;
+        }
+
+        body.inactive-mode .header {
+            background: transparent;
+            backdrop-filter: none;
+        }
+
+        body.inactive-mode .header::after {
+            display: none;
+        }
+
+        .inactive-clock {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            font-weight: 300;
+            text-shadow: 0 0 10px rgba(255,255,255,0.2);
+            z-index: 1000;
+        }
+
+        body.inactive-mode .inactive-clock {
+            opacity: 1;
+        }
+
+        body.inactive-mode .header {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: transparent;
+            transition: all 1s ease;
+        }
+
+        body.inactive-mode header img.logo-image {
+            transform: scale(3);
+            filter: brightness(0.8) drop-shadow(0 0 20px rgba(255,255,255,0.1));
+            transition: all 1s ease;
+        }
+
+        body.inactive-mode .header::after {
+            display: none;
+        }
+
+        /* Remove transições do header e seus elementos */
+        .header,
+        .header::after,
+        .header-decoration {
+            transition: none;
+        }
+
+        body.inactive-mode .search-section,
+        body.inactive-mode .quick-links,
+        body.inactive-mode .social-links,
+        body.inactive-mode .time-display {
+            opacity: 0.01;  /* Praticamente invisível */
+            transition: opacity 0.5s ease;
+        }
+
+        /* Novo seletor específico para o Google e elementos de busca */
+        body.inactive-mode .search-engine-logo,
+        body.inactive-mode .search-engines,
+        body.inactive-mode .search-input-container,
+        body.inactive-mode .search-button {
+            opacity: 0.01;
+            transition: opacity 0.5s ease;
+        }
+
+        body.inactive-mode header img.logo-image {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-left: -15%;
+            margin-top: -10%;
+            transform: scale(3);
+            filter: brightness(0.8) drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
+            transition: all 1s ease;
+            z-index: 9999;
+            background: transparent;
+            backdrop-filter: none;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-decoration"></div>
+        <a href="/" class="logo-link">
+            <img src="img/logo - Mister Cel 2.png" alt="MisterCel" class="logo-image">
+        </a>
+    </header>
+
+    <main class="container">
+
+        <div class="time-display" style="margin-top: -50px;">
+            <span id="date"></span> - <span id="hours">00</span>:<span id="minutes">00</span>
+        </div>
+
+        <section class="search-section">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/800px-Google_2015_logo.svg.png" alt="Google" class="search-engine-logo" id="engineLogo">
+            <div class="search-engines">
+                <button class="search-engine active" data-engine="google">Google</button>
+                <button class="search-engine" data-engine="bing">Bing</button>
+            </div>
+            <form id="searchForm" action="https://www.google.com/search" method="get">
+                <div class="search-input-container">
+                    <input type="text" name="q" class="search-input" placeholder="Pesquisar na web...">
+                    <button type="submit" class="search-button">Pesquisar</button>
+                </div>
+            </form>
+        </section>
+
+        <div class="quick-links">
+            <a href="/servicos" class="quick-link">
+                <i class="fas fa-tools fa-2x"></i>
+                <span style="margin-top: 10px;">Nossos Serviços</span>
+            </a>
+            <a href="/orcamento" class="quick-link">
+                <i class="fas fa-calculator fa-2x"></i>
+                <span style="margin-top: 10px;">Solicitar Orçamento</span>
+            </a>
+            <a href="/status" class="quick-link">
+                <i class="fas fa-clipboard-check fa-2x"></i>
+                <span style="margin-top: 10px;">Status do Reparo</span>
+            </a>
+            <a href="/contato" class="quick-link">
+                <i class="fas fa-comments fa-2x"></i>
+                <span style="margin-top: 10px;">Fale Conosco</span>
+            </a>
+            <a href="/localizacao" class="quick-link">
+                <i class="fas fa-map-marker-alt fa-2x"></i>
+                <span style="margin-top: 10px;">Como Chegar</span>
+            </a>
+        </div>
+
+        <div class="social-links">
+            <a href="https://facebook.com/mistercel" class="social-link" target="_blank">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://instagram.com/mistercel" class="social-link" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://tiktok.com/@mistercel" class="social-link" target="_blank">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+            <a href="https://x.com/mistercel" class="social-link" target="_blank">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <a href="https://wa.me/5511999999999" class="social-link" target="_blank">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+            <a href="https://youtube.com/@mistercel" class="social-link" target="_blank">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchEngines = document.querySelectorAll('.search-engine');
+            const searchForm = document.getElementById('searchForm');
+            const searchInput = document.querySelector('.search-input');
+            const engineLogo = document.getElementById('engineLogo');
+            const logoUrls = {
+                google: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/800px-Google_2015_logo.svg.png',
+                bing: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Bing_logo_%282016%29.svg/800px-Bing_logo_%282016%29.svg.png'
+            };
+
+            searchEngines.forEach(engine => {
+                engine.addEventListener('click', () => {
+                    searchEngines.forEach(e => e.classList.remove('active'));
+                    engine.classList.add('active');
+                    
+                    const engineType = engine.dataset.engine;
+                    const actions = {
+                        google: 'https://www.google.com/search',
+                        bing: 'https://www.bing.com/search'
+                    };
+                    
+                    searchForm.action = actions[engineType];
+                    engineLogo.source = logoUrls[engineType];
+                    engineLogo.alt = engineType.charAt(0).toUpperCase() + engineType.slice(1);
+                });
+            });
+
+            async function getInternetTime() {
+                try {
+                    const response = await fetch('http://worldtimeapi.org/api/timezone/America/Sao_Paulo');
+                    const data = await response.json();
+                    return new Date(data.datetime);
+                } catch (error) {
+                    console.error('Erro ao buscar horário da internet:', error);
+                    return null;
+                }
+            }
+
+            async function updateClock() {
+                const localTime = new Date();
+                const internetTime = await getInternetTime();
+
+                // Formata a data local
+                document.getElementById('date').textContent = 
+                    localTime.toLocaleDateString('pt-BR', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+
+                // Atualiza o relógio com o horário da internet (se disponível) ou local
+                const timeToShow = internetTime || localTime;
+                document.getElementById('hours').textContent = 
+                    timeToShow.getHours().toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = 
+                    timeToShow.getMinutes().toString().padStart(2, '0');
+
+                // Adiciona tooltip com comparação
+                if (internetTime) {
+                    const diffInMinutes = Math.abs(
+                        (localTime - internetTime) / (1000 * 60)
+                    );
+                    
+                    const timeDisplay = document.querySelector('.time-display');
+                    if (diffInMinutes > 1) {
+                        timeDisplay.title = `Seu computador está ${diffInMinutes.toFixed(0)} minutos ${
+                            localTime > internetTime ? 'adiantado' : 'atrasado'
+                        } em relação ao horário oficial de Maringá-PR`;
+                        timeDisplay.style.cursor = 'help';
+                        timeDisplay.classList.add('time-mismatch');
+                    } else {
+                        timeDisplay.title = 'Seu computador está sincronizado com o horário oficial de Maringá-PR';
+                        timeDisplay.classList.remove('time-mismatch');
+                    }
+                }
+            }
+
+            // Atualiza a cada 30 segundos para não sobrecarregar a API
+            setInterval(updateClock, 5 * 1000 * 1000);
+            updateClock();
+
+            // Controle de inatividade
+            let inactivityTimer;
+            const INACTIVITY_TIMEOUT = 5 * 1000 * 1000; // 30 segundos
+
+            function startInactivityCheck() {
+                clearTimeout(inactivityTimer);
+                inactivityTimer = setTimeout(goInactive, INACTIVITY_TIMEOUT);
+            }
+
+            function goInactive() {
+                document.body.classList.add('inactive-mode');
+                
+                // Efeito de fade nos elementos
+                const elements = [
+                    '.search-section',
+                    '.quick-links',
+                    '.social-links',
+                    '.time-display'
+                ];
+                
+                elements.forEach((selector, index) => {
+                    setTimeout(() => {
+                        document.querySelector(selector).style.opacity = '0.3';
+                    }, index * 200);
+                });
+
+                // Adicione após o elemento main
+                const inactiveClock = document.createElement('div');
+                inactiveClock.className = 'inactive-clock';
+                document.body.appendChild(inactiveClock);
+
+                // Atualiza o tempo de inatividade para 30 segundos
+                const INACTIVITY_TIMEOUT = 5 * 1000 * 1000; // 5 minutos
+
+                function updateInactiveClock() {
+                    const now = new Date();
+                    const hours = now.getHours().toString().padStart(2, '0');
+                    const minutes = now.getMinutes().toString().padStart(2, '0');
+                    inactiveClock.textContent = `${hours}:${minutes}`;
+                }
+
+                function goInactive() {
+                    document.body.classList.add('inactive-mode');
+                    
+                    // Efeito de fade nos elementos
+                    const elements = [
+                        '.search-section',
+                        '.quick-links',
+                        '.social-links',
+                        '.time-display'
+                    ];
+                    
+                    elements.forEach((selector, index) => {
+                        setTimeout(() => {
+                            document.querySelector(selector).style.opacity = '0.3';
+                        }, index * 200);
+                    });
+
+                    // Inicia a atualização do relógio inativo
+                    updateInactiveClock();
+                    inactiveClockInterval = setInterval(updateInactiveClock, 1000);
+                }
+
+                function goActive() {
+                    document.body.classList.remove('inactive-mode');
+                    
+                    // Restaura a opacidade dos elementos
+                    const elements = [
+                        '.search-section',
+                        '.quick-links',
+                        '.social-links',
+                        '.time-display'
+                    ];
+                    
+                    elements.forEach((selector, index) => {
+                        setTimeout(() => {
+                            document.querySelector(selector).style.opacity = '1';
+                        }, index * 100);
+                    });
+
+                    // Para a atualização do relógio inativo
+                    clearInterval(inactiveClockInterval);
+                }
+
+                // Eventos que resetam o timer de inatividade
+                const resetEvents = [
+                    'mousedown', 'mousemove', 'keypress',
+                    'scroll', 'touchstart', 'click', 'keydown'
+                ];
+
+                resetEvents.forEach(event => {
+                    document.addEventListener(event, () => {
+                        if (document.body.classList.contains('inactive-mode')) {
+                            goActive();
+                        }
+                        startInactivityCheck();
+                    });
+                });
+
+                // Inicia o timer
+                startInactivityCheck();
+            }
+
+            function goActive() {
+                document.body.classList.remove('inactive-mode');
+                
+                // Restaura a opacidade dos elementos
+                const elements = [
+                    '.search-section',
+                    '.quick-links',
+                    '.social-links',
+                    '.time-display'
+                ];
+                
+                elements.forEach((selector, index) => {
+                    setTimeout(() => {
+                        document.querySelector(selector).style.opacity = '1';
+                    }, index * 100);
+                });
+
+                // Para a atualização do relógio inativo
+                clearInterval(inactiveClockInterval);
+            }
+
+            // Eventos que resetam o timer de inatividade
+            const resetEvents = [
+                'mousedown', 'mousemove', 'keypress',
+                'scroll', 'touchstart', 'click', 'keydown'
+            ];
+
+            resetEvents.forEach(event => {
+                document.addEventListener(event, () => {
+                    if (document.body.classList.contains('inactive-mode')) {
+                        goActive();
+                    }
+                    startInactivityCheck();
+                });
+            });
+
+            // Inicia o timer
+            // startInactivityCheck();
+        });
+    </script>
+</body>
+</html>
