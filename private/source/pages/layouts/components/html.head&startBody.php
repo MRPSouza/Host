@@ -1,17 +1,19 @@
 # Estilos externos
-<?php foreach ($external_resources as $resource): ?>
+<?php foreach ($external_resources as $key => $resource): ?>
     <?php if ($resource['type'] === 'style'): ?>
         <link rel="stylesheet" 
               href="<?php echo $resource['url']; ?>" 
-              nonce="<?php echo $resource['nonce']; ?>">
+              integrity="<?php echo $resource['integrity']; ?>"
+              crossorigin="anonymous">
     <?php endif; ?>
 <?php endforeach; ?>
 
 # Scripts externos
-<?php foreach ($external_resources as $resource): ?>
+<?php foreach ($external_resources as $key => $resource): ?>
     <?php if ($resource['type'] === 'script'): ?>
         <script src="<?php echo $resource['url']; ?>" 
-                nonce="<?php echo $resource['nonce']; ?>"></script>
+                integrity="<?php echo $resource['integrity']; ?>"
+                crossorigin="anonymous"></script>
     <?php endif; ?>
 <?php endforeach; ?>
 
