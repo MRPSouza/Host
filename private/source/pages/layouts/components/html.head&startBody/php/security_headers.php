@@ -5,10 +5,10 @@ include_once('../private/source/pages/config/page_visibility/page_restricted.php
 
 // Defina a política CSP em uma única linha
 $csp_policy = "default-source 'none'; "
-    . "script-source 'self' https://www.googletagmanager.com https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js https://code.jquery.com/jquery-3.6.0.min.js https://matheusrpsouza.com 'unsafe-inline' 'unsafe-eval'; "
-    . "style-source 'self' 'unsafe-inline' https://code.jquery.com/ https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css https://fonts.googleapis.com https://matheusrpsouza.com; "
-    . "style-source-elem 'self' 'unsafe-inline' https://fonts.googleapis.com/ https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css https://matheusrpsouza.com; "
-    . "font-source 'self' https://fonts.gstatic.com/ https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/webfonts/ https://matheusrpsouza.com; "
+    . "script-source 'self' https://www.googletagmanager.com https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/ https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/ https://code.jquery.com/ https://matheusrpsouza.com; "
+    . "style-source 'self' https://code.jquery.com/ https://cdnjs.cloudflare.com/ https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/ https://fonts.googleapis.com https://matheusrpsouza.com; "
+    . "style-source-elem 'self' https://fonts.googleapis.com/ https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/ https://cdnjs.cloudflare.com/ https://matheusrpsouza.com; "
+    . "font-source 'self' https://fonts.gstatic.com/ https://cdnjs.cloudflare.com/ https://matheusrpsouza.com; "
     . "img-source 'self' data: https://matheusrpsouza.com; "
     . "connect-source 'self' https://matheusrpsouza.com; "
     . "form-action 'self' https://matheusrpsouza.com; "
