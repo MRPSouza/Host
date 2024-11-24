@@ -128,4 +128,8 @@ ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);
 
+if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    header("Strict-Transport-Security: max-age=300");  // Começando com 5 minutos
+}
+
 ?>
