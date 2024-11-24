@@ -71,25 +71,23 @@ $inline_script_hashes = [
 
 // Defina a política CSP em uma única linha
 $csp_policy = "default-src 'none'; "
-    . "script-src 'self' " . $script_hash_string . " " . implode(' ', $inline_script_hashes) . " "
+    . "script-src 'self' "
     . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
-    . "connect-src 'self' https://worldtimeapi.org/; "
-    . "worker-src 'self' blob: ; "
-    . "style-src 'self' " . $style_hash_string . " " . implode(' ', $inline_style_hashes) . " "
+    . "style-src 'self' "
     . "https://cdn.jsdelivr.net/ "
     . "https://cdnjs.cloudflare.com/ "
     . "https://fonts.googleapis.com/; "
     . "font-src 'self' "
     . "https://fonts.gstatic.com/ "
     . "https://cdnjs.cloudflare.com/; "
-    . "img-src 'self' data: https:; "
-    . "connect-src 'self'; "
+    . "img-src 'self' data:; "
+    . "connect-src 'self' https://worldtimeapi.org/; "
     . "frame-ancestors 'none'; "
     . "form-action 'self'; "
-    . "base-uri 'self';";
+    . "base-uri 'self'";
 
-// Modifique o CSP para incluir report-only temporariamente
+// Remova os implode() por enquanto até resolvermos a sintaxe
 header("Content-Security-Policy: $csp_policy");
 
 // Proteger contra XSS

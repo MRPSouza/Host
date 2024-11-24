@@ -136,3 +136,11 @@ RewriteRule ^search_results$ search_results.php [L]
     Require all granted
 </Files>
 
+# # Adicionar headers de segurança via .htaccess (opcional, já que temos no PHP)
+# <IfModule mod_headers.c>
+#     Header always set X-Frame-Options "DENY"
+#     Header always set X-Content-Type-Options "nosniff"
+#     Header always set X-XSS-Protection "1; mode=block"
+#     Header always set Referrer-Policy "strict-origin-when-cross-origin"
+# </IfModule>
+
