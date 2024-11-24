@@ -8,25 +8,25 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
 RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301,NE]
 
-# Remover extensões visíveis (.php, .html) das URLs
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.(php|html) [NC]
-RewriteRule ^ %1 [R=301,L]
-
-# Redirecionar /index para /
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index/?[^\s]* [NC]
-RewriteRule ^index/?$ / [R=301,L]
-
 # Adicionar .php ou .html internamente (checando .php primeiro)
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^([^\.]+)$ $1.php [NC,L]
+RewriteRule ^(.*)$ $1.php [NC,L]
 
 # Se não encontrar .php, procura por .html
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^([^\.]+)$ $1.html [NC,L]
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+# Remover extensões visíveis (.php, .html) das URLs
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.(php|html) [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# Redirecionar /index para /
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index [NC]
+RewriteRule ^index/?$ / [R=301,L]
 
 # Forçar HTTPS
 RewriteEngine On
