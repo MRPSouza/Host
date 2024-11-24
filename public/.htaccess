@@ -9,23 +9,6 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
 RewriteRule ^index/?$ / [R=301,L]
 RewriteRule ^index\.php/?$ / [R=301,L]
 
-RewriteEngine On
-RewriteCond %{HTTP_HOST} ^home\.matheusrpsouza\.com$ [NC]
-RewriteRule ^$ /startpage.html [L]
-
-
-# Redirecionar 404 para o script PHP
-ErrorDocument 404 /404.php
-
-# Adicionar .php internamente
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php [L]
-
-# Personalizar página de erro 404
-ErrorDocument 404 /404.php
-
 # Remover extensão .php visível
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
 RewriteRule ^ %1 [R=301,L]
