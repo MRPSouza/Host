@@ -14,7 +14,7 @@ foreach ($external_scripts as $script) {
 
 # Renderizar scripts locais - Usando caminho absoluto
 foreach ($local_scripts as $script) {
-    $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/../private/source/pages/js/' . basename($script['path']);
+    $fullPath = $_SERVER['DOCUMENT_ROOT'] . '/../private/source/pages/layouts/components/html.scripts&endBody/js/' . basename($script['path']);
     if (file_exists($fullPath)) {
         $content = file_get_contents($fullPath);
         echo '<script nonce="' . $nonce . '">' . $content . '</script>';
