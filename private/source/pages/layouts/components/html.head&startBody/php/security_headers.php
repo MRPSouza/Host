@@ -13,7 +13,7 @@ error_log("Include realizado com sucesso");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Gere um único nonce para a página
+// Gerar nonce único para a sessão
 $nonce = base64_encode(random_bytes(16));
 
 // Função para gerar hash de um arquivo
@@ -89,9 +89,9 @@ $script_hashes[] = "'sha256-vwpS6YH5eqNzzhCNBNu0fim2y+q7qFKaRs7+n/oqlP0='";
 // Adicionar o novo hash
 $script_hashes[] = "'sha256-SfsaUXDtEB2wbEB1qNV7Wwmg1s5a0sikns9gPLA8DBc='";
 
-// CSP com os hashes
+// CSP com nonce
 $csp_policy = "default-src 'self'; "
-    . "script-src 'self' " . implode(' ', $script_hashes) . " "
+    . "script-src 'self' 'nonce-{$nonce}' "
     . "https://cdn.jsdelivr.net/ "
     . "https://code.jquery.com/; "
     . "style-src 'self' " . implode(' ', $style_hashes) . " "
