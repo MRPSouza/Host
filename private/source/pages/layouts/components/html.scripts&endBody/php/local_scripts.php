@@ -1,4 +1,6 @@
 <?php
+// Configura o caminho das sessões antes de iniciar
+session_save_path('/tmp');
 session_start();
 
 // Scripts locais
