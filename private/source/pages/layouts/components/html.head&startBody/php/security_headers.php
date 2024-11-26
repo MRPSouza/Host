@@ -8,11 +8,6 @@ $script_hashes = [
     'sha256-jNUaLyKtUOtTVaAUziqIV9DJCNPr3ty5ZK4o7WIe1TU=',
 
     // Scripts do sistema
-    'sha256-/yEukiPDyWeiR5/u2hVikJC3uosEgFcgNbCwGmPF0XI=',  // content_dynamic.js
-    'sha256-90ZdoC9kHId7WVKDYd0K5xvj/8aZ6oM9udkLtBGNx7Q=',  // resize_body_bootstrap.js
-    'sha256-bdvmA4hVgUddpVZwV8uXYAu2k8BHz1VWRzH8ho+6np0=',  // restriction_against_iframe.js
-    'sha256-EwNYlhRjhSlQbMek/99pZ2kQlOWE/FCiw6amdSRm6pk=',  // search_engine.js
-    'sha256-NV330IZQnSrhvXKo1Kh3LGeVmXKxN9pg2Z3JLD3h4Gw=',  // tooltip_popover.js
     'sha256-51S9ThZdsSdNFIWpaX5ppEm6nt4j+XHVvU1xW/LH9ng=',  // script de animação
     'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk=',  // outro script inline
     'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY='   // outro script inline
