@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log("Tentando carregar página:", pageName);
         console.log("Dados disponíveis:", e[pageName]);
         let a = e[pageName];
+        
         if (!a) {
             console.error("Página não encontrada:", pageName);
             fetch(`../private/source/pages/404.php`).then(t => t.text()).then(e => {
@@ -18,7 +19,8 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             return;
         }
-        fetch(`../private/source/pages/${pageName}.php`)
+
+        fetch(`../private/source/pages/${pageName}/${pageName}.php`)
             .then(t => t.text())
             .then(content => {
                 t.innerHTML = content;
@@ -44,16 +46,16 @@ document.addEventListener("DOMContentLoaded", function() {
                     document.getElementById("twitter-url").setAttribute("content", pageData.link_canonico);
                     document.getElementById("apple-title").setAttribute("content", pageData.meta_titulo);
                     document.getElementById("apple-image").setAttribute("href", pageData.imagem_da_pagina_atual);
-                    newUrl = pageName === 'index' ? 'index/../' : `${pageName}`;
+                    const newUrl = pageName === 'index' ? '/' : `/${pageName}`;
                     history.pushState({
                         page: pageName
-                    }, "", newUrl),
-                    console.log("Página carregada e meta tags atualizadas:", pageName)
+                    }, "", newUrl);
+                    console.log("Página carregada e meta tags atualizadas:", pageName);
                 }
             })
             .catch(error => {
                 console.error("Erro ao carregar a página:", error);
-                t.innerHTML = "<p>Erro ao carregar a página</p>";
+                n('404');
             });
     }
 
