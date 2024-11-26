@@ -2,7 +2,7 @@
     <div class="container">
         <!-- Logo -->
         <a class="navbar-brand" href="index" data-page="index">
-            <img src="img/logo - Mister Cel 2.png" alt="Logo Mister Cel" class="brand-logo">
+            <img src="img/logo-mister-cel.png" alt="Logo Mister Cel" class="brand-logo">
         </a>
 
         <!-- Botão hamburguer -->
