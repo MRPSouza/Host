@@ -5,6 +5,11 @@ header_remove("Content-Security-Policy-Report-Only");
 
 // Todas as hashes para scripts inline
 $script_hashes = [
+    // Hashes dos scripts que foram movidos para inline
+    'sha256-HASH_DO_CONTENT_DYNAMIC',
+    'sha256-HASH_DO_RESIZE_BODY',
+    'sha256-HASH_DO_RESTRICTION_IFRAME',
+    'sha256-HASH_DO_TOOLTIP',
     // Scripts do sistema
     'sha256-/yEukiPDyWeiR5/u2hVikJC3uosEgFcgNbCwGmPF0XI=',  // content_dynamic.js
     'sha256-90ZdoC9kHId7WVKDYd0K5xvj/8aZ6oM9udkLtBGNx7Q=',  // resize_body_bootstrap.js
@@ -33,7 +38,8 @@ $style_hashes_str = implode("' '", $style_hashes);
 
 // Construir a política CSP
 $csp = "default-src 'self'; " .
-    "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com '" . $script_hashes_str . "'; " .
+    "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com " . 
+       implode(" ", array_map(function($hash) { return "'$hash'"; }, $script_hashes)) . "; " .
     "style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com '" . $style_hashes_str . "'; " .
     "font-src 'self' https://cdnjs.cloudflare.com data:; " .
     "img-src 'self' data:; " .
