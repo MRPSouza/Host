@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`/page_loader.php?page=${n}`).then(t => t.text()).then(e => {
             t.innerHTML = e;
             updateMetaTags(a);
+            checkImageLoading();
             newUrl = n === 'index' ? '/' : `/${n}`;
             history.pushState({page: n}, "", newUrl);
             console.log("Página carregada e meta tags atualizadas:", n)
@@ -64,6 +65,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 let value;
                 if (id === "current-css") {
                     value = `css/${o[jsonKey].replace(".php", ".css")}`;
+                } else if (id.includes("image")) {
+                    value = o[jsonKey] ? `/img/${o[jsonKey]}` : '';
+                    console.log(`Processando imagem ${id}:`, value);
                 } else {
                     value = o[jsonKey] || '';
                 }
@@ -79,6 +83,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
         }
+    }
+
+    function checkImageLoading() {
+        document.querySelectorAll('img').forEach(img => {
+            img.onerror = function() {
+                console.error(`Erro ao carregar imagem: ${img.src}`);
+                // Opcional: definir uma imagem padrão
+                // img.src = '/img/default.png';
+            };
+            img.onload = function() {
+                console.log(`Imagem carregada com sucesso: ${img.src}`);
+            };
+        });
     }
 
     let pesquisaEmAndamento = false;
