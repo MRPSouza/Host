@@ -50,11 +50,12 @@ $csp = "default-src 'self'; " .
     "style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com '" . $style_hashes_str . "'; " .
     "font-src 'self' https://cdnjs.cloudflare.com data:; " .
     "img-src 'self' data: https://* http://*; " .
+    "media-src 'self' data: https://* http://*; " .
     "connect-src 'self' *; " .
-    "frame-ancestors 'none'; " .
+    "frame-ancestors 'self'; " .
     "form-action 'self'; " .
     "base-uri 'self'; " .
-    "object-src 'none'";
+    "object-src 'self'";
 
 header("Content-Security-Policy: $csp");
 ?>

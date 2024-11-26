@@ -7,6 +7,5 @@ require_once('html.scripts&endBody/js/restriction_against_iframe.js');
 require_once('html.scripts&endBody/js/tooltip_popover.js');
 echo '</script>';
 ?>
-<script src="/js/main.js"></script>
 <!-- Outros scripts fixos aqui -->
 
