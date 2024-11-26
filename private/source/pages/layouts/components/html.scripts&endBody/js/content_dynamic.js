@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", function() {
     let t = document.getElementById("content-dynamic"),
         e = {};
 
-    function n(n) {
-        console.log("Tentando carregar página:", n);
-        console.log("Dados disponíveis:", e[n]);
-        let a = e[n];
+    function n(pageName) {
+        console.log("Tentando carregar página:", pageName);
+        console.log("Dados disponíveis:", e[pageName]);
+        let a = e[pageName];
         if (!a) {
-            console.error("Página não encontrada:", n);
+            console.error("Página não encontrada:", pageName);
             fetch(`../private/source/pages/404.php`).then(t => t.text()).then(e => {
                 t.innerHTML = e;
                 history.pushState({page: '404'}, "", '404');
@@ -18,38 +18,43 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             return;
         }
-        fetch(`../private/source/pages/${n}.php`).then(t => t.text()).then(e => {
-            var o;
-            t.innerHTML = e, o = a,
-                document.getElementById("page-title").textContent = o.titulo_da_aba,
-                document.getElementById("meta-robots").setAttribute("content", o.robots),
-                document.getElementById("meta-googlebot").setAttribute("content", o.googlebot),
-                document.getElementById("meta-googlebot-news").setAttribute("content", o.googlebot_news),
-                document.getElementById("meta-keywords").setAttribute("content", o.meta_palavras_chaves),
-                document.getElementById("meta-title").setAttribute("content", o.meta_titulo),
-                document.getElementById("meta-description").setAttribute("content", o.meta_descricao),
-                document.getElementById("canonical-link").setAttribute("href", o.link_canonico),
-                document.getElementById("page-css").setAttribute("href", `css/${o.extension.replace(".php", ".css")}`),
-                document.getElementById("og-title").setAttribute("content", o.meta_titulo),
-                document.getElementById("og-description").setAttribute("content", o.meta_descricao),
-                document.getElementById("og-url").setAttribute("content", o.link_canonico),
-                document.getElementById("og-image").setAttribute("content", o.imagem_da_pagina_atual),
-                document.getElementById("og-site-name").setAttribute("content", o.meta_titulo),
-                document.getElementById("twitter-title").setAttribute("content", o.meta_titulo),
-                document.getElementById("twitter-description").setAttribute("content", o.meta_descricao),
-                document.getElementById("twitter-image").setAttribute("content", o.imagem_da_pagina_atual),
-                document.getElementById("twitter-url").setAttribute("content", o.link_canonico),
-                document.getElementById("apple-title").setAttribute("content", o.meta_titulo),
-                document.getElementById("apple-image").setAttribute("href", o.imagem_da_pagina_atual),
-                newUrl = n === 'index' ? 'index/../' : `${n}`;
-                history.pushState({
-                    page: n
-                }, "", newUrl),
-                console.log("Página carregada e meta tags atualizadas:", n)
-        }).catch(e => {
-            console.error("Erro ao carregar a página:", e), t.innerHTML = "<p>Erro ao carregar a página</p>";
-
-        })
+        fetch(`../private/source/pages/${pageName}.php`)
+            .then(t => t.text())
+            .then(content => {
+                t.innerHTML = content;
+                if (e[pageName]) {
+                    const pageData = e[pageName];
+                    document.getElementById("page-title").textContent = pageData.titulo_da_aba;
+                    document.getElementById("meta-robots").setAttribute("content", pageData.robots);
+                    document.getElementById("meta-googlebot").setAttribute("content", pageData.googlebot);
+                    document.getElementById("meta-googlebot-news").setAttribute("content", pageData.googlebot_news);
+                    document.getElementById("meta-keywords").setAttribute("content", pageData.meta_palavras_chaves);
+                    document.getElementById("meta-title").setAttribute("content", pageData.meta_titulo);
+                    document.getElementById("meta-description").setAttribute("content", pageData.meta_descricao);
+                    document.getElementById("canonical-link").setAttribute("href", pageData.link_canonico);
+                    document.getElementById("page-css").setAttribute("href", `css/${pageName}.css`);
+                    document.getElementById("og-title").setAttribute("content", pageData.meta_titulo);
+                    document.getElementById("og-description").setAttribute("content", pageData.meta_descricao);
+                    document.getElementById("og-url").setAttribute("content", pageData.link_canonico);
+                    document.getElementById("og-image").setAttribute("content", pageData.imagem_da_pagina_atual);
+                    document.getElementById("og-site-name").setAttribute("content", pageData.meta_titulo);
+                    document.getElementById("twitter-title").setAttribute("content", pageData.meta_titulo);
+                    document.getElementById("twitter-description").setAttribute("content", pageData.meta_descricao);
+                    document.getElementById("twitter-image").setAttribute("content", pageData.imagem_da_pagina_atual);
+                    document.getElementById("twitter-url").setAttribute("content", pageData.link_canonico);
+                    document.getElementById("apple-title").setAttribute("content", pageData.meta_titulo);
+                    document.getElementById("apple-image").setAttribute("href", pageData.imagem_da_pagina_atual);
+                    newUrl = pageName === 'index' ? 'index/../' : `${pageName}`;
+                    history.pushState({
+                        page: pageName
+                    }, "", newUrl),
+                    console.log("Página carregada e meta tags atualizadas:", pageName)
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao carregar a página:", error);
+                t.innerHTML = "<p>Erro ao carregar a página</p>";
+            });
     }
 
     let pesquisaEmAndamento = false;
