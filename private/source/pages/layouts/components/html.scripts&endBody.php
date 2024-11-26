@@ -1,6 +1,7 @@
 <?php
+// Scripts locais
 foreach ($local_scripts as $key => $script) {
-    echo "<script nonce='{$script['nonce']}'>/* código do {$key} aqui */</script>";
+    echo "<script src='{$script['path']}'></script>";
 }
 ?>
 

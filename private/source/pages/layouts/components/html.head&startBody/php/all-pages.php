@@ -34,7 +34,7 @@ if ($nome_site <> ''){$nome_site = ' - '.$nome_site;}
 // Adicionar o handler para o JSON
 if (isset($_GET['get_seo_data'])) {
     header('Content-Type: application/json');
-    $json_file = $_SERVER['DOCUMENT_ROOT'] . '/../private/source/pages/data/seo_pages.json';
+    $json_file = "../private/source/pages/data/seo_pages.json";
     echo file_get_contents($json_file);
     exit;
 }

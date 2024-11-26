@@ -21,26 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch(`../private/source/pages/${n}.php`).then(t => t.text()).then(e => {
             var o;
             t.innerHTML = e, o = a,
-                document.getElementById("page-title").textContent = o.titulo_da_aba,
-                document.getElementById("meta-robots").setAttribute("content", o.robots),
-                document.getElementById("meta-googlebot").setAttribute("content", o.googlebot),
-                document.getElementById("meta-googlebot-news").setAttribute("content", o.googlebot_news),
-                document.getElementById("meta-keywords").setAttribute("content", o.meta_palavras_chaves),
-                document.getElementById("meta-title").setAttribute("content", o.meta_titulo),
-                document.getElementById("meta-description").setAttribute("content", o.meta_descricao),
-                document.getElementById("canonical-link").setAttribute("href", o.link_canonico),
-                document.getElementById("page-css").setAttribute("href", `css/${o.extension.replace(".php", ".css")}`),
-                document.getElementById("og-title").setAttribute("content", o.meta_titulo),
-                document.getElementById("og-description").setAttribute("content", o.meta_descricao),
-                document.getElementById("og-url").setAttribute("content", o.link_canonico),
-                document.getElementById("og-image").setAttribute("content", o.imagem_da_pagina_atual),
-                document.getElementById("og-site-name").setAttribute("content", o.meta_titulo),
-                document.getElementById("twitter-title").setAttribute("content", o.meta_titulo),
-                document.getElementById("twitter-description").setAttribute("content", o.meta_descricao),
-                document.getElementById("twitter-image").setAttribute("content", o.imagem_da_pagina_atual),
-                document.getElementById("twitter-url").setAttribute("content", o.link_canonico),
-                document.getElementById("apple-title").setAttribute("content", o.meta_titulo),
-                document.getElementById("apple-image").setAttribute("href", o.imagem_da_pagina_atual),
+                updateMetaTags(o);
                 newUrl = n === 'index' ? 'index/../' : `${n}`;
                 history.pushState({
                     page: n
@@ -50,6 +31,57 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("Erro ao carregar a página:", e), t.innerHTML = "<p>Erro ao carregar a página</p>";
 
         })
+    }
+
+    function updateMetaTags(o) {
+        console.log("Iniciando atualização de meta tags com dados:", o);
+        
+        const elements = {
+            "page-title": ["titulo_da_aba", "textContent"],
+            "meta-robots": ["robots", "content"],
+            "meta-googlebot": ["googlebot", "content"],
+            "meta-googlebot-news": ["googlebot_news", "content"],
+            "meta-keywords": ["meta_palavras_chaves", "content"],
+            "meta-title": ["meta_titulo", "content"],
+            "meta-description": ["meta_descricao", "content"],
+            "canonical-link": ["link_canonico", "href"],
+            "page-css": ["extension", "href"],
+            "og-title": ["meta_titulo", "content"],
+            "og-description": ["meta_descricao", "content"],
+            "og-url": ["link_canonico", "content"],
+            "og-image": ["imagem_da_pagina_atual", "content"],
+            "og-site-name": ["titulo_da_aba", "content"],
+            "twitter-title": ["meta_titulo", "content"],
+            "twitter-description": ["meta_descricao", "content"],
+            "twitter-image": ["imagem_da_pagina_atual", "content"],
+            "twitter-url": ["link_canonico", "content"],
+            "apple-title": ["titulo_da_aba", "content"],
+            "apple-image": ["imagem_da_pagina_atual", "href"]
+        };
+
+        for (const [id, [jsonKey, attribute]] of Object.entries(elements)) {
+            const element = document.getElementById(id);
+            console.log(`Procurando elemento com ID '${id}'`, element ? 'encontrado' : 'não encontrado');
+            
+            if (element) {
+                let value;
+                if (id === "page-css") {
+                    value = `css/${o[jsonKey].replace(".php", ".css")}`;
+                } else {
+                    value = o[jsonKey] || '';
+                }
+                if (value) {
+                    try {
+                        element.setAttribute(attribute, value);
+                        console.log(`✅ Atualizado ${id} com ${value}`);
+                    } catch (error) {
+                        console.error(`❌ Erro ao atualizar ${id}:`, error);
+                    }
+                } else {
+                    console.warn(`⚠️ Valor vazio para ${id}`);
+                }
+            }
+        }
     }
 
     let pesquisaEmAndamento = false;

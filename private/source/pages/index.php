@@ -159,7 +159,7 @@
     </script>
 </section>
 
-<style nonce="<?php echo $nonces['page_styles']; ?>">
+<style>
 .services-section {
     padding: 5rem 0;
     background-color: #1a1a1a;
@@ -397,7 +397,7 @@
 
 
 
-<style nonce="<?php echo $nonces['page_styles']; ?>">
+<style>
 .custom-shape-divider-bottom-1731527513 {
     position: absolute;
     bottom: 0;
@@ -433,7 +433,7 @@
 }
 </style>
 
-<style nonce="<?php echo $nonces['page_styles']; ?>">
+<style>
 /* Adicione estes estilos */
 .text-gradient {
     background: linear-gradient(45deg, #fff, #7fffd4);
@@ -490,7 +490,7 @@
 }
 </style>
 
-<style nonce="<?php echo $nonces['page_styles']; ?>">
+<style>
 .typing-effect {
     border-right: 3px solid #7fffd4;
     animation: blink 0.75s step-end infinite;
@@ -502,7 +502,7 @@
 }
 </style>
 
-<style nonce="<?php echo $nonces['page_styles']; ?>">
+<style>
 .service-item::after {
     content: "";
     position: absolute;

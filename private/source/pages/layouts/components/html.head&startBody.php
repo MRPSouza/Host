@@ -11,7 +11,34 @@ echo '<!DOCTYPE html><html lang="pt-br"><head>'.
 '<meta http-equiv="content-type" content="text/html; charset=UTF-8">'.
 '<meta name="viewport" content="width=device-width, initial-scale=1" />'.
 '<meta name="revisit-after" content="'.$revisit_after.'">'.
-'<meta name="author" content="'.$author.'">';
+'<meta name="author" content="'.$author.'">'.
+'<title id="page-title">'.$titulo_da_aba.'</title>'.
+'<meta id="meta-robots" name="robots" content="'.$robots.'">'.
+'<meta id="meta-googlebot" name="googlebot" content="'.$googlebot.'">'.
+'<meta id="meta-googlebot-news" name="googlebot-news" content="'.$googlebot_news.'">'.
+'<meta id="meta-keywords" name="keywords" content="'.$meta_palavras_chaves.'">'.
+'<meta id="meta-title" name="title" content="'.$meta_titulo_da_pagina.'">'.
+'<meta id="meta-description" name="description" content="'.$meta_descricao.'">'.
+'<link id="canonical-link" rel="canonical" href="'.$link_canonico_da_pagina_atual.'">'.
+'<link id="page-css" rel="stylesheet" href="css/'.$current_css.'">'.
+
+
+// <!-- Open Graph / Facebook -->
+'<meta id="og-title" property="og:title" content="'.$meta_titulo_da_pagina.'">'.
+'<meta id="og-description" property="og:description" content="'.$meta_descricao.'">'.
+'<meta id="og-url" property="og:url" content="'.$link_canonico_da_pagina_atual.'">'.
+'<meta id="og-image" property="og:image" content="'.$imagem_da_pagina_atual.'">'.
+'<meta id="og-site-name" property="og:site_name" content="'.$titulo_da_aba.'">'.
+
+// <!-- Twitter -->
+'<meta id="twitter-title" name="twitter:title" content="'.$meta_titulo_da_pagina.'">'.
+'<meta id="twitter-description" name="twitter:description" content="'.$meta_descricao.'">'.
+'<meta id="twitter-image" name="twitter:image" content="'.$imagem_da_pagina_atual.'">'.
+'<meta id="twitter-url" name="twitter:url" content="'.$link_canonico_da_pagina_atual.'">'.
+
+// <!-- Apple -->
+'<meta id="apple-title" name="apple-mobile-web-app-title" content="'.$titulo_da_aba.'">'.
+'<link id="apple-image" rel="apple-touch-icon" href="'.$imagem_da_pagina_atual.'">';
 
 # Recursos externos (CSS e JS)
 foreach ($external_resources as $key => $resource) {
@@ -19,19 +46,15 @@ foreach ($external_resources as $key => $resource) {
         echo '<link rel="stylesheet" 
               href="'.$resource['url'].'" 
               integrity="'.$resource['integrity'].'" 
-              nonce="'.$nonces[$key].'"
               crossorigin="anonymous">';
     } else if ($resource['type'] === 'script') {
         echo '<script defer 
               src="'.$resource['url'].'" 
               integrity="'.$resource['integrity'].'" 
-              nonce="'.$nonces[$key].'"
               crossorigin="anonymous"></script>';
     }
 }
 
 echo '<link rel="stylesheet" href="css/normalize.css" />';
-
-# Resto das meta tags...
 
 ?>

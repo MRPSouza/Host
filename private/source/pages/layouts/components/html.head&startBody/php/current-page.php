@@ -21,7 +21,8 @@
             'imagem_da_pagina_atual'    => '',
             'robots'                    => 'follow, index',
             'googlebot'                 => 'index,follow',
-            'googlebot_news'            => 'noindex'
+            'googlebot_news'            => 'noindex',
+            'current_css'               => 'index.css'
         ],
         '404'                           => [
             'extension'                 => '.php',
@@ -33,7 +34,8 @@
             'imagem_da_pagina_atual'    => '',
             'robots'                    => 'nofollow, noindex',
             'googlebot'                 => 'noindex,nofollow',
-            'googlebot_news'            => 'noindex'
+            'googlebot_news'            => 'noindex',
+            'current_css'               => '404.css'
         ],
         '500'                           => [
             'extension'                 => '.php',
@@ -45,7 +47,8 @@
             'imagem_da_pagina_atual'    => '',
             'robots'                    => 'nofollow, noindex',
             'googlebot'                 => 'noindex,nofollow',
-            'googlebot_news'            => 'noindex'
+            'googlebot_news'            => 'noindex',
+            'current_css'               => '500.css'
         ],
         'terms'                         => [
             'extension'                 => '.php',
@@ -57,7 +60,8 @@
             'imagem_da_pagina_atual'    => '',
             'robots'                    => 'nofollow, noindex',
             'googlebot'                 => 'noindex,nofollow',
-            'googlebot_news'            => 'noindex'
+            'googlebot_news'            => 'noindex',
+            'current_css'               => 'terms.css'  
         ],
         'privacy'                       => [
             'extension'                 => '.php',
@@ -69,7 +73,8 @@
             'imagem_da_pagina_atual'    => '',
             'robots'                    => 'nofollow, noindex',
             'googlebot'                 => 'noindex,nofollow',
-            'googlebot_news'            => 'noindex'
+            'googlebot_news'            => 'noindex',
+            'current_css'               => 'privacy.css'    
         ],
         'cookies'                       => [
             'extension'                 => '.php',
@@ -81,7 +86,8 @@
             'imagem_da_pagina_atual'    => '',
             'robots'                    => 'nofollow, noindex',
             'googlebot'                 => 'noindex,nofollow',
-            'googlebot_news'            => 'noindex'
+            'googlebot_news'            => 'noindex',
+            'current_css'               => 'cookies.css'    
         ],
         'cad.usuario'                   => [
             'extension'                 => '.php',
@@ -93,7 +99,8 @@
             'imagem_da_pagina_atual'    => '',
             'robots'                    => 'nofollow, noindex',
             'googlebot'                 => 'noindex,nofollow',
-            'googlebot_news'            => 'noindex'
+            'googlebot_news'            => 'noindex',
+            'current_css'               => 'cad.usuario.css'
         ]
     ];
 
@@ -104,7 +111,7 @@
         $meta_descricao                 = $pages_config[$current_page]['meta_descricao'];
         $link_canonico_da_pagina_atual  = $pages_config[$current_page]['link_canonico'];
         $meta_palavras_chaves           = $pages_config[$current_page]['meta_palavras_chaves'];
-        $current_css                    = $current_page.'.css';
+        $current_css                    = $pages_config[$current_page]['current_css'];
         $imagem_da_pagina_atual         = $pages_config[$current_page]['imagem_da_pagina_atual'];
         $robots                         = $pages_config[$current_page]['robots'];
         $googlebot                      = $pages_config[$current_page]['googlebot'];
@@ -116,7 +123,7 @@
         $meta_descricao                 = '';
         $link_canonico_da_pagina_atual  = '';
         $meta_palavras_chaves           = '';
-        $current_css                    = '';
+        $current_css                    = 'index.css';
         $page_current                   = $current_page;
         $imagem_da_pagina_atual         = '';
         $robots                         = 'nofollow, noindex';
