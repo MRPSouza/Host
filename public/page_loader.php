@@ -1,6 +1,16 @@
 <?php
-// Validações de segurança
+// Configurar diretório de sessão
+ini_set('session.save_path', '/home/defaultwebsite/tmp/session');
+
+// Criar diretório se não existir
+if (!is_dir(session_save_path())) {
+    mkdir(session_save_path(), 0777, true);
+}
+
+// Iniciar sessão
 session_start();
+
+// Validações de segurança
 header('Content-Type: text/html; charset=utf-8');
 
 $allowed_pages = ['index', '404', '500', 'politica_de_uso', 'politica_de_privacidade', 'politica_de_cookies', 'cadastro'];
