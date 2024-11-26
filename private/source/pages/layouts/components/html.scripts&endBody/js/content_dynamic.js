@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (!window.location.search) {
                 n(a);
             }
-        }).catch(t => console.error("Erro ao carregar seo_pages.json:", t)),
+        }).catch(t => {}),
     
     document.body.addEventListener("click", function(t) {
         let e = t.target.closest("a[data-page]");
