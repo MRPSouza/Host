@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
             
             if (element) {
                 let value;
-                if (id === "page-css") {
+                if (id === "current-css") {
                     value = `css/${o[jsonKey].replace(".php", ".css")}`;
                 } else {
                     value = o[jsonKey] || '';
