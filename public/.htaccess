@@ -1,109 +1,109 @@
-# Verifica se o módulo de reescrita está disponível
+# # Verifica se o módulo de reescrita está disponível
 
 
-# Headers de segurança
-<IfModule mod_headers.c>
-    # Configurações de cookies mais seguras
-    Header always edit Set-Cookie (.*) "$1; HttpOnly; Secure; SameSite=Strict"
+# # Headers de segurança
+# <IfModule mod_headers.c>
+#     # Configurações de cookies mais seguras
+#     Header always edit Set-Cookie (.*) "$1; HttpOnly; Secure; SameSite=Strict"
     
-    # Headers de segurança aprimorados
-    Header set X-XSS-Protection "1; mode=block"
-    Header set X-Frame-Options "DENY"
-    Header set X-Content-Type-Options "nosniff"
-    Header set Referrer-Policy "strict-origin-when-cross-origin"
-    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+#     # Headers de segurança aprimorados
+#     Header set X-XSS-Protection "1; mode=block"
+#     Header set X-Frame-Options "DENY"
+#     Header set X-Content-Type-Options "nosniff"
+#     Header set Referrer-Policy "strict-origin-when-cross-origin"
+#     Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     
-    # Content Security Policy (CSP)
-    # Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'strict-dynamic'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'; object-src 'none'"
-</IfModule>
+#     # Content Security Policy (CSP)
+#     # Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'strict-dynamic'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'; object-src 'none'"
+# </IfModule>
 
-# Configurações de diretório
-<IfModule mod_autoindex.c>
-    Options -Indexes
-</IfModule>
+# # Configurações de diretório
+# <IfModule mod_autoindex.c>
+#     Options -Indexes
+# </IfModule>
 
-# Proteção de arquivos
-<IfModule mod_authz_core.c>
-    # Protege arquivos ocultos
-    <FilesMatch "^\.(?!well-known)">
-        Require all denied
-    </FilesMatch>
+# # Proteção de arquivos
+# <IfModule mod_authz_core.c>
+#     # Protege arquivos ocultos
+#     <FilesMatch "^\.(?!well-known)">
+#         Require all denied
+#     </FilesMatch>
     
-    # Bloqueia acesso a arquivos sensíveis
-    <FilesMatch "(?i:composer\.json|composer\.lock|package\.json|package-lock\.json|\.gitignore|\.env)$">
-        Require all denied
-    </FilesMatch>
+#     # Bloqueia acesso a arquivos sensíveis
+#     <FilesMatch "(?i:composer\.json|composer\.lock|package\.json|package-lock\.json|\.gitignore|\.env)$">
+#         Require all denied
+#     </FilesMatch>
     
-    # Limita métodos HTTP permitidos
-    <LimitExcept GET POST HEAD>
-        Require all denied
-    </LimitExcept>
-</IfModule>
+#     # Limita métodos HTTP permitidos
+#     <LimitExcept GET POST HEAD>
+#         Require all denied
+#     </LimitExcept>
+# </IfModule>
 
-# Cache
-<IfModule mod_expires.c>
-    ExpiresActive On
-    ExpiresByType image/jpg "access plus 1 year"
-    ExpiresByType image/jpeg "access plus 1 year"
-    ExpiresByType image/gif "access plus 1 year"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType image/webp "access plus 1 year"
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
-</IfModule>
+# # Cache
+# <IfModule mod_expires.c>
+#     ExpiresActive On
+#     ExpiresByType image/jpg "access plus 1 year"
+#     ExpiresByType image/jpeg "access plus 1 year"
+#     ExpiresByType image/gif "access plus 1 year"
+#     ExpiresByType image/png "access plus 1 year"
+#     ExpiresByType image/webp "access plus 1 year"
+#     ExpiresByType text/css "access plus 1 month"
+#     ExpiresByType application/javascript "access plus 1 month"
+# </IfModule>
 
-# Compressão GZIP
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/plain
-    AddOutputFilterByType DEFLATE text/html
-    AddOutputFilterByType DEFLATE text/xml
-    AddOutputFilterByType DEFLATE text/css
-    AddOutputFilterByType DEFLATE application/xml
-    AddOutputFilterByType DEFLATE application/xhtml+xml
-    AddOutputFilterByType DEFLATE application/javascript
-    AddOutputFilterByType DEFLATE application/x-javascript
-</IfModule>
+# # Compressão GZIP
+# <IfModule mod_deflate.c>
+#     AddOutputFilterByType DEFLATE text/plain
+#     AddOutputFilterByType DEFLATE text/html
+#     AddOutputFilterByType DEFLATE text/xml
+#     AddOutputFilterByType DEFLATE text/css
+#     AddOutputFilterByType DEFLATE application/xml
+#     AddOutputFilterByType DEFLATE application/xhtml+xml
+#     AddOutputFilterByType DEFLATE application/javascript
+#     AddOutputFilterByType DEFLATE application/x-javascript
+# </IfModule>
 
-# Controle de taxa de requisições
-<IfModule mod_ratelimit.c>
-    # Limita a largura de banda para 400KB/s
-    SetOutputFilter RATE_LIMIT
-    SetEnv rate-limit 400
-</IfModule>
+# # Controle de taxa de requisições
+# <IfModule mod_ratelimit.c>
+#     # Limita a largura de banda para 400KB/s
+#     SetOutputFilter RATE_LIMIT
+#     SetEnv rate-limit 400
+# </IfModule>
 
-<IfModule mod_evasive20.c>
-    # Número máximo de requisições para uma página em específico
-    DOSPageCount 2
-    # Intervalo de tempo para contar as requisições (em segundos)
-    DOSPageInterval 1
-    # Tempo de bloqueio (em segundos)
-    DOSBlockingPeriod 10
-</IfModule>
+# <IfModule mod_evasive20.c>
+#     # Número máximo de requisições para uma página em específico
+#     DOSPageCount 2
+#     # Intervalo de tempo para contar as requisições (em segundos)
+#     DOSPageInterval 1
+#     # Tempo de bloqueio (em segundos)
+#     DOSBlockingPeriod 10
+# </IfModule>
 
-# Limitar conexões simultâneas
-<IfModule mod_qos.c>
-    # Máximo de conexões simultâneas por IP
-    QS_ClientEntries 10
-    # Máximo de conexões simultâneas para o servidor
-    QS_SrvMaxConnPerIP 50
-</IfModule>
+# # Limitar conexões simultâneas
+# <IfModule mod_qos.c>
+#     # Máximo de conexões simultâneas por IP
+#     QS_ClientEntries 10
+#     # Máximo de conexões simultâneas para o servidor
+#     QS_SrvMaxConnPerIP 50
+# </IfModule>
 
-# Permitir acesso aos scripts e CSS específicos
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    # Permitir acesso a arquivos específicos fora do public
-    RewriteCond %{REQUEST_URI} \.(js|css|png|jpg|jpeg|gif|webp|svg)$
-    RewriteRule ^(.*)$ ../../$1 [L]
-</IfModule>
+# # Permitir acesso aos scripts e CSS específicos
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     # Permitir acesso a arquivos específicos fora do public
+#     RewriteCond %{REQUEST_URI} \.(js|css|png|jpg|jpeg|gif|webp|svg)$
+#     RewriteRule ^(.*)$ ../../$1 [L]
+# </IfModule>
 
-# Configurar headers corretos para JS e CSS
-<FilesMatch "\.(js|css)$">
-    Header set Cache-Control "public, max-age=31536000"
-    Header set X-Content-Type-Options "nosniff"
-</FilesMatch>
+# # Configurar headers corretos para JS e CSS
+# <FilesMatch "\.(js|css)$">
+#     Header set Cache-Control "public, max-age=31536000"
+#     Header set X-Content-Type-Options "nosniff"
+# </FilesMatch>
 
-# Configurar headers corretos para arquivos estáticos
-<FilesMatch "\.(js|css|png|jpg|jpeg|gif|webp|svg)$">
-    Header set Cache-Control "public, max-age=31536000"
-    Header set X-Content-Type-Options "nosniff"
-</FilesMatch>
+# # Configurar headers corretos para arquivos estáticos
+# <FilesMatch "\.(js|css|png|jpg|jpeg|gif|webp|svg)$">
+#     Header set Cache-Control "public, max-age=31536000"
+#     Header set X-Content-Type-Options "nosniff"
+# </FilesMatch>
