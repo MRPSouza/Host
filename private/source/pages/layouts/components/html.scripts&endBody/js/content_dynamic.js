@@ -94,17 +94,30 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch(window.location.pathname + "?get_seo_data=1")
         .then(response => response.json())
         .then(data => {
-            console.log("Dados disponíveis:", data);
+            console.log("Dados SEO carregados:", data);
             e = data;
-            checkAndPerformSearch();
             
-            let currentPath = window.location.pathname.split("/").pop() || "index";
-            currentPath = currentPath.replace('.php', '');
+            let currentPath = window.location.pathname.substring(1) || 'index';
+            currentPath = currentPath.replace(/\/$/, '').replace('.php', '');
             
-            if (!window.location.search && currentPath) {
+            console.log("Caminho atual:", currentPath);
+            
+            if (window.location.search) {
+                checkAndPerformSearch();
+            } 
+            else if (e[currentPath]) {
+                console.log("Carregando página:", currentPath);
                 n(currentPath);
+            } 
+            else if (currentPath !== 'index') {
+                console.log("Página não encontrada, carregando 404");
+                n('404');
             }
-        }).catch(t => console.error("Erro ao carregar dados SEO:", t));
+        })
+        .catch(error => {
+            console.error("Erro ao carregar dados SEO:", error);
+            n('404');
+        });
     
     document.body.addEventListener("click", function(t) {
         let e = t.target.closest("a[data-page]");
