@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("Página não encontrada:", pageName);
             fetch(`../private/source/pages/404.php`).then(t => t.text()).then(e => {
                 t.innerHTML = e;
-                history.pushState({page: '404'}, "", '404');
+                history.pushState({page: '404'}, "", '404.php');
                 console.log("Página 404 carregada");
             }).catch(e => {
                 console.error("Erro ao carregar a página 404:", e);
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     document.getElementById("twitter-url").setAttribute("content", pageData.link_canonico);
                     document.getElementById("apple-title").setAttribute("content", pageData.meta_titulo);
                     document.getElementById("apple-image").setAttribute("href", pageData.imagem_da_pagina_atual);
-                    const newUrl = pageName === 'index' ? '/' : `/${pageName}`;
+                    const newUrl = pageName === 'index' ? '/' : `/${pageName}.php`;
                     history.pushState({
                         page: pageName
                     }, "", newUrl);
@@ -91,16 +91,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    let currentPath = window.location.pathname.substring(1) || 'index';
+    currentPath = currentPath.replace(/\.php$/, '');
+    
     fetch(window.location.pathname + "?get_seo_data=1")
         .then(response => response.json())
         .then(data => {
             console.log("Dados SEO carregados:", data);
             e = data;
-            
-            let currentPath = window.location.pathname.substring(1) || 'index';
-            currentPath = currentPath.replace(/\/$/, '').replace('.php', '');
-            
-            console.log("Caminho atual:", currentPath);
             
             if (window.location.search) {
                 checkAndPerformSearch();
