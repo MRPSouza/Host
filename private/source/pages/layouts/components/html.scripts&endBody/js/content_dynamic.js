@@ -2,6 +2,37 @@ document.addEventListener("DOMContentLoaded", function() {
     let t = document.getElementById("content-dynamic"),
         e = {};
 
+    // Carregar dados SEO primeiro
+    fetch('/private/source/pages/data/seo_pages.json')  // Caminho correto para o JSON
+        .then(response => response.json())
+        .then(data => {
+            console.log("Dados SEO carregados:", data);
+            e = data;
+            
+            // Determinar a página atual
+            let currentPath = window.location.pathname.substring(1).replace(/\.php$/, '') || 'index';
+            
+            // Se estiver na raiz ou em index, carregar index
+            if (currentPath === '' || currentPath === 'index') {
+                console.log("Carregando página inicial");
+                n('index');
+            }
+            // Se a página existir nos dados SEO, carregá-la
+            else if (e[currentPath]) {
+                console.log("Carregando página:", currentPath);
+                n(currentPath);
+            }
+            // Caso contrário, carregar 404
+            else {
+                console.log("Página não encontrada, carregando 404");
+                n('404');
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao carregar dados SEO:", error);
+            n('404');
+        });
+
     function n(pageName) {
         console.log("Tentando carregar página:", pageName);
         console.log("Dados disponíveis:", e[pageName]);
@@ -9,18 +40,21 @@ document.addEventListener("DOMContentLoaded", function() {
         
         if (!a) {
             console.error("Página não encontrada:", pageName);
-            fetch(`../private/source/pages/404.php`).then(t => t.text()).then(e => {
-                t.innerHTML = e;
-                history.pushState({page: '404'}, "", '404.php');
-                console.log("Página 404 carregada");
-            }).catch(e => {
-                console.error("Erro ao carregar a página 404:", e);
-                t.innerHTML = "<p>Erro ao carregar a página</p>";
-            });
+            fetch(`/private/source/pages/404/404.php`)  // Caminho corrigido
+                .then(t => t.text())
+                .then(e => {
+                    t.innerHTML = e;
+                    history.pushState({page: '404'}, "", '/404.php');
+                    console.log("Página 404 carregada");
+                })
+                .catch(e => {
+                    console.error("Erro ao carregar a página 404:", e);
+                    t.innerHTML = "<p>Erro ao carregar a página</p>";
+                });
             return;
         }
 
-        fetch(`../private/source/pages/${pageName}/${pageName}.php`)
+        fetch(`/private/source/pages/${pageName}/${pageName}.php`)  // Caminho corrigido
             .then(t => t.text())
             .then(content => {
                 t.innerHTML = content;
@@ -47,9 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     document.getElementById("apple-title").setAttribute("content", pageData.meta_titulo);
                     document.getElementById("apple-image").setAttribute("href", pageData.imagem_da_pagina_atual);
                     const newUrl = pageName === 'index' ? '/' : `/${pageName}.php`;
-                    history.pushState({
-                        page: pageName
-                    }, "", newUrl);
+                    history.pushState({page: pageName}, "", newUrl);
                     console.log("Página carregada e meta tags atualizadas:", pageName);
                 }
             })
