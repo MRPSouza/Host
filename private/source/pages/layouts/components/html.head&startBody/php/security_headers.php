@@ -10,10 +10,6 @@ $script_hashes = [
     'sha256-51S9ThZdsSdNFIWpaX5ppEm6nt4j+XHVvU1xW/LH9ng=',
     'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk=',
     'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY=',
-    // Scripts do sistema
-    'sha256-51S9ThZdsSdNFIWpaX5ppEm6nt4j+XHVvU1xW/LH9ng=',  // script de animação
-    'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk=',  // outro script inline
-    'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY=',   // outro script inline
     'sha256-NFmvEJVcHjAZn/53ZMpRPLqOXAzQLT3+9FCNIOcPNG0=',
     'sha256-UwKR6eUgxJtLp5mCYmFeZzoLxJnpe4TJf45F2UjHHzg=',
     'sha256-cYqnrUYyQlkwgP3RtYwSoESjajoJ8ED/9pxPNiR7A5I=',
