@@ -84,13 +84,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    fetch('/private/source/pages/data/seo_pages.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
+    fetch(window.location.pathname + "?get_seo_data=1")
+        .then(response => response.json())
         .then(data => {
             console.log("Dados SEO carregados:", data);
             e = data;
