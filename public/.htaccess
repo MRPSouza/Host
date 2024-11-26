@@ -107,3 +107,12 @@ RewriteEngine On
     Header set Cache-Control "public, max-age=31536000"
     Header set X-Content-Type-Options "nosniff"
 </FilesMatch>
+
+# Permitir acesso direto aos arquivos estáticos
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(css|img|js)/.*$ - [L]
+
+# Redirecionar outras requisições para o index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L,QSA]
