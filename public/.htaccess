@@ -75,3 +75,14 @@ RewriteEngine On
 <FilesMatch "\.(js|css|png|jpg|jpeg|gif|webp|svg)$">
     Header set Cache-Control "public, max-age=31536000"
 </FilesMatch>
+
+# Adicione ou verifique se existe estas linhas
+AddType text/css .css
+AddType application/javascript .js
+
+# Configuração de tipos MIME
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType text/javascript .js
+    AddType application/javascript .js
+</IfModule>
