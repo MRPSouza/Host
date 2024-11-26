@@ -41,7 +41,7 @@ $style_hashes_str = implode("' '", $style_hashes);
 
 define('DEV_MODE', true);
 if(DEV_MODE){
-    $csp = "script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'";
+    $csp = "script-src 'unsafe-inline' 'unsafe-inline'; style-src 'unsafe-inline' 'unsafe-inline'";
     echo '<script>console.log("Alerta: Modo de desenvolvimento ativado");</script>';
 }
 else
