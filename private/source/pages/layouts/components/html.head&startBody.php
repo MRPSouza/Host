@@ -20,7 +20,7 @@ echo '<!DOCTYPE html><html lang="pt-br"><head>'.
 '<meta id="meta-title" name="title" content="'.$meta_titulo_da_pagina.'">'.
 '<meta id="meta-description" name="description" content="'.$meta_descricao.'">'.
 '<link id="canonical-link" rel="canonical" href="'.$link_canonico_da_pagina_atual.'">'.
-'<link id="page-css" rel="stylesheet" href="css/'.str_replace('.php', '.css', basename($current_page)).'">'.
+'<link id="page-css" rel="stylesheet" href="css/'.str_replace('.php', '', basename($current_page)).'.css">'.
 
 
 // <!-- Open Graph / Facebook -->
