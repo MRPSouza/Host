@@ -21,9 +21,9 @@
                         Políticas
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="politica_de_uso.php">Termos de Uso</a></li>
-                        <li><a class="dropdown-item" href="politica_de_privacidade.php">Privacidade</a></li>
-                        <li><a class="dropdown-item" href="politica_de_cookies.php">Cookies</a></li>
+                        <li><a class="dropdown-item" href="politica_de_uso" data-page="politica_de_uso">Termos de Uso</a></li>
+                        <li><a class="dropdown-item" href="politica_de_privacidade" data-page="politica_de_privacidade">Privacidade</a></li>
+                        <li><a class="dropdown-item" href="politica_de_cookies" data-page="politica_de_cookies">Cookies</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

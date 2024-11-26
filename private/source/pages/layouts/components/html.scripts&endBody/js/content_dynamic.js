@@ -95,13 +95,14 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("Dados disponíveis:", data);
             e = data;
             checkAndPerformSearch();
-            let a = window.location.pathname.split("/").pop() || "index";
-            a = a.replace('.php', '');
-            if (!a || a === '/') a = "index";
-            if (!window.location.search) {
-                n(a);
+            
+            let currentPath = window.location.pathname.split("/").pop() || "index";
+            currentPath = currentPath.replace('.php', '');
+            
+            if (!window.location.search && currentPath) {
+                n(currentPath);
             }
-        }).catch(t => {}),
+        }).catch(t => console.error("Erro ao carregar dados SEO:", t));
     
     document.body.addEventListener("click", function(t) {
         let e = t.target.closest("a[data-page]");
