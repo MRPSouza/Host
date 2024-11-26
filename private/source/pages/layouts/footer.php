@@ -5,7 +5,7 @@
                 <!-- Logo e Descrição -->
                 <div class="col-lg-4 col-md-6">
                     <div class="footer-info">
-                        <img src="img/logo - Mister Cel 2.png" alt="Logo Mister Cel" class="footer-logo mb-4">
+                        <img src="img/logo-mister-cel.png" alt="Logo Mister Cel" class="footer-logo mb-4">
                         <p class="footer-description">
                             Especialistas em reparos de celulares, tablets e notebooks. 
                             Qualidade e confiança para cuidar do seu dispositivo.
