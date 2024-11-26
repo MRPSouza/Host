@@ -25,7 +25,8 @@ $script_hashes = [
     'sha256-d6MhXPGKHgj5QgE+0nM7Ra+5XEQN570BMDXwhH627WM=',
     'sha256-ktsoVgZzBrCc7uWJHbouqdvgwtNoNKxhKFR9j81Ni0E=',
     'sha256-gUt3x4oAYKg4ROSECT8OWrXYpMRZsKZAg6rtLgTM4wE=',
-    'sha256-o+ChJmE+JVyXAsOt12Q7OHrs5Kc8TG/xTH/iNfirUlI='
+    'sha256-o+ChJmE+JVyXAsOt12Q7OHrs5Kc8TG/xTH/iNfirUlI=',
+    'sha256-twP1+mr3IBjPhiEOK3uaSdYc/q04Q1MWFPIlIvU/M6A='
 ];
 
 // Todas as hashes para estilos inline
