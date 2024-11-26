@@ -23,6 +23,25 @@ $external_resources = [
     ]
 ];
 
+$local_scripts = [
+    'content_dynamic' => [
+        'path' => '../private/source/pages/layouts/components/html.scripts&endBody/js/content_dynamic.js',
+        'version' => '1.0'
+    ],
+    'resize_body' => [
+        'path' => '../private/source/pages/layouts/components/html.scripts&endBody/js/resize_body_bootstrap.js',
+        'version' => '1.0'
+    ],
+    'iframe_restrict' => [
+        'path' => '../private/source/pages/layouts/components/html.scripts&endBody/js/restriction_against_iframe.js',
+        'version' => '1.0'
+    ],
+    'tooltip' => [
+        'path' => '../private/source/pages/layouts/components/html.scripts&endBody/js/tooltip_popover.js',
+        'version' => '1.0'
+    ]
+]; 
+
 $nome_empresa = 'Matheus R P Souza';
 $nome_site = '';
 $author = 'Matheus R P Souza';

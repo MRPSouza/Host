@@ -8,6 +8,8 @@
         Título, descrição e o H1 devem ser únicos em cada página.
     */
 
+    $current_css = 'not_found.css';
+
     $current_page = basename($_SERVER['PHP_SELF'], '.php'); // Não mexer !!
 
     $pages_config = [
@@ -123,7 +125,7 @@
         $meta_descricao                 = '';
         $link_canonico_da_pagina_atual  = '';
         $meta_palavras_chaves           = '';
-        $current_css                    = 'index.css';
+        $current_css                    = 'not_found.css';
         $page_current                   = $current_page;
         $imagem_da_pagina_atual         = '';
         $robots                         = 'nofollow, noindex';

@@ -6,9 +6,6 @@
     # Definir a visibilidade da página
     require_once('../private/source/pages/config/page_visibility/page_public.php');
 
-    # Primeiro carregar os scripts locais que definem os nonces
-    require_once '../private/source/pages/layouts/components/html.scripts&endBody/php/local_scripts.php';
-
     # Depois carregar o security headers que usa os nonces
     require_once '../private/source/pages/layouts/components/html.head&startBody/php/security_headers.php';
 
