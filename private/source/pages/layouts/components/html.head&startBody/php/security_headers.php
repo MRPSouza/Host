@@ -6,7 +6,7 @@ header_remove("Content-Security-Policy-Report-Only");
 // Todas as hashes para scripts inline
 $script_hashes = [
     'sha256-jNUaLyKtUOtTVaAUziqIV9DJCNPr3ty5ZK4o7WIe1TU=',
-    'sha256-nIM4BcNJOC4LkaaAAZi8OIyVCMQckbzj+xSGRQXwflY=',  // Hash que o navegador está esperando
+    'sha256-nIM4BcNJOC4LkaaAAZi8OIyVCMQckbzj+xSGRQXwflY=',
     'sha256-51S9ThZdsSdNFIWpaX5ppEm6nt4j+XHVvU1xW/LH9ng=',
     'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk=',
     'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY=',
@@ -15,7 +15,11 @@ $script_hashes = [
     'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk=',  // outro script inline
     'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY=',   // outro script inline
     'sha256-NFmvEJVcHjAZn/53ZMpRPLqOXAzQLT3+9FCNIOcPNG0=',
-    'sha256-UwKR6eUgxJtLp5mCYmFeZzoLxJnpe4TJf45F2UjHHzg='
+    'sha256-UwKR6eUgxJtLp5mCYmFeZzoLxJnpe4TJf45F2UjHHzg=',
+    'sha256-cYqnrUYyQlkwgP3RtYwSoESjajoJ8ED/9pxPNiR7A5I=',
+    'sha256-yNkWmSfORy6YeljrSbrNoQf9dfYGQIKqIbg67fXggO0=',
+    'sha256-L7LVnmJr2aJMnM4/QVWknVWULQTUlXyFUqIyOf0Xsew=',
+    'sha256-r3pjISWNgs7KC6pPQauTQMCvZlJsnQHv7PYURUa28/s='
 ];
 
 // Todas as hashes para estilos inline
