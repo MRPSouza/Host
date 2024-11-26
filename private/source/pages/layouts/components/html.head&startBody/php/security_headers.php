@@ -39,7 +39,6 @@ $csp = "default-src 'self'; " .
     "style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com '" . $style_hashes_str . "'; " .
     "font-src 'self' https://cdnjs.cloudflare.com data:; " .
     "img-src 'self' data: https://www.matheusrpsouza.com; " .
-    "connect-src 'self' http://localhost; " .
     "frame-ancestors 'none'; " .
     "form-action 'self'; " .
     "base-uri 'self'; " .
