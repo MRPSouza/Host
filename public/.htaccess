@@ -1,92 +1,92 @@
-# Verifica se o módulo de reescrita está disponível
-RewriteEngine On
+# # Verifica se o módulo de reescrita está disponível
+# RewriteEngine On
 
-# Headers de segurança
-<IfModule mod_headers.c>
-    # Configurações de cookies mais seguras
-    Header always edit Set-Cookie (.*) "$1; HttpOnly; Secure; SameSite=Strict"
+# # Headers de segurança
+# <IfModule mod_headers.c>
+#     # Configurações de cookies mais seguras
+#     Header always edit Set-Cookie (.*) "$1; HttpOnly; Secure; SameSite=Strict"
     
-    # Headers de segurança aprimorados
-    Header set X-XSS-Protection "1; mode=block"
-    Header set X-Frame-Options "DENY"
-    Header set X-Content-Type-Options "nosniff"
-    Header set Referrer-Policy "strict-origin-when-cross-origin"
-    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-</IfModule>
+#     # Headers de segurança aprimorados
+#     Header set X-XSS-Protection "1; mode=block"
+#     Header set X-Frame-Options "DENY"
+#     Header set X-Content-Type-Options "nosniff"
+#     Header set Referrer-Policy "strict-origin-when-cross-origin"
+#     Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+# </IfModule>
 
-# Configurações de diretório
-<IfModule mod_autoindex.c>
-    Options -Indexes +FollowSymLinks
-</IfModule>
+# # Configurações de diretório
+# <IfModule mod_autoindex.c>
+#     Options -Indexes +FollowSymLinks
+# </IfModule>
 
-# Proteção de arquivos - IMPORTANTE: Mudando de "granted" para "all denied" exceto arquivos públicos
-<IfModule mod_authz_core.c>
-    # Protege arquivos ocultos
-    <FilesMatch "^\.(?!well-known)">
-        Require all denied
-    </FilesMatch>
+# # Proteção de arquivos - IMPORTANTE: Mudando de "granted" para "all denied" exceto arquivos públicos
+# <IfModule mod_authz_core.c>
+#     # Protege arquivos ocultos
+#     <FilesMatch "^\.(?!well-known)">
+#         Require all denied
+#     </FilesMatch>
     
-    # Bloqueia acesso a arquivos sensíveis
-    <FilesMatch "(?i:composer\.json|composer\.lock|package\.json|package-lock\.json|\.gitignore|\.env)$">
-        Require all denied
-    </FilesMatch>
+#     # Bloqueia acesso a arquivos sensíveis
+#     <FilesMatch "(?i:composer\.json|composer\.lock|package\.json|package-lock\.json|\.gitignore|\.env)$">
+#         Require all denied
+#     </FilesMatch>
     
-    # Permite acesso a arquivos estáticos
-    <FilesMatch "\.(css|js|png|jpg|jpeg|gif|webp|svg|ico|woff|woff2|ttf|eot)$">
-        Require all granted
-    </FilesMatch>
-</IfModule>
+#     # Permite acesso a arquivos estáticos
+#     <FilesMatch "\.(css|js|png|jpg|jpeg|gif|webp|svg|ico|woff|woff2|ttf|eot)$">
+#         Require all granted
+#     </FilesMatch>
+# </IfModule>
 
-# Regras de reescrita para arquivos estáticos
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /
+# # Regras de reescrita para arquivos estáticos
+# <IfModule mod_rewrite.c>
+#     RewriteEngine On
+#     RewriteBase /
     
-    # Permitir acesso direto a arquivos existentes
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [L]
+#     # Permitir acesso direto a arquivos existentes
+#     RewriteCond %{REQUEST_FILENAME} -f [OR]
+#     RewriteCond %{REQUEST_FILENAME} -d
+#     RewriteRule ^ - [L]
     
-    # Redirecionar todas as outras requisições para o index.php
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [L,QSA]
+#     # Redirecionar todas as outras requisições para o index.php
+#     RewriteCond %{REQUEST_FILENAME} !-f
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteRule ^(.*)$ index.php [L,QSA]
     
-    # Garantir que as URLs sem .php funcionem
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME}.php -f
-    RewriteRule ^([^\.]+)$ $1.php [NC,L]
-</IfModule>
+#     # Garantir que as URLs sem .php funcionem
+#     RewriteCond %{REQUEST_FILENAME} !-d
+#     RewriteCond %{REQUEST_FILENAME}.php -f
+#     RewriteRule ^([^\.]+)$ $1.php [NC,L]
+# </IfModule>
 
-# Cache para arquivos estáticos
-<IfModule mod_expires.c>
-    ExpiresActive On
-    ExpiresByType image/jpg "access plus 1 year"
-    ExpiresByType image/jpeg "access plus 1 year"
-    ExpiresByType image/gif "access plus 1 year"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType image/webp "access plus 1 year"
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
-</IfModule>
+# # Cache para arquivos estáticos
+# <IfModule mod_expires.c>
+#     ExpiresActive On
+#     ExpiresByType image/jpg "access plus 1 year"
+#     ExpiresByType image/jpeg "access plus 1 year"
+#     ExpiresByType image/gif "access plus 1 year"
+#     ExpiresByType image/png "access plus 1 year"
+#     ExpiresByType image/webp "access plus 1 year"
+#     ExpiresByType text/css "access plus 1 month"
+#     ExpiresByType application/javascript "access plus 1 month"
+# </IfModule>
 
-# Compressão GZIP
-<IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/xml application/xhtml+xml application/javascript application/x-javascript
-</IfModule>
+# # Compressão GZIP
+# <IfModule mod_deflate.c>
+#     AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/xml application/xhtml+xml application/javascript application/x-javascript
+# </IfModule>
 
-# Headers para arquivos estáticos
-<FilesMatch "\.(js|css|png|jpg|jpeg|gif|webp|svg)$">
-    Header set Cache-Control "public, max-age=31536000"
-</FilesMatch>
+# # Headers para arquivos estáticos
+# <FilesMatch "\.(js|css|png|jpg|jpeg|gif|webp|svg)$">
+#     Header set Cache-Control "public, max-age=31536000"
+# </FilesMatch>
 
-# Adicione ou verifique se existe estas linhas
-AddType text/css .css
-AddType application/javascript .js
+# # Adicione ou verifique se existe estas linhas
+# AddType text/css .css
+# AddType application/javascript .js
 
-# Configuração de tipos MIME
-<IfModule mod_mime.c>
-    AddType text/css .css
-    AddType text/javascript .js
-    AddType application/javascript .js
-</IfModule>
+# # Configuração de tipos MIME
+# <IfModule mod_mime.c>
+#     AddType text/css .css
+#     AddType text/javascript .js
+#     AddType application/javascript .js
+# </IfModule>
