@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch(window.location.pathname + "?get_seo_data=1")
         .then(response => response.json())
         .then(data => {
-            console.log("Dados SEO carregados:", data);
+            console.log("Dados disponíveis:", data);
             e = data;
             checkAndPerformSearch();
             let a = window.location.pathname.split("/").pop() || "index";
@@ -96,12 +96,8 @@ document.addEventListener("DOMContentLoaded", function() {
             if (!window.location.search) {
                 n(a);
             }
-        })
-        .catch(error => {
-            console.error("Erro ao carregar seo_pages.json:", error);
-            t.innerHTML = "<p>Erro ao carregar o conteúdo</p>";
-        });
-
+        }).catch(t => console.error("Erro ao carregar seo_pages.json:", t)),
+    
     document.body.addEventListener("click", function(t) {
         let e = t.target.closest("a[data-page]");
         if (e) {
