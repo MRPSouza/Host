@@ -5,11 +5,8 @@ header_remove("Content-Security-Policy-Report-Only");
 
 // Todas as hashes para scripts inline
 $script_hashes = [
-    // Hashes dos scripts que foram movidos para inline
-    'sha256-HASH_DO_CONTENT_DYNAMIC',
-    'sha256-HASH_DO_RESIZE_BODY',
-    'sha256-HASH_DO_RESTRICTION_IFRAME',
-    'sha256-HASH_DO_TOOLTIP',
+    'sha256-jNUaLyKtUOtTVaAUziqIV9DJCNPr3ty5ZK4o7WIe1TU=',
+
     // Scripts do sistema
     'sha256-/yEukiPDyWeiR5/u2hVikJC3uosEgFcgNbCwGmPF0XI=',  // content_dynamic.js
     'sha256-90ZdoC9kHId7WVKDYd0K5xvj/8aZ6oM9udkLtBGNx7Q=',  // resize_body_bootstrap.js
