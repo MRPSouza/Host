@@ -40,15 +40,14 @@ RewriteEngine On
 # Regras de reescrita para arquivos estáticos
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
     
-    # Se o arquivo/diretório não existe, continua as regras
+    # Se o arquivo/diretório não existe, redireciona para index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [L,QSA]
     
-    # Redireciona para o index.php
-    RewriteRule ^(.*)$ index.php [QSA,L]
-    
-    # Permite acesso direto a arquivos estáticos existentes
+    # Não redirecionar para arquivos/diretórios existentes
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
