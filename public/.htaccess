@@ -91,19 +91,19 @@
 # Permitir acesso aos scripts e CSS específicos
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    
-    # Permitir acesso aos arquivos JS específicos
-    RewriteRule ^private/source/pages/layouts/components/html\.scripts&endBody/js/content_dynamic\.js$ ../private/source/pages/layouts/components/html.scripts&endBody/js/content_dynamic.js [L]
-    RewriteRule ^private/source/pages/layouts/components/html\.scripts&endBody/js/resize_body_bootstrap\.js$ ../private/source/pages/layouts/components/html.scripts&endBody/js/resize_body_bootstrap.js [L]
-    RewriteRule ^private/source/pages/layouts/components/html\.scripts&endBody/js/restriction_against_iframe\.js$ ../private/source/pages/layouts/components/html.scripts&endBody/js/restriction_against_iframe.js [L]
-    RewriteRule ^private/source/pages/layouts/components/html\.scripts&endBody/js/tooltip_popover\.js$ ../private/source/pages/layouts/components/html.scripts&endBody/js/tooltip_popover.js [L]
-    
-    # Permitir acesso aos arquivos CSS
-    RewriteRule ^private/source/pages/layouts/components/html\.head&startBody/css/([^/]+)\.css$ ../private/source/pages/layouts/components/
+    # Permitir acesso a arquivos específicos fora do public
+    RewriteCond %{REQUEST_URI} \.(js|css|png|jpg|jpeg|gif|webp|svg)$
+    RewriteRule ^(.*)$ ../../$1 [L]
 </IfModule>
 
 # Configurar headers corretos para JS e CSS
 <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000"
+    Header set X-Content-Type-Options "nosniff"
+</FilesMatch>
+
+# Configurar headers corretos para arquivos estáticos
+<FilesMatch "\.(js|css|png|jpg|jpeg|gif|webp|svg)$">
     Header set Cache-Control "public, max-age=31536000"
     Header set X-Content-Type-Options "nosniff"
 </FilesMatch>
