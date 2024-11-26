@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
             "meta-title": ["meta_titulo", "content"],
             "meta-description": ["meta_descricao", "content"],
             "canonical-link": ["link_canonico", "href"],
-            "page-css": ["extension", "href"],
+            "current-css": ["extension", "href"],
             "og-title": ["meta_titulo", "content"],
             "og-description": ["meta_descricao", "content"],
             "og-url": ["link_canonico", "content"],
