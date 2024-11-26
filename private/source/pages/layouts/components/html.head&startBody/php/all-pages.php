@@ -54,6 +54,29 @@ if ($nome_site <> ''){$nome_site = ' - '.$nome_site;}
 if (isset($_GET['get_seo_data'])) {
     header('Content-Type: application/json');
     $json_file = "../private/source/pages/data/seo_pages.json";
-    echo file_get_contents($json_file);
+    
+    // Adicionar verificação de erro
+    if (!file_exists($json_file)) {
+        http_response_code(404);
+        echo json_encode(['error' => 'Arquivo não encontrado']);
+        exit;
+    }
+    
+    $json_content = file_get_contents($json_file);
+    if ($json_content === false) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Erro ao ler arquivo']);
+        exit;
+    }
+    
+    // Verificar se é JSON válido
+    $decoded = json_decode($json_content);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        http_response_code(500);
+        echo json_encode(['error' => 'JSON inválido']);
+        exit;
+    }
+    
+    echo $json_content;
     exit;
 }

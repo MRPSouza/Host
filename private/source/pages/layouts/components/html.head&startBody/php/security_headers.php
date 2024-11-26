@@ -18,7 +18,14 @@ $script_hashes = [
     'sha256-r3pjISWNgs7KC6pPQauTQMCvZlJsnQHv7PYURUa28/s=',
     'sha256-Gq0FhTSKdZSEleBC+hLQri648xC8ghK+E695pBug4XI=',
     'sha256-mWyJmBu+UE1ITy5GR5OLLmdIfGdx7bF4FL2ii86f7Ak=',
-    'sha256-mkiWDNshlx3TP8EQ7uodBADmHv9w7JZ/574ahpDzjiQ='
+    'sha256-mkiWDNshlx3TP8EQ7uodBADmHv9w7JZ/574ahpDzjiQ=',
+    'sha256-wShYhjL/WEbqxgBgWQPvW6VSsr1gGYvGj9ZPDNsVK3w=',
+    'sha256-k9ISLWHcPDNxxmLk/z1Kmn5JcTnyxlLgbQgQkI+zmjg=',
+    'sha256-OPlvV0PukpmbD8NgO7FYL0fXmC6HWYqI5Z4/GoE+D4w=',
+    'sha256-d6MhXPGKHgj5QgE+0nM7Ra+5XEQN570BMDXwhH627WM=',
+    'sha256-ktsoVgZzBrCc7uWJHbouqdvgwtNoNKxhKFR9j81Ni0E=',
+    'sha256-gUt3x4oAYKg4ROSECT8OWrXYpMRZsKZAg6rtLgTM4wE=',
+    'sha256-o+ChJmE+JVyXAsOt12Q7OHrs5Kc8TG/xTH/iNfirUlI='
 ];
 
 // Todas as hashes para estilos inline
