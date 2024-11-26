@@ -38,7 +38,8 @@ echo '<!DOCTYPE html><html lang="pt-br"><head>'.
 
 // <!-- Apple -->
 '<meta id="apple-title" name="apple-mobile-web-app-title" content="'.$titulo_da_aba.'">'.
-'<link id="apple-image" rel="apple-touch-icon" href="'.$imagem_da_pagina_atual.'">';
+'<link id="apple-image" rel="apple-touch-icon" href="'.$imagem_da_pagina_atual.'">'.
+'<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">';
 
 # Recursos externos (CSS e JS)
 foreach ($external_resources as $key => $resource) {

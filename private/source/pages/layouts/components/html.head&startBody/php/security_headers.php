@@ -37,7 +37,7 @@ $csp = "default-src 'self'; " .
        implode(" ", array_map(function($hash) { return "'$hash'"; }, $script_hashes)) . "; " .
     "style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com '" . $style_hashes_str . "'; " .
     "font-src 'self' https://cdnjs.cloudflare.com data:; " .
-    "img-src 'self' data:; " .
+    "img-src 'self' data: https://www.matheusrpsouza.com; " .
     "connect-src 'self' http://localhost; " .
     "frame-ancestors 'none'; " .
     "form-action 'self'; " .
