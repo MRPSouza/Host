@@ -5,7 +5,7 @@ header_remove("Content-Security-Policy-Report-Only");
 
 // Todas as hashes para scripts inline
 $script_hashes = [
-    'sha256-jNUaLyKtUOtTVaAUziqIV9DJCNPr3ty5ZK4o7WIe1TU=',    $script_hashes = [
+    'sha256-jNUaLyKtUOtTVaAUziqIV9DJCNPr3ty5ZK4o7WIe1TU=',
     'sha256-nIM4BcNJOC4LkaaAAZi8OIyVCMQckbzj+xSGRQXwflY=',  // Hash que o navegador está esperando
     'sha256-51S9ThZdsSdNFIWpaX5ppEm6nt4j+XHVvU1xW/LH9ng=',
     'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk=',
