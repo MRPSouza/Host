@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let a = e[n];
         if (!a) {
             console.error("Página não encontrada:", n);
-            fetch(`../private/source/pages/404.php`).then(t => t.text()).then(e => {
+            fetch(`/page_loader.php?page=404`).then(t => t.text()).then(e => {
                 t.innerHTML = e;
                 history.pushState({page: '404'}, "", '404');
                 console.log("Página 404 carregada");
@@ -18,19 +18,16 @@ document.addEventListener("DOMContentLoaded", function() {
             });
             return;
         }
-        fetch(`../private/source/pages/${n}.php`).then(t => t.text()).then(e => {
-            var o;
-            t.innerHTML = e, o = a,
-                updateMetaTags(o);
-                newUrl = n === 'index' ? 'index/../' : `${n}`;
-                history.pushState({
-                    page: n
-                }, "", newUrl),
-                console.log("Página carregada e meta tags atualizadas:", n)
+        fetch(`/page_loader.php?page=${n}`).then(t => t.text()).then(e => {
+            t.innerHTML = e;
+            updateMetaTags(a);
+            newUrl = n === 'index' ? '/' : `/${n}`;
+            history.pushState({page: n}, "", newUrl);
+            console.log("Página carregada e meta tags atualizadas:", n)
         }).catch(e => {
-            console.error("Erro ao carregar a página:", e), t.innerHTML = "<p>Erro ao carregar a página</p>";
-
-        })
+            console.error("Erro ao carregar a página:", e);
+            t.innerHTML = "<p>Erro ao carregar a página</p>";
+        });
     }
 
     function updateMetaTags(o) {
