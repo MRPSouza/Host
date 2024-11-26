@@ -39,8 +39,14 @@ $style_hashes = [
 $script_hashes_str = implode("' '", $script_hashes);
 $style_hashes_str = implode("' '", $style_hashes);
 
-// Construir a política CSP
-$csp = "default-src 'self'; " .
+define('DEV_MODE', true);
+if(DEV_MODE){
+    $csp = "script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'";
+    echo '<script>console.log("Alerta: Modo de desenvolvimento ativado");</script>';
+}
+else
+{
+    $csp = "default-src 'self'; " .
     "script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com " . 
        implode(" ", array_map(function($hash) { return "'$hash'"; }, $script_hashes)) . "; " .
     "style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com '" . $style_hashes_str . "'; " .
@@ -52,6 +58,8 @@ $csp = "default-src 'self'; " .
     "form-action 'self'; " .
     "base-uri 'self'; " .
     "object-src 'self'";
+    echo '<script>console.log("Alerta: Modo de produção/proteção ativado");</script>';
+}
 
 header("Content-Security-Policy: $csp");
 ?>
