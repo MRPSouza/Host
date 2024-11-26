@@ -49,7 +49,7 @@ $csp = "default-src 'self'; " .
        implode(" ", array_map(function($hash) { return "'$hash'"; }, $script_hashes)) . "; " .
     "style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com '" . $style_hashes_str . "'; " .
     "font-src 'self' https://cdnjs.cloudflare.com data:; " .
-    "img-src 'self' data:; " .
+    "img-src 'self' data: https: http: *; " .
     "media-src 'self' data: https://* http://*; " .
     "connect-src 'self' *; " .
     "frame-ancestors 'self'; " .
