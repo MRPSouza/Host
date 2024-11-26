@@ -3,32 +3,30 @@ document.addEventListener("DOMContentLoaded", function() {
         e = {};
 
     function n(n) {
-        console.log("Tentando carregar página:", n);
-        console.log("Dados disponíveis:", e[n]);
-        let a = e[n];
-        if (!a) {
-            console.error("Página não encontrada:", n);
-            fetch(`/page_loader.php?page=404`).then(t => t.text()).then(e => {
-                t.innerHTML = e;
-                history.pushState({page: '404'}, "", '404');
-                console.log("Página 404 carregada");
-            }).catch(e => {
-                console.error("Erro ao carregar a página 404:", e);
-                t.innerHTML = "<p>Erro ao carregar a página</p>";
-            });
+        if (!n) {
+            console.error("Nome da página não fornecido");
             return;
         }
-        fetch(`/page_loader.php?page=${n}`).then(t => t.text()).then(e => {
-            t.innerHTML = e;
-            updateMetaTags(a);
-            checkImageLoading();
-            newUrl = n === 'index' ? '/' : `/${n}`;
-            history.pushState({page: n}, "", newUrl);
-            console.log("Página carregada e meta tags atualizadas:", n)
-        }).catch(e => {
-            console.error("Erro ao carregar a página:", e);
-            t.innerHTML = "<p>Erro ao carregar a página</p>";
-        });
+        
+        fetch(`/page_loader.php?page=${encodeURIComponent(n)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(e => {
+                t.innerHTML = e;
+                updateMetaTags(a);
+                checkImageLoading();
+                let newUrl = n === 'index' ? '/' : `/${n}`;
+                history.pushState({page: n}, "", newUrl);
+                console.log("Página carregada e meta tags atualizadas:", n)
+            })
+            .catch(error => {
+                console.error("Erro ao carregar a página:", error);
+                t.innerHTML = "<p>Erro ao carregar a página</p>";
+            });
     }
 
     function updateMetaTags(o) {
@@ -64,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (element) {
                 let value;
                 if (id === "current-css") {
-                    value = `css/${o[jsonKey].replace(".php", ".css")}`;
+                    value = `/css/${o[jsonKey].replace(".php", ".css")}`;
                 } else if (id.includes("image")) {
                     value = o[jsonKey] ? `/img/${o[jsonKey]}` : '';
                     console.log(`Processando imagem ${id}:`, value);
@@ -87,11 +85,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function checkImageLoading() {
         document.querySelectorAll('img').forEach(img => {
+            if (img.src.includes('%20')) {
+                img.src = img.src.replace(/%20/g, '-').toLowerCase();
+            }
+            
             img.onerror = function() {
                 console.error(`Erro ao carregar imagem: ${img.src}`);
-                // Opcional: definir uma imagem padrão
-                // img.src = '/img/default.png';
+                img.src = '/img/default.png';
             };
+            
             img.onload = function() {
                 console.log(`Imagem carregada com sucesso: ${img.src}`);
             };
@@ -131,8 +133,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     fetch(window.location.pathname + "?get_seo_data=1")
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
+            if (!data) {
+                throw new Error('Dados SEO não encontrados');
+            }
             console.log("Dados disponíveis:", data);
             e = data;
             checkAndPerformSearch();
@@ -142,8 +152,12 @@ document.addEventListener("DOMContentLoaded", function() {
             if (!window.location.search) {
                 n(a);
             }
-        }).catch(t => console.error("Erro ao carregar seo_pages.json:", t)),
-    
+        }).catch(error => {
+            console.error("Erro ao carregar seo_pages.json:", error);
+            // Tratamento de fallback
+            t.innerHTML = "<p>Erro ao carregar o conteúdo</p>";
+        });
+
     document.body.addEventListener("click", function(t) {
         let e = t.target.closest("a[data-page]");
         if (e) {
