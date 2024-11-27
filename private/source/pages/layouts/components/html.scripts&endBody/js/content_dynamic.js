@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Carregar dados SEO do JSON
     async function loadSeoData() {
         try {
-            // Criar um endpoint PHP específico para servir os dados SEO
-            const response = await fetch('api/get-seo-data.php');
+            // Corrigindo o caminho para o arquivo JSON
+            const response = await fetch('../private/source/pages/data/seo_pages.json');
             seoData = await response.json();
         } catch (error) {
             console.error('Erro ao carregar dados SEO:', error);
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Corrigindo os caminhos das requisições
             const [publicResponse, contentResponse] = await Promise.all([
                 fetch(`/${page}${extension}`),
-                fetch(`/private/source/pages/${page}${extension}`)
+                fetch(`../private/source/pages/${page}${extension}`)
             ]);
 
             // Obter o conteúdo da página pública
