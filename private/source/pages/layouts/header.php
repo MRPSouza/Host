@@ -27,7 +27,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link cadastro-btn" href="cadastro.php" data-page="cadastro">Cadastre-se</a>
+                    <a class="nav-link cadastro-btn" href="cadastro" data-page="cadastro">Cadastre-se</a>
                 </li>
             </ul>
         </div>
