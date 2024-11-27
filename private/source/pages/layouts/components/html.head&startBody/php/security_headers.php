@@ -41,18 +41,7 @@ $style_hashes_str = implode("' '", $style_hashes);
 
 define('DEV_MODE', true);
 if(DEV_MODE){
-    $csp = "default-src 'self'; " .
-           "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " .
-           "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " .
-           "style-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; " .
-           "font-src 'self' https://cdnjs.cloudflare.com data:; " .
-           "img-src 'self' data: https: http: *; " .
-           "media-src 'self' data: https://* http://*; " .
-           "connect-src 'self' *; " .
-           "frame-ancestors 'self'; " .
-           "form-action 'self'; " .
-           "base-uri 'self'; " .
-           "object-src 'self'";
+    $csp = "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;";
     echo '<script>console.log("Alerta: Modo de desenvolvimento ativado");</script>';
 }
 else
