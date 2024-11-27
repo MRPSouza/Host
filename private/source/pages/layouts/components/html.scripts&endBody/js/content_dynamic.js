@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Carregar dados SEO do JSON
     async function loadSeoData() {
         try {
-            // Caminho a partir da pasta public
-            const response = await fetch('../private/source/pages/data/seo_pages.json');
+            // Corrigindo o caminho para o arquivo JSON
+            const response = await fetch('/private/source/pages/data/seo_pages.json');
             seoData = await response.json();
         } catch (error) {
             console.error('Erro ao carregar dados SEO:', error);
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // Verificar se a página existe no seoData
             if (!seoData || !seoData[page]) {
-                window.location.href = '404.php';
+                window.location.href = '/404.php';
                 return;
             }
 
@@ -40,10 +40,13 @@ document.addEventListener('DOMContentLoaded', function() {
             contentDiv.style.opacity = '0.6';
             contentDiv.style.transition = 'opacity 0.2s ease';
 
-            // Fazer duas requisições: uma para o arquivo público e outra para o conteúdo
+            // Obter a extensão do arquivo do seoData
+            const extension = seoData[page].extension || '.php';
+
+            // Corrigindo os caminhos das requisições
             const [publicResponse, contentResponse] = await Promise.all([
-                fetch(`${page}.php`),
-                fetch(`../private/source/pages/${page}.php`)
+                fetch(`/${page}${extension}`),
+                fetch(`/private/source/pages/${page}${extension}`)
             ]);
 
             // Obter o conteúdo da página pública
@@ -63,13 +66,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 50);
 
             // Atualizar a URL sem recarregar a página
-            history.pushState({page: page}, '', `${page}.php`);
+            history.pushState({page: page}, '', `${page}${extension}`);
             
             // Atualizar elementos do head
             updateHeadElements(page, seoData[page]);
             
         } catch (error) {
             console.error('Erro ao carregar a página:', error);
+            window.location.href = '/404.php';
         }
     }
 
