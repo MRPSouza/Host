@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Carregar dados SEO do JSON
     async function loadSeoData() {
         try {
-            const response = await fetch('../../../../../data/seo_pages.json');
+            const response = await fetch('../private/source/pages/data/seo_pages.json');
             seoData = await response.json();
         } catch (error) {
             console.error('Erro ao carregar dados SEO:', error);
