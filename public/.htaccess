@@ -27,12 +27,12 @@
 #     </FilesMatch>
     
 #     # Bloqueia acesso a arquivos sensíveis
-#     <FilesMatch "(?i:composer\.json|composer\.lock|package\.json|package-lock\.json|\.gitignore|\.env)$">
+#     <FilesMatch "(?i:composer\.lock|\.gitignore|\.env)$">
 #         Require all denied
 #     </FilesMatch>
     
 #     # Permite acesso a arquivos estáticos
-#     <FilesMatch "\.(css|js|png|jpg|jpeg|gif|webp|svg|ico|woff|woff2|ttf|eot)$">
+#     <FilesMatch "\.(css|js|png|jpg|jpeg|gif|webp|svg|ico|woff|woff2|ttf|eot|json)$">
 #         Require all granted
 #     </FilesMatch>
 # </IfModule>
