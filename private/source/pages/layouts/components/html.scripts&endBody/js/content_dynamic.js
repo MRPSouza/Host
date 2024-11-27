@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function loadSeoData() {
         try {
             // Criar um endpoint PHP específico para servir os dados SEO
-            const response = await fetch('/api/get-seo-data.php');
+            const response = await fetch('api/get-seo-data.php');
             seoData = await response.json();
         } catch (error) {
             console.error('Erro ao carregar dados SEO:', error);
