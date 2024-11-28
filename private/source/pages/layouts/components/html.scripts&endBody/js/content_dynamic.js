@@ -12,39 +12,26 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             let response;
             
-            // Debug para tentar todos os caminhos
-            const caminhosTentados = [
-                '/private/source/pages/data/seo_pages.json',
-                '/data/seo_pages.json',
-                'data/seo_pages.json'
-            ];
-
-            console.log('Tentando carregar SEO data dos seguintes caminhos:', caminhosTentados);
-            
             try {
-                // Tenta primeiro o caminho absoluto
-                response = await fetch('/private/source/pages/data/seo_pages.json');
-                if (!response.ok) throw new Error('Caminho absoluto não encontrado');
+                // Tenta a partir da raiz do site (public)
+                response = await fetch('../private/source/pages/data/seo_pages.json');
+                if (!response.ok) throw new Error('Caminho a partir da public não encontrado');
             } catch (error) {
                 try {
-                    // Se falhar, tenta o caminho relativo à raiz do site
-                    response = await fetch('/data/seo_pages.json');
-                    if (!response.ok) throw new Error('Caminho relativo à raiz não encontrado');
+                    // Tenta subindo um nível da public
+                    response = await fetch('../../private/source/pages/data/seo_pages.json');
+                    if (!response.ok) throw new Error('Caminho subindo da public não encontrado');
                 } catch (error) {
-                    // Se falhar novamente, tenta o caminho mais simples
-                    response = await fetch('data/seo_pages.json');
+                    // Última tentativa com caminho absoluto
+                    response = await fetch('/private/source/pages/data/seo_pages.json');
                     if (!response.ok) throw new Error('Nenhum caminho encontrado');
                 }
             }
 
             seoData = await response.json();
-            console.log('SEO Data carregado:', seoData); // Debug
+            console.log('SEO Data carregado:', seoData);
         } catch (error) {
-            if (error instanceof SyntaxError) {
-                console.error('Erro ao processar JSON: O arquivo não contém um JSON válido');
-            } else {
-                console.error('Erro ao carregar dados SEO:', error.message);
-            }
+            console.error('Erro ao carregar dados SEO:', error.message);
         }
     }
 
