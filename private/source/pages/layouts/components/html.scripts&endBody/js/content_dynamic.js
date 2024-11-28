@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Debug para ver a localização atual
+    console.log('Localização atual:', window.location.href);
+    console.log('Caminho do script:', document.currentScript?.src);
+    console.log('Base URL:', document.baseURI);
+
     // Cache para armazenar os dados SEO
     let seoData = null;
 
@@ -7,23 +12,33 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             let response;
             
+            // Debug para tentar todos os caminhos
+            const caminhosTentados = [
+                '/private/source/pages/data/seo_pages.json',
+                '/data/seo_pages.json',
+                'data/seo_pages.json'
+            ];
+
+            console.log('Tentando carregar SEO data dos seguintes caminhos:', caminhosTentados);
+            
             try {
                 // Tenta primeiro o caminho absoluto
                 response = await fetch('/private/source/pages/data/seo_pages.json');
                 if (!response.ok) throw new Error('Caminho absoluto não encontrado');
             } catch (error) {
                 try {
-                    // Se falhar, tenta o caminho relativo considerando a posição do content_dynamic.js
-                    response = await fetch('../../../../data/seo_pages.json');
-                    if (!response.ok) throw new Error('Caminho relativo não encontrado');
+                    // Se falhar, tenta o caminho relativo à raiz do site
+                    response = await fetch('/data/seo_pages.json');
+                    if (!response.ok) throw new Error('Caminho relativo à raiz não encontrado');
                 } catch (error) {
-                    // Se falhar novamente, tenta um caminho mais direto
-                    response = await fetch('./data/seo_pages.json');
+                    // Se falhar novamente, tenta o caminho mais simples
+                    response = await fetch('data/seo_pages.json');
                     if (!response.ok) throw new Error('Nenhum caminho encontrado');
                 }
             }
 
             seoData = await response.json();
+            console.log('SEO Data carregado:', seoData); // Debug
         } catch (error) {
             if (error instanceof SyntaxError) {
                 console.error('Erro ao processar JSON: O arquivo não contém um JSON válido');
