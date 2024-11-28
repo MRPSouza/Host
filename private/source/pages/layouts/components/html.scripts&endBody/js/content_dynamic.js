@@ -5,11 +5,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Carregar dados SEO do JSON
     async function loadSeoData() {
         try {
-            const response = await fetch('/private/source/pages/data/seo_pages.json');
-            if (response.status === 404) {
-                console.error('Arquivo SEO não encontrado. Verifique se o caminho está correto.');
-                return;
+            let response;
+            
+            try {
+                // Tenta primeiro o caminho absoluto
+                response = await fetch('/private/source/pages/data/seo_pages.json');
+                if (!response.ok) throw new Error('Caminho absoluto não encontrado');
+            } catch (error) {
+                try {
+                    // Se falhar, tenta o caminho relativo considerando a posição do content_dynamic.js
+                    response = await fetch('../../../../data/seo_pages.json');
+                    if (!response.ok) throw new Error('Caminho relativo não encontrado');
+                } catch (error) {
+                    // Se falhar novamente, tenta um caminho mais direto
+                    response = await fetch('./data/seo_pages.json');
+                    if (!response.ok) throw new Error('Nenhum caminho encontrado');
+                }
             }
+
             seoData = await response.json();
         } catch (error) {
             if (error instanceof SyntaxError) {
@@ -46,9 +59,27 @@ document.addEventListener('DOMContentLoaded', function() {
             contentDiv.style.transition = 'opacity 0.2s ease';
 
             const extension = seoData[page].extension || '.php';
+            let contentHtml;
 
-            const contentResponse = await fetch(`../private/source/pages/${page}${extension}`);
-            const contentHtml = await contentResponse.text();
+            try {
+                // Tenta primeiro o caminho absoluto
+                const absoluteResponse = await fetch(`/private/source/pages/${page}${extension}`);
+                if (!absoluteResponse.ok) throw new Error('Caminho absoluto não encontrado');
+                contentHtml = await absoluteResponse.text();
+            } catch (error) {
+                try {
+                    // Se falhar, tenta o caminho relativo ao index.php
+                    const relativeResponse = await fetch(`../private/source/pages/${page}${extension}`);
+                    if (!relativeResponse.ok) throw new Error('Caminho relativo não encontrado');
+                    contentHtml = await relativeResponse.text();
+                } catch (error) {
+                    // Se falhar novamente, tenta o caminho relativo à localização atual
+                    const currentPathResponse = await fetch(`./private/source/pages/${page}${extension}`);
+                    if (!currentPathResponse.ok) throw new Error('Nenhum caminho encontrado');
+                    contentHtml = await currentPathResponse.text();
+                }
+            }
+
             contentDiv.innerHTML = contentHtml;
 
             setTimeout(() => {
