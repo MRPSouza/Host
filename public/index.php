@@ -64,6 +64,9 @@ try {
         echo '<main>' . $content . '</main>';
         exit();
     } else {
+        // Obtém o SEO do controller se for uma instância de PagesController
+        $seo = ($controllerInstance instanceof PagesController) ? $controllerInstance->getSeo() : null;
+        
         include ROOT_DIR . '/backstage/pages/layout/base_html/html.head.body.php';
         include ROOT_DIR . '/backstage/pages/layout/header.php';
         echo '<main>';
