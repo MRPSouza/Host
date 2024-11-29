@@ -1,4 +1,17 @@
 <?php
+// Debug para ambos console PHP e navegador
+function debug($message, $data = null) {
+    // Log para PHP
+    error_log($message . ($data ? ': ' . print_r($data, true) : ''));
+    
+    // Log para console do navegador
+    echo "<script>console.log('" . addslashes($message) . "'" . 
+         ($data ? ", " . json_encode($data) : "") . ");</script>\n";
+}
+
+// Debug inicial
+debug("=== INICIANDO INDEX.PHP ===");
+
 // Ativa exibição de erros para debug em desenvolvimento
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -8,13 +21,25 @@ error_reporting(E_ALL);
 define('ROOT_DIR', dirname(__DIR__));
 define('BASE_URL', 'https://matheusrpsouza.com');
 
-// Obtém a URL requisitada
+// Debug da URL
 $url = $_GET['url'] ?? '';
+debug("URL recebida", $url);
 
 // Remove 'index' se for a única coisa na URL
 if ($url === 'index' || $url === 'index.php') {
+    debug("URL era 'index', removendo...");
     $url = '';
 }
+
+// Debug antes do if AJAX
+debug("=== VERIFICANDO AJAX ===");
+debug("Headers completos", apache_request_headers());
+debug("SERVER", $_SERVER);
+
+// Verifica se é AJAX
+$isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
+          strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+debug("É requisição AJAX?", $isAjax ? "SIM" : "NÃO");
 
 // Remove a extensão .php se existir
 $url = preg_replace('/\.php$/', '', $url);
@@ -29,13 +54,16 @@ require_once ROOT_DIR . '/backstage/routes.php';
 $route = getRoute($url);
 
 if ($route) {
+    debug("Rota encontrada", print_r($route, true));
     $controller = $route['controller'];
     $action = $route['action'];
 } else {
-    // Divide a URL em segmentos
+    debug("Rota não encontrada, usando segmentos");
     $segments = explode('/', $url);
     $controller = $segments[0] ?: 'Pages';
     $action = $segments[1] ?? 'index';
+    debug("Controller", $controller);
+    debug("Action", $action);
 }
 
 // Carrega o controller apropriado
@@ -58,28 +86,26 @@ if (file_exists($controllerFile)) {
             }
             
             // Debug antes do if para verificar headers
-            error_log("=== DEBUG PRE-AJAX CHECK ===");
-            error_log("Headers recebidos: " . print_r(getallheaders(), true));
-            error_log("HTTP_X_REQUESTED_WITH está definido? " . (isset($_SERVER['HTTP_X_REQUESTED_WITH']) ? 'SIM' : 'NÃO'));
+            debug("=== DEBUG PRE-AJAX CHECK ===");
+            debug("Headers recebidos", getallheaders());
+            debug("HTTP_X_REQUESTED_WITH está definido?", isset($_SERVER['HTTP_X_REQUESTED_WITH']) ? 'SIM' : 'NÃO');
             if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-                error_log("Valor de HTTP_X_REQUESTED_WITH: " . $_SERVER['HTTP_X_REQUESTED_WITH']);
+                debug("Valor de HTTP_X_REQUESTED_WITH", $_SERVER['HTTP_X_REQUESTED_WITH']);
             }
-            error_log("=== FIM DEBUG PRE-AJAX ===");
+            debug("=== FIM DEBUG PRE-AJAX ===");
 
-            if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
-               strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-                error_log("ENTROU NO IF DO AJAX");
+            if($isAjax) {
+                debug("=== PROCESSANDO REQUISIÇÃO AJAX ===");
                 // Debug detalhado
-                error_log("=== DEBUG AJAX ===");
-                error_log("URL completa: " . $_SERVER['REQUEST_URI']);
-                error_log("URL processada: " . $url);
-                error_log("Segments: " . print_r($segments, true));
-                error_log("Controller: " . $controller);
-                error_log("Action: " . $action);
-                error_log("Page File: " . $pageFile);
-                error_log("Route: " . print_r($route, true));
-                error_log("SERVER: " . print_r($_SERVER, true));
-                error_log("=== FIM DEBUG ===");
+                debug("URL completa", $_SERVER['REQUEST_URI']);
+                debug("URL processada", $url);
+                debug("Segments", $segments);
+                debug("Controller", $controller);
+                debug("Action", $action);
+                debug("Page File", $pageFile);
+                debug("Route", print_r($route, true));
+                debug("SERVER", print_r($_SERVER, true));
+                debug("=== FIM DEBUG ===");
                 
                 // Força a saída do debug também na resposta
                 header('Content-Type: text/html');
@@ -104,6 +130,7 @@ if (file_exists($controllerFile)) {
                 echo '</main>';
                 exit(); // Garante que nada mais será executado após o conteúdo AJAX
             } else {
+                debug("=== PROCESSANDO REQUISIÇÃO NORMAL ===");
                 error_log("NÃO ENTROU NO IF DO AJAX");
                 // Renderiza a página completa
                 include ROOT_DIR . '/backstage/pages/layout/base_html/html.head.body.php';
