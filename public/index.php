@@ -6,14 +6,18 @@ error_reporting(E_ALL);
 
 // Função de debug melhorada
 function debug($message, $data = null) {
-    $logMessage = $message . ($data ? ': ' . print_r($data, true) : '');
-    error_log($logMessage);
+    // Log para PHP
+    error_log($message . ($data ? ': ' . print_r($data, true) : ''));
     
-    if (is_array($data)) {
-        $data = json_encode($data);
+    // Só exibe console.log se não for uma requisição AJAX
+    if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || 
+        strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
+        if (is_array($data)) {
+            $data = json_encode($data);
+        }
+        echo "<script>console.log('" . addslashes($message) . "'" . 
+             ($data ? ", " . json_encode($data) : "") . ");</script>\n";
     }
-    echo "<script>console.log('" . addslashes($message) . "'" . 
-         ($data ? ", " . json_encode($data) : "") . ");</script>\n";
 }
 
 try {
@@ -75,9 +79,21 @@ try {
 
     if ($isAjax) {
         debug("Renderizando conteúdo AJAX");
-        echo '<main>';
+        
+        // Desativa a saída de buffer
+        ob_start();
+        
+        // Inclui apenas o conteúdo da página
         include $pageFile;
-        echo '</main>';
+        
+        // Pega o conteúdo do buffer
+        $content = ob_get_clean();
+        
+        // Retorna apenas o conteúdo principal dentro da tag main
+        echo '<main>' . $content . '</main>';
+        
+        // Encerra a execução aqui
+        exit();
     } else {
         debug("Renderizando página completa");
         include ROOT_DIR . '/backstage/pages/layout/base_html/html.head.body.php';
