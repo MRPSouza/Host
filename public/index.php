@@ -1,8 +1,8 @@
 <?php
-// Desativa a exibição de erros em produção
-ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
-error_reporting(0);
+// Ativa exibição de erros para debug em desenvolvimento
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Define o diretório raiz do projeto
 define('ROOT_DIR', dirname(__DIR__));
