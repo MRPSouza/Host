@@ -107,8 +107,12 @@
                 // Mostra o loader
                 toggleLoader(true);
 
-                // Faz a requisição AJAX
-                fetch(href)
+                // Faz a requisição AJAX com o header correto
+                fetch(href, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
                     .then(response => response.text())
                     .then(html => {
                         // Encontra apenas o conteúdo principal
