@@ -59,6 +59,11 @@ try {
 
     if ($isAjax) {
         ob_start();
+        // Obtém o SEO antes do conteúdo
+        $seo = ($controllerInstance instanceof PagesController) ? $controllerInstance->getSeo() : null;
+        if ($seo) {
+            echo '<seo-data>' . $seo->render() . '</seo-data>';
+        }
         include $pageFile;
         $content = ob_get_clean();
         echo '<main>' . $content . '</main>';
@@ -70,7 +75,6 @@ try {
         include ROOT_DIR . '/backstage/pages/layout/base_html/html.head.body.php';
         include ROOT_DIR . '/backstage/pages/layout/header.php';
         echo '<main>';
-        $seo = ($controllerInstance instanceof PagesController) ? $controllerInstance->getSeo() : null;
         include $pageFile;
         echo '</main>';
         include ROOT_DIR . '/backstage/pages/layout/footer.php';

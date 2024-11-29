@@ -128,12 +128,17 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const mainContent = doc.querySelector('main');
+                const seoData = doc.querySelector('seo-data');
                 
                 if (mainContent) {
                     document.querySelector('main').innerHTML = mainContent.innerHTML;
                     window.history.pushState({}, '', href);
-                } else {
-                    throw new Error('Elemento main não encontrado na resposta');
+                }
+                
+                if (seoData) {
+                    // Atualiza as meta tags do SEO
+                    const head = document.querySelector('head');
+                    head.innerHTML = seoData.innerHTML + head.innerHTML;
                 }
             })
             .catch(error => {
