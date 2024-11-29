@@ -50,8 +50,13 @@ $url = filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL);
 // Inclui o arquivo de rotas
 require_once ROOT_DIR . '/backstage/routes.php';
 
+// Antes de verificar a rota
+debug("URL antes de getRoute", $url);
+debug("Todas as rotas", $routes);
+
 // Verifica se existe uma rota personalizada
 $route = getRoute($url);
+debug("Rota encontrada para URL", ['url' => $url, 'route' => $route]);
 
 if ($route) {
     debug("Rota encontrada", print_r($route, true));
