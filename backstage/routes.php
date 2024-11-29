@@ -20,9 +20,5 @@ function getRoute($url) {
         '404' => ['controller' => 'Error', 'action' => 'notFound']
     ];
 
-    // Debug para verificar o processamento da rota
-    error_log("Procurando rota para URL: " . $url);
-    error_log("Rotas disponíveis: " . print_r($routes, true));
-    
     return $routes[$url] ?? $routes['404'];
 } 

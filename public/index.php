@@ -4,57 +4,28 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Função de debug melhorada
-function debug($message, $data = null) {
-    // Log para PHP
-    error_log($message . ($data ? ': ' . print_r($data, true) : ''));
-    
-    // Só exibe console.log se não for uma requisição AJAX
-    if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || 
-        strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest') {
-        if (is_array($data)) {
-            $data = json_encode($data);
-        }
-        echo "<script>console.log('" . addslashes($message) . "'" . 
-             ($data ? ", " . json_encode($data) : "") . ");</script>\n";
-    }
-}
-
 try {
-    // Debug inicial
-    debug("=== INICIANDO INDEX.PHP ===");
-
     // Define o diretório raiz do projeto
     define('ROOT_DIR', dirname(__DIR__));
     define('BASE_URL', 'https://matheusrpsouza.com');
 
     // Pega e processa a URL
     $fullUrl = $_SERVER['REQUEST_URI'];
-    debug("URL completa recebida", $fullUrl);
-
-    // Remove a parte inicial da URL (diretório base)
     $baseDir = parse_url(BASE_URL, PHP_URL_PATH) ?? '';
     $url = trim(str_replace($baseDir, '', $fullUrl), '/');
-    debug("URL após remover base", $url);
-
-    // Remove query strings se houver
     $url = parse_url($url, PHP_URL_PATH) ?? '';
     $url = filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL);
-    debug("URL final processada", $url);
 
     // Inclui o arquivo de rotas
     require_once ROOT_DIR . '/backstage/routes.php';
 
     // Verifica a rota
     $route = getRoute($url);
-    debug("Rota encontrada para URL", ['url' => $url, 'route' => $route]);
 
     if ($route) {
         $controller = $route['controller'];
         $action = $route['action'];
-        debug("Controller e Action definidos", ['controller' => $controller, 'action' => $action]);
     } else {
-        debug("Rota não encontrada, usando 404", $url);
         $controller = 'Error';
         $action = 'notFound';
     }
@@ -62,7 +33,6 @@ try {
     // Verifica se é AJAX
     $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
               strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
-    debug("Requisição AJAX?", $isAjax);
 
     // Carrega o controller
     $controllerFile = ROOT_DIR . "/backstage/controllers/{$controller}Controller.php";
@@ -88,24 +58,12 @@ try {
     }
 
     if ($isAjax) {
-        debug("Renderizando conteúdo AJAX");
-        
-        // Desativa a saída de buffer
         ob_start();
-        
-        // Inclui apenas o conteúdo da página
         include $pageFile;
-        
-        // Pega o conteúdo do buffer
         $content = ob_get_clean();
-        
-        // Retorna apenas o conteúdo principal dentro da tag main
         echo '<main>' . $content . '</main>';
-        
-        // Encerra a execução aqui
         exit();
     } else {
-        debug("Renderizando página completa");
         include ROOT_DIR . '/backstage/pages/layout/base_html/html.head.body.php';
         include ROOT_DIR . '/backstage/pages/layout/header.php';
         echo '<main>';
@@ -123,10 +81,7 @@ try {
     header('HTTP/1.1 500 Internal Server Error');
     echo json_encode([
         'error' => true,
-        'message' => $e->getMessage(),
-        'file' => $e->getFile(),
-        'line' => $e->getLine(),
-        'trace' => $e->getTraceAsString()
+        'message' => $e->getMessage()
     ]);
 }
 ?>
