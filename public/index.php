@@ -60,6 +60,28 @@ if (file_exists($controllerFile)) {
             // Se for uma requisição AJAX, retorna apenas o conteúdo principal
             if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                
+                // Debug detalhado
+                error_log("=== DEBUG AJAX ===");
+                error_log("URL completa: " . $_SERVER['REQUEST_URI']);
+                error_log("URL processada: " . $url);
+                error_log("Segments: " . print_r($segments, true));
+                error_log("Controller: " . $controller);
+                error_log("Action: " . $action);
+                error_log("Page File: " . $pageFile);
+                error_log("Route: " . print_r($route, true));
+                error_log("SERVER: " . print_r($_SERVER, true));
+                error_log("=== FIM DEBUG ===");
+                
+                // Força a saída do debug também na resposta
+                header('Content-Type: text/html');
+                echo "<!-- Debug Info:\n";
+                echo "URL: {$url}\n";
+                echo "Controller: {$controller}\n";
+                echo "Action: {$action}\n";
+                echo "Page File: {$pageFile}\n";
+                echo "-->\n";
+                
                 // Adiciona log para debug
                 error_log("Requisição AJAX - URL: {$url}, Controller: {$controller}, Action: {$action}");
                 error_log("Arquivo da página: {$pageFile}");
