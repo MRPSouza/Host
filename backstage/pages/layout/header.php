@@ -33,7 +33,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="<?= BASE_URL ?>/">
-                <img src="<?= BASE_URL ?>/assets/images/logo.png" alt="Logo" height="40" class="d-inline-block align-text-top">
+                <img src="<?= BASE_URL ?>/assets/img/logo.png" alt="Logo" height="40" class="d-inline-block align-text-top">
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
