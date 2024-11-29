@@ -64,7 +64,6 @@ try {
 
     if ($isAjax) {
         ob_start();
-        // Obtém o SEO antes do conteúdo
         $seo = ($controllerInstance instanceof PagesController) ? $controllerInstance->getSeo() : null;
         if ($seo) {
             echo '<seo-data>' . $seo->render() . '</seo-data>';

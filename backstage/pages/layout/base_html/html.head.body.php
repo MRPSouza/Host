@@ -135,6 +135,17 @@
                 } else {
                     throw new Error('Elemento main não encontrado na resposta');
                 }
+
+                const seoData = doc.querySelector('seo-data');
+                if (seoData) {
+                    const head = document.querySelector('head');
+                    // Remove as meta tags antigas de SEO
+                    head.querySelectorAll('meta[name="description"], meta[name="keywords"], title, meta[property^="og:"]').forEach(el => el.remove());
+                    
+                    // Adiciona apenas as novas meta tags de SEO
+                    const seoContent = seoData.innerHTML;
+                    head.insertAdjacentHTML('afterbegin', seoContent);
+                }
             })
             .catch(error => {
                 console.error('Erro ao carregar página:', error);
