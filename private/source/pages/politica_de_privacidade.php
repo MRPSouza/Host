@@ -1,1 +1,0 @@
-<p>Política de privacidade</p>

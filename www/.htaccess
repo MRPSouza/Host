@@ -1,0 +1,78 @@
+# RewriteEngine On
+# RewriteBase /
+
+# # Remover referência ao NewProject/Host/www
+# RewriteCond %{REQUEST_URI} !^/
+# RewriteRule ^(.*)$ /$1 [R=301,L]
+
+# # Se o arquivo/diretório não existe, redireciona para index.php
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# # Content Security Policy (CSP)
+# <IfModule mod_headers.c>
+#     Header set Content-Security-Policy "
+#         # Fontes de conteúdo padrão
+#         default-src 'self';
+
+#         # Scripts permitidos
+#         script-src 'self' 
+#             'unsafe-inline' 
+#             'unsafe-eval' 
+#             https://cdn.jsdelivr.net 
+#             https://code.jquery.com 
+#             https://cdnjs.cloudflare.com;
+
+#         # Estilos permitidos
+#         style-src 'self' 
+#             'unsafe-inline' 
+#             https://cdn.jsdelivr.net 
+#             https://fonts.googleapis.com;
+
+#         # Fontes permitidas
+#         font-src 'self' 
+#             https://fonts.gstatic.com 
+#             https://cdn.jsdelivr.net;
+
+#         # Imagens permitidas
+#         img-src 'self' 
+#             data: 
+#             https: 
+#             blob:;
+
+#         # Conexões permitidas
+#         connect-src 'self' 
+#             https://api.exemplo.com;
+
+#         # Frames permitidos
+#         frame-src 'self' 
+#             https://www.google.com 
+#             https://www.youtube.com;
+
+#         # Objetos permitidos
+#         object-src 'none';
+
+#         # Manifesto permitido
+#         manifest-src 'self';
+
+#         # Base URI
+#         base-uri 'self';
+
+#         # Form actions
+#         form-action 'self';
+
+#         # Frame ancestors
+#         frame-ancestors 'self';
+
+#         # Upgrade insecure requests
+#         upgrade-insecure-requests;
+#     "
+
+#     # Outras headers de segurança importantes
+#     Header set X-Content-Type-Options "nosniff"
+#     Header set X-Frame-Options "SAMEORIGIN"
+#     Header set X-XSS-Protection "1; mode=block"
+#     Header set Referrer-Policy "strict-origin-when-cross-origin"
+#     Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+# </IfModule>
