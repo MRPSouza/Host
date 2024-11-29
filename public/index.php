@@ -57,10 +57,18 @@ if (file_exists($controllerFile)) {
                 throw new Exception("Arquivo da página não encontrado: " . $pageFile);
             }
             
-            // Se for uma requisição AJAX, retorna apenas o conteúdo principal
+            // Debug antes do if para verificar headers
+            error_log("=== DEBUG PRE-AJAX CHECK ===");
+            error_log("Headers recebidos: " . print_r(getallheaders(), true));
+            error_log("HTTP_X_REQUESTED_WITH está definido? " . (isset($_SERVER['HTTP_X_REQUESTED_WITH']) ? 'SIM' : 'NÃO'));
+            if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+                error_log("Valor de HTTP_X_REQUESTED_WITH: " . $_SERVER['HTTP_X_REQUESTED_WITH']);
+            }
+            error_log("=== FIM DEBUG PRE-AJAX ===");
+
             if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-                
+                error_log("ENTROU NO IF DO AJAX");
                 // Debug detalhado
                 error_log("=== DEBUG AJAX ===");
                 error_log("URL completa: " . $_SERVER['REQUEST_URI']);
@@ -96,6 +104,7 @@ if (file_exists($controllerFile)) {
                 echo '</main>';
                 exit(); // Garante que nada mais será executado após o conteúdo AJAX
             } else {
+                error_log("NÃO ENTROU NO IF DO AJAX");
                 // Renderiza a página completa
                 include ROOT_DIR . '/backstage/pages/layout/base_html/html.head.body.php';
                 include ROOT_DIR . '/backstage/pages/layout/header.php';
