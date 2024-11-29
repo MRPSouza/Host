@@ -1,14 +1,22 @@
-RewriteEngine On
-RewriteBase /
+# Verifica se mod_rewrite está disponível
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
 
-# Remover referência ao NewProject/Host/www
-RewriteCond %{REQUEST_URI} !^/
-RewriteRule ^(.*)$ /$1 [R=301,L]
+    # Remover referência ao NewProject/Host/www
+    RewriteCond %{REQUEST_URI} !^/
+    RewriteRule ^(.*)$ /$1 [R=301,L]
 
-# Se o arquivo/diretório não existe, redireciona para index.php
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+    # Se o arquivo/diretório não existe, redireciona para index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
+
+# Se mod_rewrite não estiver disponível
+<IfModule !mod_rewrite.c>
+    ErrorDocument 500 "Mod_rewrite não está ativado. Por favor, ative-o no Apache."
+</IfModule>
 
 # Content Security Policy (CSP)
 <IfModule mod_headers.c>
