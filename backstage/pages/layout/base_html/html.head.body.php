@@ -98,21 +98,9 @@
             }
         }
 
-        // Função para processar a URL
-        function processUrl(href) {
-            // Remove o domínio se presente
-            const url = href.replace(/^(?:\/\/|[^/]+)*\//, '');
-            console.log('URL processada:', url);
-            return url;
-        }
-
         // Função para carregar conteúdo via AJAX
         function loadContent(href) {
             toggleLoader(true);
-            
-            console.log('URL original:', href);
-            const processedUrl = processUrl(href);
-            console.log('URL processada:', processedUrl);
             
             fetch(href, {
                 method: 'GET',
@@ -128,7 +116,6 @@
                 return response.text();
             })
             .then(html => {
-                console.log('Resposta recebida, primeiros 100 caracteres:', html.substring(0, 100));
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
                 const mainContent = doc.querySelector('main');
@@ -136,9 +123,8 @@
                 if (mainContent) {
                     document.querySelector('main').innerHTML = mainContent.innerHTML;
                     window.history.pushState({}, '', href);
-                    console.log('Conteúdo atualizado com sucesso');
                 } else {
-                    console.error('Elemento main não encontrado na resposta');
+                    throw new Error('Elemento main não encontrado na resposta');
                 }
             })
             .catch(error => {
