@@ -104,7 +104,6 @@ if (file_exists($controllerFile)) {
                 // Debug detalhado
                 debug("URL completa", $_SERVER['REQUEST_URI']);
                 debug("URL processada", $url);
-                debug("Segments", $segments);
                 debug("Controller", $controller);
                 debug("Action", $action);
                 debug("Page File", $pageFile);
@@ -120,15 +119,6 @@ if (file_exists($controllerFile)) {
                 echo "Action: {$action}\n";
                 echo "Page File: {$pageFile}\n";
                 echo "-->\n";
-                
-                // Adiciona log para debug
-                error_log("Requisição AJAX - URL: {$url}, Controller: {$controller}, Action: {$action}");
-                error_log("Arquivo da página: {$pageFile}");
-                
-                // Verifica se é uma requisição POST
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    error_log("Dados POST: " . print_r($_POST, true));
-                }
                 
                 echo '<main>';
                 include $pageFile;
