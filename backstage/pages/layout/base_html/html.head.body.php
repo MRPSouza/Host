@@ -98,46 +98,68 @@
             }
         }
 
+        // Função para processar a URL
+        function processUrl(href) {
+            // Remove o domínio se presente
+            const url = href.replace(/^(?:\/\/|[^/]+)*\//, '');
+            console.log('URL processada:', url);
+            return url;
+        }
+
+        // Função para carregar conteúdo via AJAX
+        function loadContent(href) {
+            toggleLoader(true);
+            
+            console.log('URL original:', href);
+            const processedUrl = processUrl(href);
+            console.log('URL processada:', processedUrl);
+            
+            fetch(href, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'text/html'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(html => {
+                console.log('Resposta recebida, primeiros 100 caracteres:', html.substring(0, 100));
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const mainContent = doc.querySelector('main');
+                
+                if (mainContent) {
+                    document.querySelector('main').innerHTML = mainContent.innerHTML;
+                    window.history.pushState({}, '', href);
+                    console.log('Conteúdo atualizado com sucesso');
+                } else {
+                    console.error('Elemento main não encontrado na resposta');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao carregar página:', error);
+            })
+            .finally(() => {
+                toggleLoader(false);
+            });
+        }
+
         // Intercepta todos os cliques em links do menu
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const href = this.getAttribute('href');
-                
-                // Mostra o loader
-                toggleLoader(true);
-
-                // Faz a requisição AJAX com o header correto
-                fetch(href, {
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
-                })
-                    .then(response => response.text())
-                    .then(html => {
-                        // Encontra apenas o conteúdo principal
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(html, 'text/html');
-                        const mainContent = doc.querySelector('main').innerHTML;
-                        
-                        // Atualiza apenas o conteúdo principal
-                        document.querySelector('main').innerHTML = mainContent;
-                        
-                        // Atualiza a URL sem recarregar a página
-                        window.history.pushState({}, '', href);
-                    })
-                    .catch(error => {
-                        console.error('Erro ao carregar página:', error);
-                    })
-                    .finally(() => {
-                        // Esconde o loader
-                        toggleLoader(false);
-                    });
+                loadContent(href);
             });
         });
 
         // Gerencia o botão voltar do navegador
-        window.addEventListener('popstate', function() {
+        window.addEventListener('popstate', function(e) {
             loadContent(window.location.href);
         });
     });
