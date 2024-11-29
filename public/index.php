@@ -60,9 +60,19 @@ if (file_exists($controllerFile)) {
             // Se for uma requisição AJAX, retorna apenas o conteúdo principal
             if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                // Adiciona log para debug
+                error_log("Requisição AJAX - URL: {$url}, Controller: {$controller}, Action: {$action}");
+                error_log("Arquivo da página: {$pageFile}");
+                
+                // Verifica se é uma requisição POST
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    error_log("Dados POST: " . print_r($_POST, true));
+                }
+                
                 echo '<main>';
                 include $pageFile;
                 echo '</main>';
+                exit(); // Garante que nada mais será executado após o conteúdo AJAX
             } else {
                 // Renderiza a página completa
                 include ROOT_DIR . '/backstage/pages/layout/base_html/html.head.body.php';
