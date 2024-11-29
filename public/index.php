@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 // Define o diretório raiz do projeto
 define('ROOT_DIR', dirname(__DIR__));
-define('BASE_URL', '/NewProject/Host/www');
+define('BASE_URL', '/');
 
 // Obtém a URL requisitada
 $url = $_GET['url'] ?? '';
