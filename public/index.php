@@ -50,13 +50,8 @@ $url = filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL);
 // Inclui o arquivo de rotas
 require_once ROOT_DIR . '/backstage/routes.php';
 
-// Antes de verificar a rota
-debug("URL antes de getRoute", $url);
-debug("Todas as rotas", $routes);
-
 // Verifica se existe uma rota personalizada
 $route = getRoute($url);
-debug("Rota encontrada para URL", ['url' => $url, 'route' => $route]);
 
 if ($route) {
     debug("Rota encontrada", print_r($route, true));
@@ -104,6 +99,7 @@ if (file_exists($controllerFile)) {
                 // Debug detalhado
                 debug("URL completa", $_SERVER['REQUEST_URI']);
                 debug("URL processada", $url);
+                debug("Segments", $segments);
                 debug("Controller", $controller);
                 debug("Action", $action);
                 debug("Page File", $pageFile);
@@ -119,6 +115,15 @@ if (file_exists($controllerFile)) {
                 echo "Action: {$action}\n";
                 echo "Page File: {$pageFile}\n";
                 echo "-->\n";
+                
+                // Adiciona log para debug
+                error_log("Requisição AJAX - URL: {$url}, Controller: {$controller}, Action: {$action}");
+                error_log("Arquivo da página: {$pageFile}");
+                
+                // Verifica se é uma requisição POST
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    error_log("Dados POST: " . print_r($_POST, true));
+                }
                 
                 echo '<main>';
                 include $pageFile;

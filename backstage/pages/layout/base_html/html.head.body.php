@@ -84,44 +84,18 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Função para carregar conteúdo via AJAX
-        function loadContent(href) {
-            toggleLoader(true);
-            
-            console.log('Iniciando requisição AJAX para:', href);
-            
-            fetch(href, {
-                method: 'GET',
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'text/html'
-                }
-            })
-            .then(response => {
-                console.log('Resposta recebida:', response);
-                return response.text();
-            })
-            .then(html => {
-                console.log('Conteúdo recebido:', html.substring(0, 100) + '...'); // Mostra os primeiros 100 caracteres
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const mainContent = doc.querySelector('main');
-                
-                if (mainContent) {
-                    document.querySelector('main').innerHTML = mainContent.innerHTML;
-                    console.log('Conteúdo principal atualizado');
-                } else {
-                    console.error('Elemento main não encontrado na resposta');
-                }
-                
-                window.history.pushState({}, '', href);
-            })
-            .catch(error => {
-                console.error('Erro ao carregar página:', error);
-            })
-            .finally(() => {
-                toggleLoader(false);
-            });
+        // Função para mostrar/esconder o loader
+        function toggleLoader(show = true) {
+            const preloader = document.getElementById('preloader');
+            if (show) {
+                preloader.style.display = 'flex';
+                preloader.classList.remove('loaded');
+            } else {
+                preloader.classList.add('loaded');
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }
         }
 
         // Intercepta todos os cliques em links do menu
@@ -129,12 +103,41 @@
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 const href = this.getAttribute('href');
-                loadContent(href);
+                
+                // Mostra o loader
+                toggleLoader(true);
+
+                // Faz a requisição AJAX com o header correto
+                fetch(href, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        // Encontra apenas o conteúdo principal
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const mainContent = doc.querySelector('main').innerHTML;
+                        
+                        // Atualiza apenas o conteúdo principal
+                        document.querySelector('main').innerHTML = mainContent;
+                        
+                        // Atualiza a URL sem recarregar a página
+                        window.history.pushState({}, '', href);
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar página:', error);
+                    })
+                    .finally(() => {
+                        // Esconde o loader
+                        toggleLoader(false);
+                    });
             });
         });
 
         // Gerencia o botão voltar do navegador
-        window.addEventListener('popstate', function(e) {
+        window.addEventListener('popstate', function() {
             loadContent(window.location.href);
         });
     });
