@@ -29,24 +29,34 @@ try {
     define('BASE_URL', 'https://matheusrpsouza.com');
 
     // Pega e processa a URL
-    $url = $_GET['url'] ?? '';
+    $fullUrl = $_SERVER['REQUEST_URI'];
+    debug("URL completa recebida", $fullUrl);
+
+    // Remove a parte inicial da URL (diretório base)
+    $baseDir = parse_url(BASE_URL, PHP_URL_PATH) ?? '';
+    $url = trim(str_replace($baseDir, '', $fullUrl), '/');
+    debug("URL após remover base", $url);
+
+    // Remove query strings se houver
+    $url = parse_url($url, PHP_URL_PATH) ?? '';
     $url = filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL);
-    debug("URL original", $_SERVER['REQUEST_URI']);
-    debug("URL processada", $url);
+    debug("URL final processada", $url);
 
     // Inclui o arquivo de rotas
     require_once ROOT_DIR . '/backstage/routes.php';
 
     // Verifica a rota
     $route = getRoute($url);
-    debug("Rota encontrada", $route);
+    debug("Rota encontrada para URL", ['url' => $url, 'route' => $route]);
 
     if ($route) {
         $controller = $route['controller'];
         $action = $route['action'];
+        debug("Controller e Action definidos", ['controller' => $controller, 'action' => $action]);
     } else {
-        debug("Rota não encontrada para URL", $url);
-        throw new Exception("Rota não encontrada para: " . $url);
+        debug("Rota não encontrada, usando 404", $url);
+        $controller = 'Error';
+        $action = 'notFound';
     }
 
     // Verifica se é AJAX
