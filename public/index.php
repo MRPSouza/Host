@@ -19,7 +19,7 @@ if ($url === 'index' || $url === 'index.php') {
 // Remove a extensão .php se existir
 $url = preg_replace('/\.php$/', '', $url);
 
-// Remove barras extras e sanitiza a URL
+// Remove barras extras e sanitiza a URLl
 $url = filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL);
 
 // Inclui o arquivo de rotas
@@ -51,38 +51,36 @@ if (file_exists($controllerFile)) {
             $controllerInstance->$action();
             $seo = $controllerInstance->getSeo();
             
+            // Verifica se o arquivo da página existe antes de tentar incluí-lo
+            $pageFile = ROOT_DIR . '/backstage/pages/' . strtolower($action) . '.php';
+            if (!file_exists($pageFile)) {
+                throw new Exception("Arquivo da página não encontrado: " . $pageFile);
+            }
+            
             // Se for uma requisição AJAX, retorna apenas o conteúdo principal
             if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
                strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
                 echo '<main>';
-                include ROOT_DIR . '/backstage/pages/' . strtolower($action) . '.php';
+                include $pageFile;
                 echo '</main>';
             } else {
                 // Renderiza a página completa
                 include ROOT_DIR . '/backstage/pages/layout/base_html/html.head.body.php';
                 include ROOT_DIR . '/backstage/pages/layout/header.php';
                 echo '<main>';
-                include ROOT_DIR . '/backstage/pages/' . strtolower($action) . '.php';
+                include $pageFile;
                 echo '</main>';
                 include ROOT_DIR . '/backstage/pages/layout/footer.php';
                 include ROOT_DIR . '/backstage/pages/layout/copy.php';
                 include ROOT_DIR . '/backstage/pages/layout/base_html/html.script.body.php';
             }
         } catch (Exception $e) {
-            echo '<div style="margin: 50px; padding: 20px; border: 2px solid #f0ad4e; border-radius: 5px; background-color: #fcf8e3; color: #8a6d3b;">';
-            echo '<h2>⚠️ Lembrete para o Desenvolvedor</h2>';
-            echo '<p>Por favor, configure o SEO para esta página no método <strong>' . $action . '</strong> do PagesController:</p>';
-            echo '<pre style="background: #f8f9fa; padding: 15px; border-radius: 4px;">';
-            echo 'public function ' . $action . '() {
-    $this->configureSeo(
-        "Título da Página",
-        "Descrição da página para SEO",
-        "palavra-chave1, palavra-chave2",
-        BASE_URL . "/assets/img/imagem.png"
-    );
-}';
-            echo '</pre>';
-            echo '<p>Consulte o arquivo <code>Docs/criar-uma-pagina.txt</code> para mais informações.</p>';
+            // Adiciona log de erro para debug
+            error_log("Erro ao carregar página: " . $e->getMessage());
+            echo '<div style="margin: 50px; padding: 20px; border: 2px solid #dc3545; border-radius: 5px; background-color: #f8d7da; color: #721c24;">';
+            echo '<h2>❌ Erro ao carregar a página</h2>';
+            echo '<p>' . $e->getMessage() . '</p>';
+            echo '<p>Controller: ' . $controller . ', Action: ' . $action . '</p>';
             echo '</div>';
         }
     } else {
