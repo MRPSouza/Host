@@ -129,9 +129,9 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     #     frame-ancestors 'self';
     #     form-action 'self';
     #     base-uri 'self';
-    #     object-src 'self';
-        upgrade-insecure-requests;
-        block-all-mixed-content"
+        # object-src 'self';
+        # upgrade-insecure-requests;
+        # block-all-mixed-content"
 
     # Outras headers de segurança importantes
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
