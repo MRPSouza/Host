@@ -57,9 +57,15 @@ RewriteEngine On
     RewriteCond %{REQUEST_FILENAME}.php -f
     RewriteRule ^([^\.]+)$ $1.php [NC,L]
 
-    RewriteEngine on
+    RewriteEngine On
+
+    RewriteCond %{HTTPS} off
     RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
-    RewriteRule ^(.*)$ http://%1%{REQUEST_URI} [R=301,QSA,NC,L]
+    RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+
+    RewriteCond %{HTTPS} on
+    RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
 </IfModule>
 
 # Cache para arquivos estáticos
