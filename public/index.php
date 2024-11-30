@@ -1,6 +1,12 @@
 <?php
-// No início do arquivo, antes de qualquer output
-if (strpos($_SERVER['HTTP_HOST'], 'www.') === 0) {
+// Verifica www e HTTPS (versão com proxy)
+if (
+    strpos($_SERVER['HTTP_HOST'], 'www.') === 0 || 
+    (
+        (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') &&
+        (!isset($_SERVER['HTTP_X_FORWARDED_PROTO']) || $_SERVER['HTTP_X_FORWARDED_PROTO'] !== 'https')
+    )
+) {
     $newUrl = 'https://matheusrpsouza.com' . $_SERVER['REQUEST_URI'];
     header("HTTP/1.1 301 Moved Permanently");
     header("Location: " . $newUrl);
