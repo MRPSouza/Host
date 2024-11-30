@@ -56,6 +56,10 @@ RewriteEngine On
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME}.php -f
     RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+    RewriteEngine on
+    RewriteCond %{HTTP_HOST} ^www\.matheusrpsouza\.com [NC]
+    RewriteRule (.*) http://matheusrpsouza.com/$1 [R=301,L]
 </IfModule>
 
 # Cache para arquivos estáticos
