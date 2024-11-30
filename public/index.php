@@ -96,4 +96,23 @@ try {
         'message' => $e->getMessage()
     ]);
 }
+
+// Headers de Segurança
+header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';");
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains");
+header("X-Content-Type-Options: nosniff");
+header("X-Frame-Options: SAMEORIGIN");
+header("Referrer-Policy: strict-origin-when-cross-origin");
+header("Permissions-Policy: geolocation=(), microphone=(), camera=()");
+
+// Para Cross-Origin
+header("Access-Control-Allow-Origin: https://matheusrpsouza.com");
+header("Access-Control-Allow-Methods: GET, POST");
+header("Access-Control-Allow-Headers: Content-Type");
+
+// Forçar HTTPS
+if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {
+    header("Location: https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], true, 301);
+    exit;
+}
 ?>
