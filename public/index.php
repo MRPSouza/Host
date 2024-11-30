@@ -1,4 +1,12 @@
 <?php
+// No início do arquivo, antes de qualquer output
+if (strpos($_SERVER['HTTP_HOST'], 'www.') === 0) {
+    $newUrl = 'https://matheusrpsouza.com' . $_SERVER['REQUEST_URI'];
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: " . $newUrl);
+    exit();
+}
+
 // Ativa exibição de erros para debug
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
