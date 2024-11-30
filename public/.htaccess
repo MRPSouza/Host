@@ -107,6 +107,9 @@ RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
+# Adiciona MIME type para webmanifest
+AddType application/manifest+json .webmanifest
+
 # Resto das suas regras de rewrite atuais...
 
 
