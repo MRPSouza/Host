@@ -134,11 +134,11 @@ RewriteEngine On
         block-all-mixed-content"
 
     # Outras headers de segurança importantes
-    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-    Header set X-Content-Type-Options "nosniff"
-    Header set X-Frame-Options "SAMEORIGIN"
-    Header set X-XSS-Protection "1; mode=block"
-    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    # Header set X-Content-Type-Options "nosniff"
+    # Header set X-Frame-Options "SAMEORIGIN"
+    # Header set X-XSS-Protection "1; mode=block"
+    # Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
 # Resto das suas regras de rewrite atuais...
