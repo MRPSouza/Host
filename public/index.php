@@ -5,12 +5,32 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Início
-// 1. Forçar HTTPS primeiro (antes de qualquer output)
-// if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {
-//     header("Location: https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], true, 301);
-//     exit;
-// }
+// 1. Forçar HTTPS e remover www (antes de qualquer output)
+if (
+    (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'http')
+    || (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')
+) {
+    $protocolo = 'https://';
+} else {
+    $protocolo = 'https://';
+}
 
+$host = $_SERVER['HTTP_HOST'];
+// Remove www se existir
+$host = preg_replace('/^www\./i', '', $host);
+
+// Só redireciona se for realmente necessário
+if (
+    (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'http')
+    || (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')
+    || strpos($_SERVER['HTTP_HOST'], 'www.') === 0
+) {
+    $redirecionamento = $protocolo . $host . $_SERVER['REQUEST_URI'];
+    header("Location: " . $redirecionamento, true, 301);
+    exit;
+}
+
+// Fim
 // 2. Configuração segura de cookies
 ini_set('session.cookie_httponly', 1);
 ini_set('session.cookie_secure', 1);
@@ -23,7 +43,6 @@ session_set_cookie_params([
     'samesite' => 'Strict'
 ]);
 session_start();
-// Fim
 try {
     // Define o diretório raiz do projeto
     define('ROOT_DIR', dirname(__DIR__));
@@ -135,4 +154,10 @@ header("Content-Security-Policy:
     frame-ancestors 'self';
     upgrade-insecure-requests;
     block-all-mixed-content;
+    sandbox allow-forms allow-scripts allow-same-origin allow-popups;
+    report-uri /csp-report.php");
+
+// Adiciona report-only para teste
+header("Content-Security-Policy-Report-Only: 
+    default-src 'self';
     report-uri /csp-report.php");
