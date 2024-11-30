@@ -91,17 +91,19 @@ AddType application/javascript .js
     AddType application/javascript .js
 </IfModule>
 
-# Força HTTPS - ajuste mais robusto
+# Força HTTPS - redirecionamento em duas etapas
 RewriteEngine On
-RewriteCond %{HTTPS} off [OR]
-RewriteCond %{HTTP_HOST} ^www\. [NC]
-RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
-RewriteRule ^ https://%1%{REQUEST_URI} [L,NE,R=301]
+# Primeiro redireciona para o mesmo host em HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+# Depois remove www se presente
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301,NE]
 
 # Content Security Policy (CSP)
 <IfModule mod_headers.c>
     # Outras headers de segurança importantes
-    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    #  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set X-XSS-Protection "1; mode=block"
