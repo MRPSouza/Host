@@ -4,23 +4,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Início
-// 1. Forçar HTTPS e remover www (antes de qualquer output)
-$protocolo = 'https://';
-$host = preg_replace('/^www\./i', '', $_SERVER['HTTP_HOST']);
 
-// Só redireciona se for HTTP ou tiver www
-if (
-    (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'http')
-    || (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')
-    || strpos($_SERVER['HTTP_HOST'], 'www.') === 0
-) {
-    $redirecionamento = $protocolo . $host . $_SERVER['REQUEST_URI'];
-    header("Location: " . $redirecionamento, true, 301);
-    exit;
-}
-
-// Fim
 // 2. Configuração segura de cookies
 ini_set('session.cookie_httponly', 1);
 ini_set('session.cookie_secure', 1);
