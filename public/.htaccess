@@ -40,22 +40,19 @@ RewriteEngine On
 # Regras de reescrita para arquivos estáticos
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /
     
-    # Permitir acesso direto a arquivos existentes
-    RewriteCond %{REQUEST_FILENAME} -f [OR]
-    RewriteCond %{REQUEST_FILENAME} -d
-    RewriteRule ^ - [L]
+    # Força HTTPS e remove www em uma única regra
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
     
-    # Redirecionar todas as outras requisições para o index.php
+    # Se ainda não for HTTPS, redireciona
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Roteamento original
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [L,QSA]
-    
-    # Garantir que as URLs sem .php funcionem
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME}.php -f
-    RewriteRule ^([^\.]+)$ $1.php [NC,L]
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
 </IfModule>
 
 # Cache para arquivos estáticos
