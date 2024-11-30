@@ -5,7 +5,7 @@ class SitemapController {
         
         // Início do XML
         echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-        echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+        echo '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
         
         // Blog index
         echo $this->createUrlEntry(
