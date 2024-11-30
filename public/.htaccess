@@ -101,11 +101,21 @@ AddType application/javascript .js
 # Content Security Policy (CSP)
 <IfModule mod_headers.c>
     # Outras headers de segurança importantes
-    #  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set X-XSS-Protection "1; mode=block"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Headers para COR
+<IfModule mod_headers.c>
+    SetEnvIf Origin "^https?://(www\.)?matheusrpsouza\.com$" ALLOWED_ORIGIN=$0
+    Header set Access-Control-Allow-Origin "%{ALLOWED_ORIGIN}e" env=ALLOWED_ORIGIN
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
+    Header set Access-Control-Allow-Credentials "true"
+    Header set Vary "Origin"
 </IfModule>
 
 # Resto das suas regras de rewrite atuais...
