@@ -40,15 +40,22 @@ RewriteEngine On
 # Regras de reescrita para arquivos estáticos
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
     
-    # Remove www apenas se vier direto do www
-    RewriteCond %{HTTP_HOST} ^www\.matheusrpsouza\.com$ [NC]
-    RewriteRule ^ https://matheusrpsouza.com%{REQUEST_URI} [L,R=301]
+    # Permitir acesso direto a arquivos existentes
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
     
-    # Roteamento original
+    # Redirecionar todas as outras requisições para o index.php
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+    RewriteRule ^(.*)$ index.php [L,QSA]
+    
+    # Garantir que as URLs sem .php funcionem
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.php -f
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
 </IfModule>
 
 # Cache para arquivos estáticos
@@ -94,7 +101,7 @@ RewriteRule ^ https://%1%{REQUEST_URI} [L,NE,R=301]
 # Content Security Policy (CSP)
 <IfModule mod_headers.c>
     # Outras headers de segurança importantes
-    # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set X-XSS-Protection "1; mode=block"
