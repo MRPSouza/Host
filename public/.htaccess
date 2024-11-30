@@ -91,13 +91,4 @@ AddType application/javascript .js
     AddType application/javascript .js
 </IfModule>
 
-# Permitir acesso geral
-Require all granted
-Header set Access-Control-Allow-Origin "*"
 
-# Permitir acesso ao arquivo seo_pages.json
-<FilesMatch "seo_pages\.json$">
-    Require all granted
-    Header set Access-Control-Allow-Origin "*"
-    Header set Content-Type "application/json"
-</FilesMatch>
