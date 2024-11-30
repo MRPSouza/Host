@@ -16,7 +16,7 @@
 </IfModule>
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
 # Adiciona headers de segurança
 <IfModule mod_headers.c>
@@ -33,71 +33,22 @@ RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
 # </IfModule>
 
 # Content Security Policy (CSP)
-# <IfModule mod_headers.c>
-#     Header set Content-Security-Policy "
-#         # Fontes de conteúdo padrão
-#         default-src 'self';
-
-#         # Scripts permitidos
-#         script-src 'self' 
-#             'unsafe-inline' 
-#             'unsafe-eval' 
-#             https://cdn.jsdelivr.net 
-#             https://code.jquery.com 
-#             https://cdnjs.cloudflare.com;
-
-#         # Estilos permitidos
-#         style-src 'self' 
-#             'unsafe-inline' 
-#             https://cdn.jsdelivr.net 
-#             https://fonts.googleapis.com;
-
-#         # Fontes permitidas
-#         font-src 'self' 
-#             https://fonts.gstatic.com 
-#             https://cdn.jsdelivr.net;
-
-#         # Imagens permitidas
-#         img-src 'self' 
-#             data: 
-#             https: 
-#             blob:;
-
-#         # Conexões permitidas
-#         connect-src 'self' 
-#             https://api.exemplo.com;
-
-#         # Frames permitidos
-#         frame-src 'self' 
-#             https://www.google.com 
-#             https://www.youtube.com;
-
-#         # Objetos permitidos
-#         object-src 'none';
-
-#         # Manifesto permitido
-#         manifest-src 'self';
-
-#         # Base URI
-#         base-uri 'self';
-
-#         # Form actions
-#         form-action 'self';
-
-#         # Frame ancestors
-#         frame-ancestors 'self';
-
-#         # Upgrade insecure requests
-#         upgrade-insecure-requests;
-#     "
-
-#     # Outras headers de segurança importantes
-#     Header set X-Content-Type-Options "nosniff"
-#     Header set X-Frame-Options "SAMEORIGIN"
-#     Header set X-XSS-Protection "1; mode=block"
-#     Header set Referrer-Policy "strict-origin-when-cross-origin"
-#     Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
-# </IfModule>
+<IfModule mod_headers.c>
+    Header set Content-Security-Policy "
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://code.jquery.com https://cdnjs.cloudflare.com;
+        style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com;
+        img-src 'self' data: https: blob:;
+        font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net;
+        connect-src 'self';
+        frame-src 'self';
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+        frame-ancestors 'self';
+        upgrade-insecure-requests;
+        block-all-mixed-content"
+</IfModule>
 
 # Previne listagem de diretórios
 Options -Indexes
