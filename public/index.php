@@ -4,11 +4,12 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Início
 // 1. Forçar HTTPS primeiro (antes de qualquer output)
-if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {
-    header("Location: https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], true, 301);
-    exit;
-}
+// if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {
+//     header("Location: https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], true, 301);
+//     exit;
+// }
 
 // 2. Configuração segura de cookies
 ini_set('session.cookie_httponly', 1);
@@ -22,7 +23,7 @@ session_set_cookie_params([
     'samesite' => 'Strict'
 ]);
 session_start();
-
+// Fim
 try {
     // Define o diretório raiz do projeto
     define('ROOT_DIR', dirname(__DIR__));
