@@ -6,20 +6,10 @@ error_reporting(E_ALL);
 
 // Início
 // 1. Forçar HTTPS e remover www (antes de qualquer output)
-if (
-    (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'http')
-    || (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')
-) {
-    $protocolo = 'https://';
-} else {
-    $protocolo = 'https://';
-}
+$protocolo = 'https://';
+$host = preg_replace('/^www\./i', '', $_SERVER['HTTP_HOST']);
 
-$host = $_SERVER['HTTP_HOST'];
-// Remove www se existir
-$host = preg_replace('/^www\./i', '', $host);
-
-// Só redireciona se for realmente necessário
+// Só redireciona se for HTTP ou tiver www
 if (
     (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'http')
     || (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off')
