@@ -3,7 +3,7 @@
 header("Access-Control-Allow-Origin: https://www.matheusrpsouza.com");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
-header("Strict-Transport-Security: max-age=31536000; includeSubDomains; env=HTTPS; preload");
+header("Strict-Transport-Security: max-age=31536000; includeSubDomains; preload");
 header("Content-Security-Policy: default-src 'none'; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com 'sha256-3NoEtkEHDA8z02jxlEUdUqAZ34d7pY2rg3AaP2FDXDE=' 'sha256-XMv3CM8yat1em/x2bEYTzNrHS7kE+AzJ1LUzAXTC3qY=' 'sha256-j9dNgTHVcc48L1ySZTrEoVzwnycrTXRNN5y/GxtJojk='; style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com 'sha256-PtwgLPalWNZocrAtmYoZ0a6TWdZzg3zemiUcVGvoOA0=' 'sha256-z0WHBt+2WMiOK2g8o/EZRVoYAqxoS3GYwEa9/2CQ35o='; font-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net data:; img-src 'self' data: https:; media-src 'self' data: https://*; connect-src 'self' *; frame-ancestors 'none'; form-action 'self'; base-uri 'self'; manifest-src 'self'; upgrade-insecure-requests; block-all-mixed-content");
 ?>
 
