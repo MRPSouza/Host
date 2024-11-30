@@ -14,11 +14,13 @@
     # Redireciona todas as requisições para index.php
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
+# Redireciona para o HTTPS independente do domínio
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-# Força HTTPS
-# RewriteEngine On
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Adiciona www. no prefixo do domínio
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 # Adiciona headers de segurança
 <IfModule mod_headers.c>
