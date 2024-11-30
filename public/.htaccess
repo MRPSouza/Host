@@ -104,7 +104,7 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Content Security Policy (CSP)
 <IfModule mod_headers.c>
-    # Header set Content-Security-Policy "
+    Header set Content-Security-Policy "
     #     default-src 'self';
     #     script-src 'self' 
     #         https://cdn.jsdelivr.net 
@@ -130,8 +130,8 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     #     form-action 'self';
     #     base-uri 'self';
     #     object-src 'self';
-    #     upgrade-insecure-requests;
-    #     block-all-mixed-content"
+        upgrade-insecure-requests;
+        block-all-mixed-content"
 
     # Outras headers de segurança importantes
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
