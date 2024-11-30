@@ -94,13 +94,13 @@ AddType application/javascript .js
 # Força HTTPS e remove WWW
 RewriteEngine On
 
-# Primeiro remove WWW
-RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+# # Primeiro remove WWW
+# RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+# RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
-# Depois força HTTPS
-RewriteCond %{HTTPS} !=on
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# # Depois força HTTPS
+# RewriteCond %{HTTPS} !=on
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Content Security Policy (CSP)
 <IfModule mod_headers.c>
