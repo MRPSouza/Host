@@ -96,3 +96,20 @@ try {
         'message' => $e->getMessage()
     ]);
 }
+
+// Gera nonce único para scripts e estilos
+$scriptNonce = base64_encode(random_bytes(16));
+$styleNonce = base64_encode(random_bytes(16));
+
+// CSP mais seguro sem unsafe-inline
+header("Content-Security-Policy: 
+    default-src 'self'; 
+    script-src 'self' 'nonce-{$scriptNonce}' 'strict-dynamic'; 
+    style-src 'self' 'nonce-{$styleNonce}';
+    connect-src 'self' https://matheusrpsouza.com;
+    img-src 'self' data: https:;
+    font-src 'self' https:;
+    frame-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self'");
