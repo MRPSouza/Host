@@ -15,6 +15,20 @@
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
 
+# Força HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Adiciona headers de segurança
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection "1; mode=block"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
 # # Se mod_rewrite não estiver disponível
 # <IfModule !mod_rewrite.c>
 #     ErrorDocument 500 "Mod_rewrite não está ativado. Por favor, ative-o no Apache."
