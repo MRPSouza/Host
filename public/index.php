@@ -112,4 +112,13 @@ header("Content-Security-Policy:
     frame-src 'self';
     object-src 'none';
     base-uri 'self';
-    form-action 'self'");
+    form-action 'self';
+    upgrade-insecure-requests;
+    block-all-mixed-content;
+    sandbox allow-forms allow-scripts allow-same-origin allow-popups;
+    report-uri /csp-report.php");
+
+// Adiciona report-only para teste
+header("Content-Security-Policy-Report-Only: 
+    default-src 'self';
+    report-uri /csp-report.php");
