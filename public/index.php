@@ -4,6 +4,25 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// 1. Forçar HTTPS primeiro (antes de qualquer output)
+if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on') {
+    header("Location: https://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], true, 301);
+    exit;
+}
+
+// 2. Configuração segura de cookies
+ini_set('session.cookie_httponly', 1);
+ini_set('session.cookie_secure', 1);
+session_set_cookie_params([
+    'lifetime' => 3600,
+    'path' => '/',
+    'domain' => '.matheusrpsouza.com',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'Strict'
+]);
+session_start();
+
 try {
     // Define o diretório raiz do projeto
     define('ROOT_DIR', dirname(__DIR__));
@@ -101,24 +120,18 @@ try {
 $scriptNonce = base64_encode(random_bytes(16));
 $styleNonce = base64_encode(random_bytes(16));
 
-// CSP mais seguro sem unsafe-inline
+// 3. CSP completo
 header("Content-Security-Policy: 
     default-src 'self'; 
     script-src 'self' 'nonce-{$scriptNonce}' 'strict-dynamic'; 
     style-src 'self' 'nonce-{$styleNonce}';
-    connect-src 'self' https://matheusrpsouza.com;
     img-src 'self' data: https:;
     font-src 'self' https:;
     frame-src 'self';
     object-src 'none';
     base-uri 'self';
     form-action 'self';
+    frame-ancestors 'self';
     upgrade-insecure-requests;
     block-all-mixed-content;
-    sandbox allow-forms allow-scripts allow-same-origin allow-popups;
-    report-uri /csp-report.php");
-
-// Adiciona report-only para teste
-header("Content-Security-Policy-Report-Only: 
-    default-src 'self';
     report-uri /csp-report.php");
