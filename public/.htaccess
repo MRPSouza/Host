@@ -101,14 +101,14 @@ AddType application/javascript .js
 # Content Security Policy (CSP)
 <IfModule mod_headers.c>
     # Outras headers de segurança importantes
-     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    #  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set X-XSS-Protection "1; mode=block"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
-# Headers para COR
+# Headers para CORS - versão ajustada
 <IfModule mod_headers.c>
     SetEnvIf Origin "^https?://(www\.)?matheusrpsouza\.com$" ALLOWED_ORIGIN=$0
     Header set Access-Control-Allow-Origin "%{ALLOWED_ORIGIN}e" env=ALLOWED_ORIGIN
@@ -118,6 +118,26 @@ AddType application/javascript .js
     Header set Vary "Origin"
 </IfModule>
 
+# Regras de Rewrite
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Força HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Remove www
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+    
+    # Roteamento para páginas
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+</IfModule>
+
 # Resto das suas regras de rewrite atuais...
+
+
 
 
