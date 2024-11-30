@@ -1,5 +1,5 @@
 <?php
-// Adicione isto no início absoluto do seu arquivo PHP principal, antes de qualquer HTML ou whitespace
+ob_start();
 header("Content-Security-Policy: 
     default-src 'none'; 
     script-src 'self' 
@@ -25,7 +25,7 @@ header("Content-Security-Policy:
     form-action 'self'; 
     base-uri 'self';
     upgrade-insecure-requests;
-    block-all-mixed-content;");
+    block-all-mixed-content");
 ?>
 
 <!DOCTYPE html>
