@@ -91,12 +91,16 @@ AddType application/javascript .js
     AddType application/javascript .js
 </IfModule>
 
-# Força HTTPS - exemplo da documentação oficial
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteCond %{HTTPS} !=on
-    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R=301,L]
-</IfModule>
+# Força HTTPS - versão simplificada
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Depois, remove www se presente e força HTTPS
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
 # Content Security Policy (CSP)
 <IfModule mod_headers.c>
@@ -108,34 +112,6 @@ AddType application/javascript .js
     Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
-# Headers para CORS - versão ajustada
-<IfModule mod_headers.c>
-    SetEnvIf Origin "^https?://(www\.)?matheusrpsouza\.com$" ALLOWED_ORIGIN=$0
-    Header set Access-Control-Allow-Origin "%{ALLOWED_ORIGIN}e" env=ALLOWED_ORIGIN
-    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
-    Header set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept"
-    Header set Access-Control-Allow-Credentials "true"
-    Header set Vary "Origin"
-</IfModule>
-
-# Regras de Rewrite
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    
-    # Primeiro remove www e força HTTPS em uma única regra
-    RewriteCond %{HTTP_HOST} ^www\. [NC,OR]
-    RewriteCond %{HTTPS} off
-    RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
-    RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
-    
-    # Roteamento original
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
-</IfModule>
-
 # Resto das suas regras de rewrite atuais...
-
-
 
 
