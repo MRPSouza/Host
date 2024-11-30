@@ -41,9 +41,9 @@ RewriteEngine On
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Remove www apenas
-    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-    RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+    # Remove www apenas se vier direto do www
+    RewriteCond %{HTTP_HOST} ^www\.matheusrpsouza\.com$ [NC]
+    RewriteRule ^ https://matheusrpsouza.com%{REQUEST_URI} [L,R=301]
     
     # Roteamento original
     RewriteCond %{REQUEST_FILENAME} !-f
