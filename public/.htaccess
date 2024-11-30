@@ -104,35 +104,6 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Content Security Policy (CSP)
 <IfModule mod_headers.c>
-    Header set Content-Security-Policy "
-        default-src 'self'
-    #     script-src 'self' 
-    #         https://cdn.jsdelivr.net 
-    #         https://cdnjs.cloudflare.com 
-    #         'sha256-jNUaLyKtUOtTVaAUziqIV9DJCNPr3ty5ZK4o7WIe1TU='
-    #         'sha256-wShYhjL/WEbqxgBgWQPvW6VSsr1gGYvGj9ZPDNsVK3w='
-    #         'sha256-k9ISLWHcPDNxxmLk/z1Kmn5JcTnyxlLgbQgQkI+zmjg='
-    #         'sha256-OPlvV0PukpmbD8NgO7FYL0fXmC6HWYqI5Z4/GoE+D4w='
-    #         'sha256-k2UHtayxw6rd21AKKJSQ2u7g+C9wCNMJIaWnfSFZ5Jk='
-    #         'sha256-d6MhXPGKHgj5QgE+0nM7Ra+5XEQN570BMDXwhH627WM='
-    #         'sha256-5G9EkZVw7e4y1kGjf2UGMPpBSj6zhFYn8xY127Ik0ZY=';
-    #     style-src 'self' 
-    #         https://cdn.jsdelivr.net 
-    #         https://cdnjs.cloudflare.com
-    #         'sha256-lSQTU/F1/ZmmX3RPh56utZLWWyMEu9Uch9bC475QvPA='
-    #         'sha256-muFRSnplr5N3iEjTOjXk+DFAY53hts6pBpEoEDnY4W0='
-    #         'sha256-0qxSfKRkLT0a0s7bdPKt0OzTgaGpWK4YjJngQBs766A=';
-    #     font-src 'self' https://cdnjs.cloudflare.com data:;
-    #     img-src 'self' data: https: http: *;
-    #     media-src 'self' data: https://* http://*;
-    #     connect-src 'self' *;
-    #     frame-ancestors 'self';
-    #     form-action 'self';
-    #     base-uri 'self';
-        # object-src 'self';
-        # upgrade-insecure-requests;
-        # block-all-mixed-content"
-
     # Outras headers de segurança importantes
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
     Header set X-Content-Type-Options "nosniff"
