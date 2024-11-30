@@ -33,14 +33,17 @@
 Início da página
 
 <?php
-// Método 1: apache_get_version()
-if (function_exists('apache_get_version')) {
-    echo "Versão do Apache (método 1): " . apache_get_version() . "<br>";
+// Informações do servidor
+echo "Módulos Apache carregados: <br>";
+if (function_exists('apache_get_modules')) {
+    print_r(apache_get_modules());
 }
 
-// Método 2: $_SERVER['SERVER_SOFTWARE']
-echo "Versão do Apache (método 2): " . $_SERVER['SERVER_SOFTWARE'] . "<br>";
+echo "<br><br>Todas as variáveis do servidor: <br>";
+foreach($_SERVER as $key => $value) {
+    echo "$key => $value <br>";
+}
 
-// Método 3: phpinfo()
-// phpinfo(INFO_MODULES); // Mostra informações detalhadas, incluindo módulos Apache
+// Versão do PHP também pode ajudar
+echo "<br>Versão do PHP: " . PHP_VERSION;
 ?>
