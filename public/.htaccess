@@ -91,18 +91,11 @@ AddType application/javascript .js
     AddType application/javascript .js
 </IfModule>
 
-# Força HTTPS - regra mais específica
+# Força HTTPS - versão simplificada
 RewriteEngine On
-
-# Primeiro, força HTTPS para qualquer requisição HTTP
-RewriteCond %{HTTPS} !=on [NC]
+RewriteCond %{HTTPS} off
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteCond %{HTTP_HOST} !^www\. [NC]
-RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
-
-# Depois, remove www se presente e força HTTPS
-RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
-RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
 # Content Security Policy (CSP)
 <IfModule mod_headers.c>
