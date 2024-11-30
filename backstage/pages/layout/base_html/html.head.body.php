@@ -1,3 +1,8 @@
+<?php
+// Adicione isto no início absoluto do seu arquivo PHP principal, antes de qualquer HTML ou whitespace
+header("Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src 'self' https://cdnjs.cloudflare.com data:; img-src 'self' data: https: http: *; media-src 'self' data: https://* http://*; connect-src 'self' *; frame-ancestors 'self'; form-action 'self'; base-uri 'self';");
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
