@@ -212,5 +212,7 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
         });
     });
     </script>
+
+    <script src="<?= BASE_URL ?>/assets/js/phone-links.js"></script>
 </body>
 </html>
