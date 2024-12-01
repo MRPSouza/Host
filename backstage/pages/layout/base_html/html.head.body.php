@@ -38,36 +38,9 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     
     <!-- Previne requisições automáticas de favicon -->
     <link rel="icon" href="data:,">
-
-    <style>
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: row;
-            margin: 0;
-            justify-content: start;
-            align-items: left;
-        }
-
-        main {
-            flex: 1 0 auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: start;
-            align-items: left;
-            width: 100%;
-        }
-
-        footer {
-            margin-top: auto;
-            padding: 1rem;
-            background-color: #f8f9fa;
-            text-align: center;
-            width: 100%;
-        }
-    </style>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/header.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/home.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/footer.css">
 </head>
 <body>
     <!-- Loader -->
