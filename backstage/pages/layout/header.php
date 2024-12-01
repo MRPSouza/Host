@@ -47,10 +47,10 @@
                         <a class="nav-link" href="<?= BASE_URL ?>/"><i class="bi bi-house-door me-1"></i>Início</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link" href="<?= BASE_URL ?>/services" id="servicesDropdown">
                             <i class="bi bi-tools me-1"></i>Serviços
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-hover" aria-labelledby="servicesDropdown">
                             <li><a class="dropdown-item" href="<?= BASE_URL ?>/services/phones">Celulares</a></li>
                             <li><a class="dropdown-item" href="<?= BASE_URL ?>/services/tablets">Tablets</a></li>
                             <li><a class="dropdown-item" href="<?= BASE_URL ?>/services/notebooks">Notebooks</a></li>
@@ -71,4 +71,14 @@
             </div>
         </div>
     </nav>
+    <div style="height: 76px;"></div>
+
+    <style>
+    @media (min-width: 992px) {
+        .dropdown:hover .dropdown-menu-hover {
+            display: block;
+            margin-top: 0;
+        }
+    }
+    </style>
 </header>
