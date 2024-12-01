@@ -52,6 +52,7 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
         main {
             flex: 1 0 auto;
             display: flex;
+            flex-direction: row;
             justify-content: start;
             align-items: left;
             width: 100%;
