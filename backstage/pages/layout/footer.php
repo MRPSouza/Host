@@ -52,20 +52,20 @@
             
             <div class="col-lg-4">
                 <h5 class="mb-4">Contato</h5>
-                <ul class="list-unstyled text-muted">
+                <ul class="list-unstyled ">
                     <li class="mb-2">
                         <i class="bi bi-geo-alt me-2"></i>
                         Rua Example, 123 - São Paulo, SP
                     </li>
                     <li class="mb-2">
                         <i class="bi bi-telephone me-2"></i>
-                        <a href="tel:+5511999999999" class="text-muted text-decoration-none">
+                        <a href="tel:+5511999999999" class=" text-decoration-none">
                             (11) 99999-9999
                         </a>
                     </li>
                     <li class="mb-2">
                         <i class="bi bi-envelope me-2"></i>
-                        <a href="mailto:contato@mistercel.com.br" class="text-muted text-decoration-none">
+                        <a href="mailto:contato@mistercel.com.br" class=" text-decoration-none">
                             contato@mistercel.com.br
                         </a>
                     </li>
