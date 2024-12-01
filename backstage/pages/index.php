@@ -40,8 +40,11 @@
                 <a href="#servicos" class="btn btn-light btn-lg">Nossos Serviços</a>
             </div>
             <div class="col-lg-6">
-                <!-- Placeholder para imagem principal -->
-                <img src="assets/img/store-front.jpg" alt="Fachada MisterCel" class="img-fluid rounded shadow">
+                <!-- Removida a imagem temporariamente até ter as fotos reais -->
+                <div class="bg-light p-4 rounded shadow text-center">
+                    <i class="bi bi-building fs-1 text-success"></i>
+                    <p class="mt-2">Imagem da loja em breve</p>
+                </div>
             </div>
         </div>
     </div>
@@ -126,12 +129,19 @@
         <div class="row">
             <div class="col-md-6">
                 <p><i class="bi bi-geo-alt-fill text-success me-2"></i>Av. Pedro Taques, 2225 - Jd Alvorada - Maringá PR</p>
-                <!-- Adicionar mais informações de contato -->
+                <p><i class="bi bi-clock-fill text-success me-2"></i>Segunda a Sexta: 9h às 18h</p>
+                <p><i class="bi bi-telephone-fill text-success me-2"></i>Telefone: (XX) XXXX-XXXX</p>
+                <a href="https://maps.google.com/?q=Av.+Pedro+Taques,+2225+-+Jd+Alvorada+-+Maringá+PR" 
+                   class="btn btn-success mt-3" 
+                   target="_blank">
+                    <i class="bi bi-map me-2"></i>Ver no Google Maps
+                </a>
             </div>
             <div class="col-md-6">
-                <!-- Placeholder para mapa do Google -->
-                <div class="ratio ratio-16x9">
-                    <iframe src="https://www.google.com/maps/embed?..." allowfullscreen></iframe>
+                <!-- Substituído o iframe por uma imagem estática ou link -->
+                <div class="bg-white p-4 rounded shadow text-center">
+                    <i class="bi bi-map fs-1 text-success"></i>
+                    <p class="mt-2">Clique no botão acima para ver nossa localização no Google Maps</p>
                 </div>
             </div>
         </div>
