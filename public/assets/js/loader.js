@@ -1,18 +1,24 @@
+// Executa antes do DOMContentLoaded para garantir que o loader apareça primeiro
+(function() {
+    if (performance.navigation.type === 1 || !sessionStorage.getItem('notFirstLoad')) {
+        document.write('<div id="preloader" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.98);display:flex;justify-content:center;align-items:center;z-index:9999;opacity:1"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>');
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     const preloader = document.getElementById('preloader');
     const mainContent = document.querySelector('main');
     let loadTimer = null;
     let isFirstLoad = !sessionStorage.getItem('notFirstLoad');
     
-    // Marca que não é mais o primeiro carregamento
     sessionStorage.setItem('notFirstLoad', 'true');
     
-    // Inicialmente esconde o preloader, exceto no primeiro carregamento
-    if (isFirstLoad) {
-        preloader.style.display = 'flex';
-        preloader.style.opacity = '1';
-    } else {
-        preloader.style.display = 'none';
+    // Se o preloader não foi criado pelo script inicial, cria agora
+    if (!preloader) {
+        const loader = document.createElement('div');
+        loader.id = 'preloader';
+        loader.innerHTML = '<div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div>';
+        document.body.appendChild(loader);
     }
     
     // Função para mostrar o loader
