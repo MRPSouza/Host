@@ -67,6 +67,7 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
         }
     </style>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/header.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/home.css">
 </head>
 <body>
     <!-- Loader -->
