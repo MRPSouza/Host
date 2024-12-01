@@ -40,7 +40,7 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     <link rel="icon" href="data:,">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/header.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/home.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/footer.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/copy.css">
 </head>
 <body>
     <!-- Loader -->
