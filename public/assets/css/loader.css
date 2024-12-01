@@ -11,12 +11,12 @@
     z-index: 999999;
     opacity: 0;
     transition: opacity 0.3s ease-out;
-    pointer-events: all;
     overflow: hidden;
 }
 
 #preloader[style*="display: none"] {
-    pointer-events: none;
+    visibility: hidden;
+    z-index: -1;
 }
 
 .loader {
