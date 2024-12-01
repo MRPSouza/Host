@@ -2,12 +2,12 @@
 (function() {
     if (performance.navigation.type === 1 || !sessionStorage.getItem('notFirstLoad')) {
         document.write('<div id="preloader"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>');
-        // Garantimos que ao carregar, o preloader ficará invisível e sem interação
+        // Usamos o mesmo hideLoader() para manter consistência
         window.addEventListener('load', function() {
             const preloader = document.getElementById('preloader');
             if (preloader) {
-                preloader.style.visibility = 'hidden';
-                preloader.style.pointerEvents = 'none';
+                preloader.classList.add('loaded');
+                preloader.style.display = 'none';
             }
         });
     }
