@@ -46,14 +46,14 @@ try {
     // Verifica a rota
     $route = getRoute($url);
 
-    // if ($route) {
-    //     $controller = $route['controller'];
-    //     $action = $route['action'];
-    // } else {
-    //     header("HTTP/1.0 404 Not Found");
-    //     $controller = 'Error';
-    //     $action = 'notFound';
-    // }
+    if ($route) {
+        $controller = $route['controller'];
+        $action = $route['action'];
+    } else {
+        // Define controller e action padrão para 404
+        $controller = 'Pages';  // ou 'Error', dependendo da sua estrutura
+        $action = 'notFound';
+    }
 
     // Verifica se é AJAX
     $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 
