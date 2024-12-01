@@ -29,10 +29,12 @@
 
 ?>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="<?= BASE_URL ?>/">
-                <img src="<?= BASE_URL ?>/assets/img/logo.png" alt="Logo" height="40" class="d-inline-block align-text-top">
+            <a class="navbar-brand d-flex align-items-center" href="<?= BASE_URL ?>/">
+                <i class="fas fa-mobile-alt text-primary me-2"></i>
+                <span class="fw-bold">Mister Cel</span>
+                <span class="badge bg-primary ms-2 rounded-pill">Desde 2008</span>
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,16 +44,28 @@
             <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>/">Início</a>
+                        <a class="nav-link" href="<?= BASE_URL ?>/"><i class="bi bi-house-door me-1"></i>Início</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-tools me-1"></i>Serviços
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="<?= BASE_URL ?>/services/phones">Celulares</a></li>
+                            <li><a class="dropdown-item" href="<?= BASE_URL ?>/services/tablets">Tablets</a></li>
+                            <li><a class="dropdown-item" href="<?= BASE_URL ?>/services/notebooks">Notebooks</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>/services">Serviços</a>
+                        <a class="nav-link" href="<?= BASE_URL ?>/about"><i class="bi bi-info-circle me-1"></i>Sobre</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>/about">Sobre</a>
+                        <a class="nav-link" href="<?= BASE_URL ?>/contact"><i class="bi bi-envelope me-1"></i>Contato</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= BASE_URL ?>/contact">Contato</a>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-primary" href="tel:+5511999999999">
+                            <i class="bi bi-whatsapp me-1"></i>Agende Agora
+                        </a>
                     </li>
                 </ul>
             </div>
