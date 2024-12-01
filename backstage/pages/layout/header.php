@@ -71,14 +71,5 @@
             </div>
         </div>
     </nav>
-    <div style="height: 76px;"></div>
-
-    <style>
-    @media (min-width: 992px) {
-        .dropdown:hover .dropdown-menu-hover {
-            display: block;
-            margin-top: 0;
-        }
-    }
-    </style>
+    <div class="navbar-spacer"></div>
 </header>
