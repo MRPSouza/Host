@@ -1,6 +1,8 @@
-// Executa antes do DOMContentLoaded para garantir que o loader apareça primeiro
+// Executa antes do DOMContentLoaded
 (function() {
     if (performance.navigation.type === 1 || !sessionStorage.getItem('notFirstLoad')) {
+        // Esconde todo o conteúdo imediatamente
+        document.write('<style>body > *:not(#preloader) { visibility: hidden !important; }</style>');
         document.write('<div id="preloader" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#ffffff;display:flex;justify-content:center;align-items:center;z-index:999999;opacity:1"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>');
     }
 })();
@@ -15,46 +17,45 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Função para criar o loader
     const createLoader = () => {
+        // Esconde todo o conteúdo
+        document.body.style.visibility = 'hidden';
+        
         const loader = document.createElement('div');
         loader.id = 'preloader';
         loader.innerHTML = '<div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div>';
         document.body.appendChild(loader);
+        
+        // Garante que apenas o loader está visível
+        loader.style.visibility = 'visible';
         return loader;
     };
     
-    // Se o preloader não existe, cria ele
     if (!preloader) {
         preloader = createLoader();
     }
     
-    // Função para mostrar o loader
     window.showLoader = function(forceImmediate = false) {
         if (loadTimer) clearTimeout(loadTimer);
         
-        // Se o preloader foi removido, cria novamente
-        if (!document.getElementById('preloader')) {
-            preloader = createLoader();
-        }
+        const showLoaderContent = () => {
+            document.body.style.visibility = 'hidden';
+            if (!document.getElementById('preloader')) {
+                preloader = createLoader();
+            }
+            preloader.style.display = 'flex';
+            preloader.style.visibility = 'visible';
+            requestAnimationFrame(() => {
+                preloader.style.opacity = '1';
+            });
+        };
         
         if (forceImmediate) {
-            preloader.style.display = 'flex';
-            requestAnimationFrame(() => {
-                preloader.style.opacity = '1';
-            });
-            if(mainContent) mainContent.classList.remove('content-loaded');
-            return;
+            showLoaderContent();
+        } else {
+            loadTimer = setTimeout(showLoaderContent, 2000);
         }
-        
-        loadTimer = setTimeout(() => {
-            preloader.style.display = 'flex';
-            requestAnimationFrame(() => {
-                preloader.style.opacity = '1';
-            });
-            if(mainContent) mainContent.classList.remove('content-loaded');
-        }, 2000);
     }
     
-    // Função para esconder o loader
     window.hideLoader = function() {
         if (loadTimer) {
             clearTimeout(loadTimer);
@@ -65,9 +66,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentLoader) {
             currentLoader.style.opacity = '0';
             setTimeout(() => {
-                currentLoader.remove(); // Remove completamente do DOM
+                currentLoader.remove();
+                // Mostra todo o conteúdo novamente
+                document.body.style.visibility = 'visible';
                 if(mainContent) mainContent.classList.add('content-loaded');
             }, 300);
+        } else {
+            // Se não houver loader, apenas garante que o conteúdo está visível
+            document.body.style.visibility = 'visible';
         }
     }
     
