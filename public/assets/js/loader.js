@@ -67,13 +67,26 @@ document.addEventListener('DOMContentLoaded', function() {
             currentLoader.style.opacity = '0';
             setTimeout(() => {
                 currentLoader.remove();
-                // Mostra todo o conteúdo novamente
-                document.body.style.visibility = 'visible';
+                // Remove o estilo inline e a regra de estilo inicial
+                document.body.removeAttribute('style');
+                const styleTag = document.querySelector('style');
+                if (styleTag && styleTag.textContent.includes('body > *:not(#preloader)')) {
+                    styleTag.remove();
+                }
+                // Garante que todo o conteúdo está visível e interativo
+                document.querySelectorAll('body > *').forEach(el => {
+                    el.style.visibility = 'visible';
+                    el.style.pointerEvents = 'auto';
+                });
                 if(mainContent) mainContent.classList.add('content-loaded');
             }, 300);
         } else {
-            // Se não houver loader, apenas garante que o conteúdo está visível
-            document.body.style.visibility = 'visible';
+            // Garante que todo o conteúdo está visível e interativo mesmo sem loader
+            document.body.removeAttribute('style');
+            document.querySelectorAll('body > *').forEach(el => {
+                el.style.visibility = 'visible';
+                el.style.pointerEvents = 'auto';
+            });
         }
     }
     
