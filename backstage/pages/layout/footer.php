@@ -33,7 +33,7 @@
         <div class="row g-4">
             <div class="col-lg-4">
                 <h5 class="mb-4"><i class="fas fa-mobile-alt text-primary me-2"></i>Mister Cel</h5>
-                <p class="text-muted">Sua assistência técnica especializada em dispositivos móveis e notebooks desde 2008. Oferecemos soluções profissionais com garantia e qualidade.</p>
+                <p class="">Sua assistência técnica especializada em dispositivos móveis e notebooks desde 2008. Oferecemos soluções profissionais com garantia e qualidade.</p>
                 <div class="mt-4">
                     <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
@@ -43,7 +43,7 @@
             
             <div class="col-lg-4">
                 <h5 class="mb-4">Horário de Funcionamento</h5>
-                <ul class="list-unstyled text-muted">
+                <ul class="list-unstyled ">
                     <li class="mb-2"><i class="bi bi-clock me-2"></i>Segunda à Sexta: 09h às 18h</li>
                     <li class="mb-2"><i class="bi bi-clock me-2"></i>Sábado: 09h às 13h</li>
                     <li class="mb-2"><i class="bi bi-clock-fill me-2"></i>Domingo: Fechado</li>
@@ -77,11 +77,11 @@
         
         <div class="row">
             <div class="col-md-6 text-center text-md-start">
-                <p class="mb-0 text-muted">&copy; <?= date('Y') ?> Mister Cel. Todos os direitos reservados.</p>
+                <p class="mb-0 ">&copy; <?= date('Y') ?> Mister Cel. Todos os direitos reservados.</p>
             </div>
             <div class="col-md-6 text-center text-md-end">
-                <a href="<?= BASE_URL ?>/privacy" class="text-muted text-decoration-none me-3">Política de Privacidade</a>
-                <a href="<?= BASE_URL ?>/terms" class="text-muted text-decoration-none">Termos de Uso</a>
+                <a href="<?= BASE_URL ?>/privacy" class=" text-decoration-none me-3">Política de Privacidade</a>
+                <a href="<?= BASE_URL ?>/terms" class=" text-decoration-none">Termos de Uso</a>
             </div>
         </div>
     </div>
