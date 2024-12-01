@@ -43,7 +43,7 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
         body {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             margin: 0;
             justify-content: start;
             align-items: left;
