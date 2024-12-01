@@ -1,7 +1,7 @@
 // Executa antes do DOMContentLoaded para garantir que o loader apareça primeiro
 (function() {
     if (performance.navigation.type === 1 || !sessionStorage.getItem('notFirstLoad')) {
-        document.write('<div id="preloader" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.98);display:flex;justify-content:center;align-items:center;z-index:9999;opacity:1"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>');
+        document.write('<div id="preloader" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#ffffff;display:flex;justify-content:center;align-items:center;z-index:999999;opacity:1"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>');
     }
 })();
 
@@ -23,11 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Função para mostrar o loader
     window.showLoader = function(forceImmediate = false) {
-        // Limpa timer existente se houver
         if (loadTimer) clearTimeout(loadTimer);
         
-        // Se for forçado ou primeiro carregamento, mostra imediatamente
         if (forceImmediate) {
+            preloader.style.removeProperty('visibility');
             preloader.style.display = 'flex';
             requestAnimationFrame(() => {
                 preloader.style.opacity = '1';
@@ -36,9 +35,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Comportamento normal para navegações subsequentes
         preloader.style.opacity = '0';
         loadTimer = setTimeout(() => {
+            preloader.style.removeProperty('visibility');
             preloader.style.display = 'flex';
             requestAnimationFrame(() => {
                 preloader.style.opacity = '1';
@@ -57,6 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         preloader.style.opacity = '0';
         setTimeout(() => {
             preloader.style.display = 'none';
+            preloader.style.visibility = 'hidden';
             if(mainContent) mainContent.classList.add('content-loaded');
         }, 300);
     }
