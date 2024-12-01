@@ -10,3 +10,24 @@
         margin-top: 0;
     }
 } 
+
+.navbar {
+    background: linear-gradient(45deg, #198754, #115c39) !important;
+}
+
+.dropdown-menu-hover {
+    margin-top: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover .dropdown-menu-hover {
+    margin-top: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+.navbar-brand img {
+    filter: brightness(0) invert(1);
+} 
