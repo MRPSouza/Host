@@ -125,13 +125,20 @@
         <h2 class="text-center mb-5">Onde Estamos</h2>
         <div class="row">
             <div class="col-md-6">
-                <p><i class="bi bi-geo-alt-fill text-success me-2"></i>Av. Pedro Taques, 2225 - Jd Alvorada - Maringá PR</p>
-                <!-- Adicionar mais informações de contato -->
+                <div class="contact-info">
+                    <p><i class="bi bi-geo-alt-fill text-success me-2"></i>Av. Pedro Taques, 2225 - Jd Alvorada - Maringá PR</p>
+                    <p><i class="bi bi-clock-fill text-success me-2"></i>Segunda a Sexta: 9h às 18h</p>
+                    <p><i class="bi bi-telephone-fill text-success me-2"></i>Telefone: (XX) XXXX-XXXX</p>
+                </div>
             </div>
             <div class="col-md-6">
-                <!-- Placeholder para mapa do Google -->
-                <div class="ratio ratio-16x9">
-                    <iframe src="https://www.google.com/maps/embed?..." allowfullscreen></iframe>
+                <div class="map-container text-center">
+                    <a href="https://maps.google.com/?q=Av.+Pedro+Taques,+2225+-+Jd+Alvorada+-+Maringá+PR" 
+                       class="btn btn-success btn-lg"
+                       target="_blank"
+                       rel="noopener">
+                        <i class="bi bi-map me-2"></i>Ver no Google Maps
+                    </a>
                 </div>
             </div>
         </div>
