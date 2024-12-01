@@ -60,4 +60,10 @@ class PagesController {
             BASE_URL . '/assets/img/logo.png'
         );
     }
+
+    public function notFound() {
+        header("HTTP/1.0 404 Not Found");
+        // Se precisar definir alguma variável ou lógica para a página 404
+        // pode fazer aqui
+    }
 } 
