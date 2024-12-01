@@ -2,11 +2,12 @@
 (function() {
     if (performance.navigation.type === 1 || !sessionStorage.getItem('notFirstLoad')) {
         document.write('<div id="preloader"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>');
-        // Garantimos que o hideLoader() será chamado mesmo no carregamento inicial
+        // Garantimos que ao carregar, o preloader ficará invisível e sem interação
         window.addEventListener('load', function() {
             const preloader = document.getElementById('preloader');
             if (preloader) {
-                preloader.style.display = 'none';
+                preloader.style.visibility = 'hidden';
+                preloader.style.pointerEvents = 'none';
             }
         });
     }
