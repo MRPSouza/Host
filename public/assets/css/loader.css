@@ -14,9 +14,16 @@
     overflow: hidden;
 }
 
+/* Quando o loader está escondido, garantimos que não interfira com eventos do mouse */
 #preloader[style*="display: none"] {
+    pointer-events: none;
     visibility: hidden;
     z-index: -1;
+}
+
+/* Quando o loader está ativo, bloqueamos eventos do mouse apenas nele */
+#preloader:not([style*="display: none"]) {
+    pointer-events: all;
 }
 
 .loader {
@@ -40,7 +47,7 @@
     height: 60px;
     margin: 0 auto;
     border: 3px solid #f3f3f3;
-    border-top: 3px solid #198754;
+    border-top: 3px solid #198754; 
     border-right: 3px solid #198754;
     border-radius: 50%;
     animation: spin 1s linear infinite;
