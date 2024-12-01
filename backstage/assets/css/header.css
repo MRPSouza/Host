@@ -1,0 +1,12 @@
+/* Espaçador para navbar fixa */
+.navbar-spacer {
+    height: 76px;
+}
+
+/* Dropdown hover em desktop */
+@media (min-width: 992px) {
+    .dropdown:hover .dropdown-menu-hover {
+        display: block;
+        margin-top: 0;
+    }
+} 
