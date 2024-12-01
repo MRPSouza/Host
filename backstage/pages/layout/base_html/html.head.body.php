@@ -41,6 +41,7 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/header.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/home.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/copy.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/loader.css">
 </head>
 <body>
     <!-- Loader -->
@@ -188,6 +189,8 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     });
     </script>
 
+    <!-- Scripts -->
+    <script src="<?= BASE_URL ?>/assets/js/loader.js"></script>
     <script src="<?= BASE_URL ?>/assets/js/phone-links.js"></script>
 </body>
 </html>
