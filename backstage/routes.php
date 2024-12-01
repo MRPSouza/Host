@@ -16,9 +16,8 @@ function getRoute($url) {
         '' => ['controller' => 'Pages', 'action' => 'index'],
         'about' => ['controller' => 'Pages', 'action' => 'about'],
         'contact' => ['controller' => 'Pages', 'action' => 'contact'],
-        'services' => ['controller' => 'Pages', 'action' => 'services'],
-        '404' => ['controller' => 'Error', 'action' => 'notFound']
+        'services' => ['controller' => 'Pages', 'action' => 'services']
     ];
 
-    return $routes[$url] ?? $routes['404'];
+    return $routes[$url] ?? null;  // Retorna null se não encontrar
 } 
