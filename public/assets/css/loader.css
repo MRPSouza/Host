@@ -5,20 +5,17 @@
     width: 100vw;
     height: 100vh;
     background: #ffffff;
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999999;
-    opacity: 0;
-    transition: opacity 0.3s ease-out;
-    overflow: hidden;
 }
 
-/* Quando o loader está escondido, garantimos que não interfira com eventos do mouse */
-#preloader[style*="display: none"] {
-    pointer-events: none;
-    visibility: hidden;
-    z-index: -1;
+/* Quando o loader está escondido, removemos também o :before */
+#preloader[style*="display: none"]::before,
+#preloader[style*="visibility: hidden"]::before {
+    display: none !important;
+    visibility: hidden !important;
 }
 
 /* Quando o loader está ativo, bloqueamos eventos do mouse apenas nele */
