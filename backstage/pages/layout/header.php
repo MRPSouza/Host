@@ -29,12 +29,11 @@
 
 ?>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="<?= BASE_URL ?>/">
-                <i class="fas fa-mobile-alt text-primary me-2"></i>
-                <span class="fw-bold">Mister Cel</span>
-                <span class="badge bg-primary ms-2 rounded-pill">Desde 2008</span>
+                <img src="<?= BASE_URL ?>/assets/img/logo-mister-cel.png" alt="Mister Cel" height="40" class="me-2">
+                <span class="badge bg-light text-success ms-2 rounded-pill">Desde 2008</span>
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +62,7 @@
                         <a class="nav-link" href="<?= BASE_URL ?>/contact"><i class="bi bi-envelope me-1"></i>Contato</a>
                     </li>
                     <li class="nav-item ms-lg-2">
-                        <a class="btn btn-primary" href="tel:+5511999999999">
+                        <a class="btn btn-light text-success" href="tel:+5511999999999">
                             <i class="bi bi-whatsapp me-1"></i>Agende Agora
                         </a>
                     </li>
