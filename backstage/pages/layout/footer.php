@@ -28,60 +28,38 @@
  */
 
 ?>
-<footer class="bg-dark text-light py-5">
+<footer class="bg-success text-white py-4 mt-auto">
     <div class="container">
         <div class="row g-4">
-            <div class="col-lg-4">
-                <h5 class="mb-4"><i class="fas fa-mobile-alt text-primary me-2"></i>Mister Cel</h5>
-                <p class="">Sua assistência técnica especializada em dispositivos móveis e notebooks desde 2008. Oferecemos soluções profissionais com garantia e qualidade.</p>
-                <div class="mt-4">
-                    <a href="#" class="text-light me-3"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-light me-3"><i class="fab fa-whatsapp"></i></a>
-                </div>
+            <div class="col-md-4">
+                <img src="<?= BASE_URL ?>/assets/img/logo-mister-cel.png" alt="Mister Cel" height="40" class="mb-3">
+                <p class="mb-0">Sua parceira disponível para pronto atendimento desde 2008</p>
             </div>
-            
-            <div class="col-lg-4">
-                <h5 class="mb-4">Horário de Funcionamento</h5>
-                <ul class="list-unstyled ">
-                    <li class="mb-2"><i class="bi bi-clock me-2"></i>Segunda à Sexta: 09h às 18h</li>
-                    <li class="mb-2"><i class="bi bi-clock me-2"></i>Sábado: 09h às 13h</li>
-                    <li class="mb-2"><i class="bi bi-clock-fill me-2"></i>Domingo: Fechado</li>
-                </ul>
+            <div class="col-md-4">
+                <h5 class="mb-3">Contato</h5>
+                <p><i class="bi bi-geo-alt-fill me-2"></i>Av. Pedro Taques, 2225</p>
+                <p><i class="bi bi-building me-2"></i>Jd Alvorada - Maringá PR</p>
+                <p><i class="bi bi-telephone-fill me-2"></i>(XX) XXXX-XXXX</p>
+                <p><i class="bi bi-clock-fill me-2"></i>Segunda a Sexta: 9h às 18h</p>
             </div>
-            
-            <div class="col-lg-4">
-                <h5 class="mb-4">Contato</h5>
-                <ul class="list-unstyled ">
-                    <li class="mb-2">
-                        <i class="bi bi-geo-alt me-2"></i>
-                        Rua Example, 123 - São Paulo, SP
-                    </li>
-                    <li class="mb-2">
-                        <i class="bi bi-telephone me-2"></i>
-                        <a href="tel:+5511999999999" class=" text-decoration-none">
-                            (11) 99999-9999
-                        </a>
-                    </li>
-                    <li class="mb-2">
-                        <i class="bi bi-envelope me-2"></i>
-                        <a href="mailto:contato@mistercel.com.br" class=" text-decoration-none">
-                            contato@mistercel.com.br
-                        </a>
-                    </li>
+            <div class="col-md-4">
+                <h5 class="mb-3">Links Rápidos</h5>
+                <ul class="list-unstyled">
+                    <li><a href="<?= BASE_URL ?>/services" class="text-white text-decoration-none"><i class="bi bi-chevron-right me-2"></i>Serviços</a></li>
+                    <li><a href="<?= BASE_URL ?>/about" class="text-white text-decoration-none"><i class="bi bi-chevron-right me-2"></i>Sobre Nós</a></li>
+                    <li><a href="<?= BASE_URL ?>/contact" class="text-white text-decoration-none"><i class="bi bi-chevron-right me-2"></i>Contato</a></li>
                 </ul>
             </div>
         </div>
-        
         <hr class="my-4">
-        
         <div class="row">
-            <div class="col-md-6 text-center text-md-start">
-                <p class="mb-0 ">&copy; <?= date('Y') ?> Mister Cel. Todos os direitos reservados.</p>
+            <div class="col-md-6">
+                <p class="mb-0">&copy; <?= date('Y') ?> Mister Cel. Todos os direitos reservados.</p>
             </div>
-            <div class="col-md-6 text-center text-md-end">
-                <a href="<?= BASE_URL ?>/privacy" class=" text-decoration-none me-3">Política de Privacidade</a>
-                <a href="<?= BASE_URL ?>/terms" class=" text-decoration-none">Termos de Uso</a>
+            <div class="col-md-6 text-md-end">
+                <a href="#" class="text-white text-decoration-none me-3"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="text-white text-decoration-none me-3"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="text-white text-decoration-none me-3"><i class="bi bi-whatsapp"></i></a>
             </div>
         </div>
     </div>
