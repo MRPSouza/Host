@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let loadTimer = null;
     let isFirstLoad = !sessionStorage.getItem('notFirstLoad');
     
+    // Força a reativação do mouse após F5
+    if (performance.navigation.type === 1) {
+        document.documentElement.style.pointerEvents = 'auto';
+        document.body.style.pointerEvents = 'auto';
+    }
+    
     sessionStorage.setItem('notFirstLoad', 'true');
     
     // Função para criar o loader
@@ -113,5 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Esconde o loader se a navegação for cancelada
     window.addEventListener('popstate', hideLoader);
 }); 
