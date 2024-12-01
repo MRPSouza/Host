@@ -1,9 +1,14 @@
 // Executa antes do DOMContentLoaded
 (function() {
     if (performance.navigation.type === 1 || !sessionStorage.getItem('notFirstLoad')) {
-        // Esconde todo o conteúdo imediatamente
-        document.write('<style>body > *:not(#preloader) { visibility: hidden !important; }</style>');
-        document.write('<div id="preloader" style="position:fixed;top:0;left:0;width:100%;height:100%;background:#ffffff;display:flex;justify-content:center;align-items:center;z-index:999999;opacity:1"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>');
+        document.write('<div id="preloader"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>');
+        // Garantimos que o hideLoader() será chamado mesmo no carregamento inicial
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.style.display = 'none';
+            }
+        });
     }
 })();
 
