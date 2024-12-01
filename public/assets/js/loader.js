@@ -6,27 +6,37 @@
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
-    const preloader = document.getElementById('preloader');
+    let preloader = document.getElementById('preloader');
     const mainContent = document.querySelector('main');
     let loadTimer = null;
     let isFirstLoad = !sessionStorage.getItem('notFirstLoad');
     
     sessionStorage.setItem('notFirstLoad', 'true');
     
-    // Se o preloader não foi criado pelo script inicial, cria agora
-    if (!preloader) {
+    // Função para criar o loader
+    const createLoader = () => {
         const loader = document.createElement('div');
         loader.id = 'preloader';
         loader.innerHTML = '<div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div>';
         document.body.appendChild(loader);
+        return loader;
+    };
+    
+    // Se o preloader não existe, cria ele
+    if (!preloader) {
+        preloader = createLoader();
     }
     
     // Função para mostrar o loader
     window.showLoader = function(forceImmediate = false) {
         if (loadTimer) clearTimeout(loadTimer);
         
+        // Se o preloader foi removido, cria novamente
+        if (!document.getElementById('preloader')) {
+            preloader = createLoader();
+        }
+        
         if (forceImmediate) {
-            preloader.style.removeProperty('visibility');
             preloader.style.display = 'flex';
             requestAnimationFrame(() => {
                 preloader.style.opacity = '1';
@@ -35,9 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        preloader.style.opacity = '0';
         loadTimer = setTimeout(() => {
-            preloader.style.removeProperty('visibility');
             preloader.style.display = 'flex';
             requestAnimationFrame(() => {
                 preloader.style.opacity = '1';
@@ -53,12 +61,14 @@ document.addEventListener('DOMContentLoaded', function() {
             loadTimer = null;
         }
         
-        preloader.style.opacity = '0';
-        setTimeout(() => {
-            preloader.style.display = 'none';
-            preloader.style.visibility = 'hidden';
-            if(mainContent) mainContent.classList.add('content-loaded');
-        }, 300);
+        const currentLoader = document.getElementById('preloader');
+        if (currentLoader) {
+            currentLoader.style.opacity = '0';
+            setTimeout(() => {
+                currentLoader.remove(); // Remove completamente do DOM
+                if(mainContent) mainContent.classList.add('content-loaded');
+            }, 300);
+        }
     }
     
     // No primeiro carregamento ou reload completo, mostra o loader imediatamente
@@ -80,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
             link.href.indexOf('tel:') !== 0 && 
             link.href.indexOf('mailto:') !== 0) {
             
-            // Verifica se é uma navegação para uma nova página (não AJAX)
             const isFullPageLoad = !link.hasAttribute('data-ajax');
             showLoader(isFullPageLoad);
         }
