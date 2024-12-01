@@ -50,7 +50,7 @@ try {
         $controller = $route['controller'];
         $action = $route['action'];
     } else {
-        header("HTTP/1.0 404 Not Found");
+        // header("HTTP/1.0 404 Not Found");
         $controller = 'Error';
         $action = 'notFound';
     }
@@ -78,13 +78,13 @@ try {
     
     // Verifica o arquivo da página
     $pageFile = ROOT_DIR . '/backstage/pages/' . strtolower($action) . '.php';
-    // if (!file_exists($pageFile)) {
-    //     header("HTTP/1.0 404 Not Found");
-    //     $pageFile = ROOT_DIR . '/backstage/pages/404.php';
-    //     if (!file_exists($pageFile)) {
-    //         throw new Exception("Arquivo da página 404 não encontrado");
-    //     }
-    // }
+    if (!file_exists($pageFile)) {
+        header("HTTP/1.0 404 Not Found");
+        $pageFile = ROOT_DIR . '/backstage/pages/404.php';
+        if (!file_exists($pageFile)) {
+            throw new Exception("Arquivo da página 404 não encontrado");
+        }
+    }
 
     if ($isAjax) {
         ob_start();
