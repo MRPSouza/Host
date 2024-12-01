@@ -1,0 +1,34 @@
+/* Ajustes para cards e texto */
+.card {
+    border: 1px solid rgba(0,0,0,.125);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-card {
+    padding: 2rem;
+    height: 100%;
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    white-space: normal;
+}
+
+p {
+    margin-bottom: 0;
+    white-space: normal;
+}
+
+.icon-wrapper {
+    font-size: 2.5rem;
+    color: #198754;
+    margin-bottom: 1rem;
+} 
