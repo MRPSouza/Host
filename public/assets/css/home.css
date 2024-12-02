@@ -311,7 +311,7 @@ p {
 .custom-shape-divider-top-1733163571 svg {
     position: relative;
     display: block;
-    margin-top: 370px;
+    bottom: 0;
     width: calc(100% + 1.3px);
     height: 150px;
 }
