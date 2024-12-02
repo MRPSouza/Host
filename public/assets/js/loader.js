@@ -51,8 +51,10 @@
     // 3. Criação inicial do loader se necessário
     if (isFirstLoad) {
         cleanExistingLoaders();
-        const loaderHtml = '<div id="preloader"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>';
-        document.write(loaderHtml);
+        const loader = document.createElement('div');
+        loader.id = 'preloader';
+        loader.innerHTML = '<div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div>';
+        document.body.appendChild(loader);
         
         // Garantimos que o loader será removido após o carregamento completo
         window.addEventListener('load', function() {
