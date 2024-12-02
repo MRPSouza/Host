@@ -34,8 +34,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h1 class="display-4 text-white fw-bold">Sobre a MisterCel</h1>
-                    <p class="lead text-white">Conheça nossa história e compromisso com a qualidade</p>
+                    <h1 class="display-4 text-success fw-bold">Sobre a MisterCel</h1>
+                    <p class="lead text-dark">Conheça nossa história e compromisso com a qualidade</p>
                 </div>
             </div>
         </div>
