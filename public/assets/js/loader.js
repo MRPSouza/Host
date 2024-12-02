@@ -1,13 +1,17 @@
+// Definimos hideLoader globalmente primeiro
+window.hideLoader = function() {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        preloader.classList.add('loaded');
+        preloader.style.display = 'none';
+    }
+};
+
 // Executa antes do DOMContentLoaded
 (function() {
     if (performance.navigation.type === 1 || !sessionStorage.getItem('notFirstLoad')) {
         document.write('<div id="preloader"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>');
-        // Chamamos o hideLoader() para manter o comportamento consistente
-        window.addEventListener('load', function() {
-            if (typeof hideLoader === 'function') {
-                hideLoader();
-            }
-        });
+        window.addEventListener('load', hideLoader);
     }
 })();
 
