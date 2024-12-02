@@ -67,6 +67,32 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Novo card para Tablets -->
+            <div class="col-md-4">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="icon-wrapper">
+                            <i class="bi bi-tablet"></i>
+                        </div>
+                        <h3 class="card-title">Tablets</h3>
+                        <p class="card-text">Reparo e manutenção de tablets de todas as marcas</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Novo card para Computadores -->
+            <div class="col-md-4">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="icon-wrapper">
+                            <i class="bi bi-laptop"></i>
+                        </div>
+                        <h3 class="card-title">Computadores</h3>
+                        <p class="card-text">Manutenção de notebooks e computadores desktop</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -112,6 +138,17 @@
                         <i class="bi bi-phone-fill fs-1 text-success mb-3"></i>
                         <h3>Capas e Películas</h3>
                         <p>Proteção completa para seu smartphone com instalação profissional</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Novo card para Acessórios -->
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="bi bi-headphones fs-1 text-success mb-3"></i>
+                        <h3>Acessórios</h3>
+                        <p>Carregadores, fones de ouvido e outros acessórios originais</p>
                     </div>
                 </div>
             </div>
