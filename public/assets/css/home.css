@@ -122,10 +122,12 @@ p {
 /* Estilos do fundo e container */
 .services-section {
     background: linear-gradient(135deg, #1a1a1a, #2d3436);
-    min-height: 100vh;
+    min-height: fit-content;
+    max-height: 50vh;
     position: relative;
     overflow: hidden;
-    padding: 0 0 4rem 0;
+    padding: 3rem 0;
+    margin-top: 0;
 }
 
 /* Estilos dos círculos animados */
@@ -244,9 +246,11 @@ p {
     background-clip: text;
     position: relative;
     z-index: 2;
-    font-size: 3rem;
+    font-size: 3.5rem;
     line-height: 1.2;
     margin-bottom: 1.5rem;
+    max-width: 90%;
+    margin: 0 auto 1.5rem;
 }
 
 .text-light-gray {
@@ -268,11 +272,12 @@ p {
     z-index: 2;
     background: linear-gradient(45deg, #7fffd4, #2ecc71);
     border: none;
-    padding: 12px 24px;
+    padding: 15px 40px;
     border-radius: 25px;
     color: #fff;
     font-weight: bold;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 1.1rem;
 }
 
 .custom-button:hover {
@@ -287,7 +292,8 @@ p {
 
 /* Ajuste da largura do conteúdo */
 .services-section .col-lg-6 {
-    max-width: 800px;
+    max-width: 1200px;
     width: 100%;
     margin: 0 auto;
+    text-align: center;
 }
