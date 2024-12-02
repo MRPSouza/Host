@@ -122,6 +122,6 @@
         loadScriptsSequentially();
     }
 </script>
-<script src="<?= BASE_URL ?>/assets/js/contact.js"></script>
+<script src="<?= BASE_URL ?>/assets/js/contact.js" defer></script>
 </body>
 </html>
