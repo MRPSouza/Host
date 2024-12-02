@@ -33,6 +33,20 @@
             if (elementoTexto && !animacaoEmAndamento) {
                 animacaoEmAndamento = true;
 
+                // Primeiro apaga o texto default
+                function apagarTextoInicial() {
+                    if (!elementoTexto) return;
+                    
+                    const textoAtual = elementoTexto.textContent;
+                    if (textoAtual.length > 0) {
+                        elementoTexto.textContent = textoAtual.slice(0, -1);
+                        requestAnimationFrame(() => setTimeout(apagarTextoInicial, velocidadeApagar));
+                    } else {
+                        // Depois de apagar, começa a animação normal
+                        setTimeout(escrever, esperaAntesDeEscrever);
+                    }
+                }
+
                 function escrever() {
                     if (!elementoTexto) return;
                     
@@ -58,7 +72,8 @@
                     }
                 }
 
-                setTimeout(escrever, 100);
+                // Inicia apagando o texto default
+                setTimeout(apagarTextoInicial, esperaAntesDeEscrever);
             }
         }, 500);
     }
