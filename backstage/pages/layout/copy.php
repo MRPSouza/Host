@@ -32,7 +32,7 @@
 $companyName = "Mister Cel";
 $since = "2008";
 $developer = "MT Mente & Máquina";
-$slogan = "Solução Digital Potencializada por IA";
+$slogan = "Soluções Digitais Potencializadas com IA";
 $currentYear = date('Y');
 ?>
 
