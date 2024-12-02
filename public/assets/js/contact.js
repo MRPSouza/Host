@@ -1,15 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('contactForm');
+    
     if (form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const nome = document.getElementById('nome').value;
-            const sobrenome = document.getElementById('sobrenome').value;
-            const mensagem = document.getElementById('mensagem').value;
+            const nome = document.getElementById('nome').value.trim();
+            const sobrenome = document.getElementById('sobrenome').value.trim();
+            const mensagem = document.getElementById('mensagem').value.trim();
             
-            // Número do WhatsApp da loja (substitua pelo número correto)
-            const numeroWhatsApp = '5511999999999';
+            // Pega o número do WhatsApp do atributo data
+            const numeroWhatsApp = form.dataset.whatsapp;
+            
+            if (!nome || !sobrenome || !mensagem) {
+                alert('Por favor, preencha todos os campos.');
+                return;
+            }
             
             // Monta a mensagem formatada
             const mensagemFormatada = `Olá! Me chamo ${nome} ${sobrenome}.\n\n${mensagem}`;
