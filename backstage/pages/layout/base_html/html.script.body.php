@@ -122,5 +122,6 @@
         loadScriptsSequentially();
     }
 </script>
+<script src="<?= BASE_URL ?>/assets/js/contact.js"></script>
 </body>
 </html>
