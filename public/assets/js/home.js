@@ -72,8 +72,8 @@
                     }
                 }
 
-                // Inicia apagando o texto default
-                setTimeout(apagarTextoInicial, esperaAntesDeEscrever);
+                // Aumenta o tempo de espera antes de começar a apagar
+                setTimeout(apagarTextoInicial, esperaAntesDeApagar);
             }
         }, 500);
     }
