@@ -44,9 +44,9 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/loader.css">
 </head>
 <body>
-       <!-- Scripts -->
-    <script src="<?= BASE_URL ?>/assets/js/navigation.js"></script>
+    <!-- Scripts -->
     <script src="<?= BASE_URL ?>/assets/js/loader.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/navigation.js"></script>
     <script src="<?= BASE_URL ?>/assets/js/phone-links.js"></script>
     <script src="<?= BASE_URL ?>/assets/js/home.js"></script>
 </body>
