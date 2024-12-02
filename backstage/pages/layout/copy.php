@@ -39,9 +39,7 @@ $currentYear = date('Y');
 <footer class="footer text-center">
     <div class="container">
         <p class="mb-0">
-            Direitos reservados &copy; <?php echo $companyName; ?> (<?php echo $since; ?>-<?php echo $currentYear; ?>)
-            <br>
-            <small>Desenvolvido por <?php echo $developer; ?> | <?php echo $slogan; ?></small>
+           <small>Desenvolvido por <?php echo $developer; ?> | <?php echo $slogan; ?></small>
         </p>
     </div>
 </footer>
