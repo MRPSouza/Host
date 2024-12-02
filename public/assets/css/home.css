@@ -299,7 +299,7 @@ p {
 }
 
 .custom-shape-divider-top-1733163571 {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
@@ -309,7 +309,7 @@ p {
 }
 
 .custom-shape-divider-top-1733163571 svg {
-    position: relative;
+    position: absolute;
     display: block;
     width: calc(100% + 1.3px);
     height: 150px;
