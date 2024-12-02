@@ -5,19 +5,12 @@
         
         setTimeout(function() {
             const textos = [
-                "Bem-vindo à MisterCel!",
-                "Aqui seu celular tem solução.",
-                "Consertos rápidos e de qualidade.",
-                "Reparamos smartphones e tablets.",
-                "Peças originais ou paralelas com garantia.",
-                "Técnicos experientes e certificados.",
-                "Orçamento grátis e sem compromisso.",
-                "Consertamos todas as marcas.",
-                "Experiência e confiança.",
-                "Reparos rápidos e eficazes.",
-                "Garantia em todos os serviços.",
-                "Seu celular pronto rapidamente.",
-                "Faça um orçamento com a MisterCel!"
+                "Seu celular tem conserto",
+                "Reparo rápido e garantido",
+                "Atendemos todas as marcas",
+                "Técnicos certificados",
+                "Orçamento sem compromisso",
+                "Fale com a MisterCel!"
             ];
 
             let textoAtual = 0;
