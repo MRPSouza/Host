@@ -33,6 +33,18 @@
         preloader.classList.remove('loaded');
     };
 
+    const updateContent = (content) => {
+        const mainContent = document.querySelector('main');
+        if (mainContent) {
+            // Fazemos uma transição suave
+            mainContent.style.opacity = '0';
+            setTimeout(() => {
+                mainContent.innerHTML = content;
+                mainContent.style.opacity = '1';
+            }, 100);
+        }
+    };
+
     // 2. Verificação de primeiro carregamento
     const isFirstLoad = performance.navigation.type === 1 || !sessionStorage.getItem('notFirstLoad');
 
@@ -57,8 +69,44 @@
         window.showLoader = showLoader;
         window.hideLoader = hideLoader;
 
-        // Removido o evento de click para links internos
-        window.addEventListener('load', hideLoader);
-        window.addEventListener('popstate', hideLoader);
+        // Intercepta cliques em links para navegação AJAX
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && 
+                !link.target && 
+                !e.ctrlKey && 
+                !e.shiftKey && 
+                !link.hasAttribute('download') && 
+                link.href.indexOf('tel:') !== 0 && 
+                link.href.indexOf('mailto:') !== 0) {
+                
+                e.preventDefault();
+                
+                fetch(link.href, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.text())
+                .then(html => {
+                    // Atualiza apenas o conteúdo principal com transição suave
+                    updateContent(html);
+                    // Atualiza a URL sem recarregar
+                    history.pushState({}, '', link.href);
+                });
+            }
+        });
+
+        window.addEventListener('popstate', function() {
+            fetch(window.location.href, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                updateContent(html);
+            });
+        });
     });
 })(); 
