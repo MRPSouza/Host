@@ -305,14 +305,14 @@ p {
     width: 100%;
     overflow: hidden;
     line-height: 0;
-    transform: rotate(180deg);
+    z-index: 2;
 }
 
 .custom-shape-divider-top-1733163571 svg {
     position: relative;
     display: block;
-    width: calc(218% + 1.3px);
-    height: 52px;
+    width: calc(100% + 1.3px);
+    height: 150px;
 }
 
 .custom-shape-divider-top-1733163571 .shape-fill {
