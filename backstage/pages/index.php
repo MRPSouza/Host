@@ -47,7 +47,9 @@
         <div class="col-12 text-center mb-5">
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-6 col-md-8 mb-4 mb-lg-0">
-                    <h1 class="display-4 fw-bold text-gradient mb-3" id="texto-animado"></h1>
+                    <h1 class="display-4 fw-bold text-gradient mb-3" id="texto-animado">
+                        Bem-vindo à MisterCel!
+                    </h1>
                     <p class="lead text-light-gray mb-4">Confira os reparos mais solicitados para nossos técnicos especializados</p>
                     <button class="custom-button" type="button">
                         <span class="button-content">
