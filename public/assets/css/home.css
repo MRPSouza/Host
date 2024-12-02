@@ -125,7 +125,7 @@ p {
     min-height: 100vh;
     position: relative;
     overflow: hidden;
-    padding: 4rem 0;
+    padding: 0 0 4rem 0;
 }
 
 /* Estilos dos círculos animados */
@@ -244,11 +244,16 @@ p {
     background-clip: text;
     position: relative;
     z-index: 2;
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
 }
 
 .text-light-gray {
     color: rgba(255, 255, 255, 0.9);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    max-width: 90%;
+    margin: 0 auto 2rem;
     position: relative;
     z-index: 2;
 }
@@ -278,4 +283,11 @@ p {
 @keyframes blink {
     from, to { border-color: transparent }
     50% { border-color: #7fffd4 }
+}
+
+/* Ajuste da largura do conteúdo */
+.services-section .col-lg-6 {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
 }
