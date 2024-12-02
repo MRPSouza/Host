@@ -113,5 +113,6 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     <!-- Scripts -->
     <script src="<?= BASE_URL ?>/assets/js/loader.js"></script>
     <script src="<?= BASE_URL ?>/assets/js/phone-links.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/home.js"></script>
 </body>
 </html>

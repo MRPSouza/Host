@@ -29,6 +29,39 @@
 
 ?>
 
+<section class="container-fluid services-section">
+    <div class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </div>
+    
+    <div class="row m-0">
+        <div class="col-12 text-center mb-5">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-lg-6 col-md-8 mb-4 mb-lg-0">
+                    <h1 class="display-4 fw-bold text-gradient mb-3" id="texto-animado"></h1>
+                    <p class="lead text-light-gray mb-4">Confira os reparos mais solicitados para nossos técnicos especializados</p>
+                    <button class="custom-button" type="button">
+                        <span class="button-content">
+                            <i class="fab fa-whatsapp me-2"></i>
+                            Solicitar Orçamento!
+                        </span>
+                    </button>
+                </div>
+            </div>      
+        </div>
+    </div>
+</section>
+
+
 <!-- Hero Section -->
 <section class="hero-section bg-gradient-success-dark py-5">
     <div class="container">

@@ -79,3 +79,42 @@ p {
 .icon-wrapper:hover i {
     transform: scale(1.1);
 }
+
+.text-gradient {
+    background: linear-gradient(45deg, #fff, #7fffd4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-light-gray {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem;
+}
+
+.typing-effect {
+    border-right: 3px solid #7fffd4;
+    animation: blink 0.75s step-end infinite;
+}
+
+@keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: #7fffd4 }
+}
+
+/* Adicionei estilos para animação dos círculos */
+.circles li {
+    list-style: none;
+    width: 20px;
+    height: 20px;
+    background-color: #7fffd4;
+    border-radius: 50%;
+    position: absolute;
+    animation: move 5s infinite;
+}
+
+@keyframes move {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}
