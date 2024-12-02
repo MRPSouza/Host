@@ -127,7 +127,7 @@ p {
     position: relative;
     overflow: hidden;
     padding: 3rem 0;
-    margin-top: 0;
+    margin-top: -15px;
 }
 
 /* Estilos dos círculos animados */
