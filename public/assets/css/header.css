@@ -30,4 +30,8 @@
 
 .navbar-brand img {
     filter: brightness(0) invert(1);
+}
+
+.badge {
+    font-size: 16px;
 } 
