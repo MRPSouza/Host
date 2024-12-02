@@ -1,3 +1,4 @@
+// Executa antes do DOMContentLoaded
 (function() {
     // 1. Definição das funções principais
     const createLoader = () => {
@@ -30,6 +31,11 @@
     if (isFirstLoad) {
         const loaderHtml = '<div id="preloader"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>';
         document.write(loaderHtml);
+        
+        // Garantimos que o loader será removido após o carregamento completo
+        window.addEventListener('load', function() {
+            hideLoader();
+        }, { once: true }); // once: true garante que o evento só será executado uma vez
     }
 
     // 4. Setup dos eventos quando o DOM estiver pronto
