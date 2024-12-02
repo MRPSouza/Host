@@ -300,18 +300,17 @@ p {
 
 .custom-shape-divider-top-1733163571 {
     position: absolute;
-    top: 0;
     left: 0;
     width: 100%;
     overflow: hidden;
     line-height: 0;
     z-index: 2;
+    bottom: 0;
 }
 
 .custom-shape-divider-top-1733163571 svg {
     position: relative;
     display: block;
-    bottom: 0;
     width: calc(100% + 1.3px);
     height: 150px;
 }
