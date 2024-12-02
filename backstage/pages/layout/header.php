@@ -33,7 +33,7 @@
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="<?= BASE_URL ?>/">
                 <img src="<?= BASE_URL ?>/assets/img/logo-mister-cel.png" alt="Mister Cel" height="40" class="me-2">
-                <span class="badge bg-light text-success ms-2 rounded-pill">Desde 2008</span>
+                <span class="badge bg-light text-success ms-2 rounded-pill align-self-end mb-2">Desde 2008</span>
             </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
