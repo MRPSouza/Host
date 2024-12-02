@@ -1,7 +1,13 @@
 // Executa antes do DOMContentLoaded
 (function() {
     // 1. Definição das funções principais
+    const cleanExistingLoaders = () => {
+        const existingLoaders = document.querySelectorAll('#preloader');
+        existingLoaders.forEach(loader => loader.remove());
+    };
+
     const createLoader = () => {
+        cleanExistingLoaders();
         const loader = document.createElement('div');
         loader.id = 'preloader';
         loader.innerHTML = '<div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div>';
@@ -17,6 +23,9 @@
     };
 
     const showLoader = (forceImmediate = false) => {
+        // Só mostra o loader se for carregamento externo (F5/refresh)
+        if (!forceImmediate) return;
+
         let preloader = document.getElementById('preloader');
         if (!preloader) {
             preloader = createLoader();
@@ -29,6 +38,7 @@
 
     // 3. Criação inicial do loader se necessário
     if (isFirstLoad) {
+        cleanExistingLoaders();
         const loaderHtml = '<div id="preloader"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>';
         document.write(loaderHtml);
         
@@ -47,22 +57,7 @@
         window.showLoader = showLoader;
         window.hideLoader = hideLoader;
 
-        // Configura eventos de navegação
-        document.addEventListener('click', function(e) {
-            const link = e.target.closest('a');
-            if (link && 
-                !link.target && 
-                !e.ctrlKey && 
-                !e.shiftKey && 
-                !link.hasAttribute('download') && 
-                link.href.indexOf('tel:') !== 0 && 
-                link.href.indexOf('mailto:') !== 0) {
-                
-                showLoader(!link.hasAttribute('data-ajax'));
-            }
-        });
-
-        // Esconde o loader quando a página terminar de carregar
+        // Removido o evento de click para links internos
         window.addEventListener('load', hideLoader);
         window.addEventListener('popstate', hideLoader);
     });
