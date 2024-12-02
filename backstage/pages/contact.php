@@ -70,3 +70,6 @@
         </div>
     </div>
 </div>
+
+<!-- Inclua o script externo -->
+<script src="/assets/js/contact.js"></script>
