@@ -1,132 +1,80 @@
-// Definimos hideLoader globalmente primeiro
-window.hideLoader = function() {
-    const preloader = document.getElementById('preloader');
-    if (preloader) {
-        preloader.classList.add('loaded');
-        preloader.style.display = 'none';
-    }
-};
-
 // Executa antes do DOMContentLoaded
 (function() {
-    if (performance.navigation.type === 1 || !sessionStorage.getItem('notFirstLoad')) {
+    const isFirstLoad = performance.navigation.type === 1 || !sessionStorage.getItem('notFirstLoad');
+    
+    if (isFirstLoad) {
         document.write('<div id="preloader"><div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div></div>');
-        window.addEventListener('load', hideLoader);
-    }
-})();
-
-document.addEventListener('DOMContentLoaded', function() {
-    let preloader = document.getElementById('preloader');
-    const mainContent = document.querySelector('main');
-    let loadTimer = null;
-    let isFirstLoad = !sessionStorage.getItem('notFirstLoad');
-    
-    // Força a reativação do mouse após F5
-    if (performance.navigation.type === 1) {
-        document.documentElement.style.pointerEvents = 'auto';
-        document.body.style.pointerEvents = 'auto';
     }
     
-    sessionStorage.setItem('notFirstLoad', 'true');
-    
-    // Função para criar o loader
-    const createLoader = () => {
-        // Esconde todo o conteúdo
-        document.body.style.visibility = 'hidden';
+    document.addEventListener('DOMContentLoaded', function() {
+        let preloader = document.getElementById('preloader');
+        let loadTimer = null;
         
-        const loader = document.createElement('div');
-        loader.id = 'preloader';
-        loader.innerHTML = '<div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div>';
-        document.body.appendChild(loader);
+        const createLoader = () => {
+            const loader = document.createElement('div');
+            loader.id = 'preloader';
+            loader.innerHTML = '<div class="loader"><div class="spinner"></div><div class="loading-text">Carregando...</div></div>';
+            document.body.appendChild(loader);
+            return loader;
+        };
         
-        // Garante que apenas o loader está visível
-        loader.style.visibility = 'visible';
-        return loader;
-    };
-    
-    if (!preloader) {
-        preloader = createLoader();
-    }
-    
-    window.showLoader = function(forceImmediate = false) {
-        if (loadTimer) clearTimeout(loadTimer);
+        if (!preloader) {
+            preloader = createLoader();
+        }
         
-        const showLoaderContent = () => {
-            document.body.style.visibility = 'hidden';
+        window.hideLoader = function() {
+            if (loadTimer) {
+                clearTimeout(loadTimer);
+                loadTimer = null;
+            }
+            
+            const currentLoader = document.getElementById('preloader');
+            if (currentLoader) {
+                currentLoader.classList.add('loaded');
+                currentLoader.style.display = 'none';
+            }
+        };
+        
+        window.showLoader = function(forceImmediate = false) {
+            if (loadTimer) clearTimeout(loadTimer);
+            
             if (!document.getElementById('preloader')) {
                 preloader = createLoader();
             }
+            
+            preloader.classList.remove('loaded');
             preloader.style.display = 'flex';
-            preloader.style.visibility = 'visible';
-            requestAnimationFrame(() => {
-                preloader.style.opacity = '1';
-            });
+            
+            if (!forceImmediate) {
+                loadTimer = setTimeout(hideLoader, 2000);
+            }
         };
         
-        if (forceImmediate) {
-            showLoaderContent();
-        } else {
-            loadTimer = setTimeout(showLoaderContent, 2000);
-        }
-    }
-    
-    window.hideLoader = function() {
-        if (loadTimer) {
-            clearTimeout(loadTimer);
-            loadTimer = null;
+        // Tratamento igual para primeiro carregamento e carregamentos subsequentes
+        if (isFirstLoad) {
+            showLoader(true);
         }
         
-        const currentLoader = document.getElementById('preloader');
-        if (currentLoader) {
-            currentLoader.style.opacity = '0';
-            setTimeout(() => {
-                currentLoader.remove();
-                // Remove o estilo inline e a regra de estilo inicial
-                document.body.removeAttribute('style');
-                const styleTag = document.querySelector('style');
-                if (styleTag && styleTag.textContent.includes('body > *:not(#preloader)')) {
-                    styleTag.remove();
-                }
-                // Garante que todo o conteúdo está visível e interativo
-                document.querySelectorAll('body > *').forEach(el => {
-                    el.style.visibility = 'visible';
-                    el.style.pointerEvents = 'auto';
-                });
-                if(mainContent) mainContent.classList.add('content-loaded');
-            }, 300);
-        } else {
-            // Garante que todo o conteúdo está visível e interativo mesmo sem loader
-            document.body.removeAttribute('style');
-            document.querySelectorAll('body > *').forEach(el => {
-                el.style.visibility = 'visible';
-                el.style.pointerEvents = 'auto';
-            });
-        }
-    }
-    
-    // No primeiro carregamento ou reload completo, mostra o loader imediatamente
-    if (isFirstLoad || performance.navigation.type === 1) {
-        showLoader(true);
-    }
-    
-    window.addEventListener('load', hideLoader);
-    
-    // Intercepta cliques em links
-    document.addEventListener('click', function(e) {
-        const link = e.target.closest('a');
-        if (link && 
-            !link.target && 
-            !e.ctrlKey && 
-            !e.shiftKey && 
-            !link.hasAttribute('download') && 
-            link.href.indexOf('tel:') !== 0 && 
-            link.href.indexOf('mailto:') !== 0) {
-            
-            const isFullPageLoad = !link.hasAttribute('data-ajax');
-            showLoader(isFullPageLoad);
-        }
+        window.addEventListener('load', hideLoader);
+        
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && 
+                !link.target && 
+                !e.ctrlKey && 
+                !e.shiftKey && 
+                !link.hasAttribute('download') && 
+                link.href.indexOf('tel:') !== 0 && 
+                link.href.indexOf('mailto:') !== 0) {
+                
+                const isFullPageLoad = !link.hasAttribute('data-ajax');
+                showLoader(isFullPageLoad);
+            }
+        });
+        
+        window.addEventListener('popstate', hideLoader);
+        
+        // Marca que não é mais primeiro carregamento
+        sessionStorage.setItem('notFirstLoad', 'true');
     });
-
-    // Esconde o loader se a navegação for cancelada
-    window.addEventListener('popstate', hideLoader);
-}); 
+})(); 
