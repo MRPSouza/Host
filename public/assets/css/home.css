@@ -305,7 +305,7 @@ p {
     overflow: hidden;
     line-height: 0;
     z-index: 2;
-    bottom: 0;
+    bottom: 50vh;
 }
 
 .custom-shape-divider-top-1733163571 svg {
