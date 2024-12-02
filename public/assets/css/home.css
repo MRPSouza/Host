@@ -297,3 +297,24 @@ p {
     margin: 0 auto;
     text-align: center;
 }
+
+.custom-shape-divider-top-1733163179 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-top-1733163179 svg {
+    position: relative;
+    display: block;
+    width: calc(218% + 1.3px);
+    height: 52px;
+}
+
+.custom-shape-divider-top-1733163179 .shape-fill {
+    fill: #FFFFFF;
+}
