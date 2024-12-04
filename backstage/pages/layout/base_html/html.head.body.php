@@ -34,7 +34,7 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     <link rel="icon" type="image/png" sizes="32x32" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
     <link rel="apple-touch-icon" sizes="180x180" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
-    <link rel="manifest" href="<?php echo BASE_URL; ?>/assets/manifest.json" data-global>
+    <link rel="manifest" href="<?php echo BASE_URL; ?>/assets/site.webmanifest" data-global>
     
     <!-- Previne requisições automáticas de favicon -->
     <link rel="icon" href="data:," data-global>
