@@ -95,6 +95,20 @@
                     updateContent(html);
                     // Atualiza a URL sem recarregar
                     history.pushState({}, '', link.href);
+
+                    // Atualiza as meta tags de SEO
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const seoData = doc.querySelector('seo-data');
+                    if (seoData) {
+                        const head = document.querySelector('head');
+                        // Remove as meta tags antigas de SEO
+                        head.querySelectorAll('meta[name="description"], meta[name="keywords"], title, meta[property^="og:"]').forEach(el => el.remove());
+                        
+                        // Adiciona apenas as novas meta tags de SEO
+                        const seoContent = seoData.innerHTML;
+                        head.insertAdjacentHTML('afterbegin', seoContent);
+                    }
                 });
             }
         });
