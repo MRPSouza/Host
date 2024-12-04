@@ -15,6 +15,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Função para atualizar CSS e JS
+    function updateAssets(html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const newLinks = doc.querySelectorAll('link[rel="stylesheet"]');
+        const newScripts = doc.querySelectorAll('script[src]');
+
+        const head = document.querySelector('head');
+
+        // Remove CSS e JS antigos que não são globais
+        head.querySelectorAll('link[rel="stylesheet"]:not([data-global]), script[src]:not([data-global])').forEach(el => el.remove());
+
+        // Adiciona novos CSS
+        newLinks.forEach(link => {
+            if (!link.hasAttribute('data-global')) {
+                head.appendChild(link.cloneNode(true));
+            }
+        });
+
+        // Adiciona novos JS
+        newScripts.forEach(script => {
+            if (!script.hasAttribute('data-global')) {
+                const newScript = document.createElement('script');
+                newScript.src = script.src;
+                head.appendChild(newScript);
+            }
+        });
+    }
+
     // Intercepta cliques em links para navegação AJAX
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a');
@@ -37,11 +66,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(html => {
                 // Atualiza as meta tags de SEO
                 updateSEO(html);
+                // Atualiza CSS e JS
+                updateAssets(html);
             });
         }
     });
 
-    // Atualiza SEO ao usar o botão voltar do navegador
+    // Atualiza SEO, CSS e JS ao usar o botão voltar do navegador
     window.addEventListener('popstate', function() {
         fetch(window.location.href, {
             headers: {
@@ -51,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.text())
         .then(html => {
             updateSEO(html);
+            updateAssets(html);
         });
     });
 });
