@@ -1,10 +1,13 @@
 <script>
     // Função para carregar CSS dinamicamente com fallback para vendor local
-    function loadCSS(url) {
+    function loadCSS(url, isGlobal = false) {
         return new Promise((resolve, reject) => {
             const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = url;
+            if (isGlobal) {
+                link.setAttribute('data-global', '');
+            }
             
             link.onerror = () => {
                 console.warn(`Falha ao carregar CSS: ${url}, tentando CDN alternativo...`);
@@ -48,13 +51,13 @@
 
     // Carrega CSS críticos imediatamente
     criticalCssFiles.forEach(url => {
-        requestAnimationFrame(() => loadCSS(url));
+        requestAnimationFrame(() => loadCSS(url, true)); // Marca como global
     });
 
     // Carrega CSS não críticos depois que a página carregar
     window.addEventListener('load', () => {
         requestIdleCallback(() => {
-            nonCriticalCssFiles.forEach(url => loadCSS(url));
+            nonCriticalCssFiles.forEach(url => loadCSS(url, true)); // Marca como global
         });
     });
 
@@ -64,7 +67,7 @@
     }
 
     // Função para carregar JavaScript dinamicamente com fallback
-    function loadScript(url) {
+    function loadScript(url, isGlobal = false) {
         return new Promise((resolve, reject) => {
             if (isScriptLoaded(url)) {
                 resolve();
@@ -76,6 +79,9 @@
             script.async = true;
             script.defer = true;
             script.fetchPriority = 'high';
+            if (isGlobal) {
+                script.setAttribute('data-global', '');
+            }
             
             script.onerror = () => {
                 console.warn(`Falha ao carregar JS: ${url}, tentando vendor local...`);
@@ -107,7 +113,7 @@
             const coreScripts = jsFiles.slice(0, 3);
             await Promise.all(coreScripts.map(url => {
                 return new Promise(resolve => {
-                    requestIdleCallback(() => loadScript(url).then(resolve));
+                    requestIdleCallback(() => loadScript(url, true).then(resolve)); // Marca como global
                 });
             }));
         } catch (error) {
