@@ -30,23 +30,25 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     }
     ?>
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?php echo BASE_URL; ?>/assets/img/favicon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo BASE_URL; ?>/assets/img/favicon.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo BASE_URL; ?>/assets/img/favicon.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo BASE_URL; ?>/assets/img/favicon.png">
-    <link rel="manifest" href="<?php echo BASE_URL; ?>/site.webmanifest">
+    <link rel="icon" type="image/x-icon" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
+    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
+    <link rel="manifest" href="<?php echo BASE_URL; ?>/assets/manifest.json" data-global>
     
     <!-- Previne requisições automáticas de favicon -->
-    <link rel="icon" href="data:,">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/header.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/copy.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/loader.css">
+    <link rel="icon" href="data:," data-global>
+
+    <!-- CSS Global -->
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/header.css" data-global>
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/loader.css" data-global>
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/copy.css" data-global>
 
     <?php
     // Obtém a página atual da URL
     $currentPage = basename($_SERVER['PHP_SELF'], '.php');
 
-    // CSS específico por página
+    // CSS específico por página (não precisa do data-global pois são específicos)
     switch ($currentPage) {
         case 'index':
             echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/home.css">';
@@ -66,11 +68,11 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
 </head>
 <body>
      <!-- Scripts Globais -->
-     <script src="<?= BASE_URL ?>/assets/js/loader.js"></script>
-    <script src="<?= BASE_URL ?>/assets/js/loaderSEO.js"></script>
+     <script src="<?= BASE_URL ?>/assets/js/loader.js" data-global></script>
+    <script src="<?= BASE_URL ?>/assets/js/loaderSEO.js" data-global></script>
 
     <?php
-    // Scripts específicos por página
+    // Scripts específicos por página (não precisa do data-global pois são específicos)
     switch ($currentPage) {
         case 'index':
             echo '<script src="' . BASE_URL . '/assets/js/desktop.js"></script>';
