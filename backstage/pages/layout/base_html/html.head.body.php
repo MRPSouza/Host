@@ -39,15 +39,52 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     <!-- Previne requisições automáticas de favicon -->
     <link rel="icon" href="data:,">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/header.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/home.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/copy.css">
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/loader.css">
+
+    <?php
+    // Obtém a página atual da URL
+    $currentPage = basename($_SERVER['PHP_SELF'], '.php');
+
+    // CSS específico por página
+    switch ($currentPage) {
+        case 'index':
+            echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/home.css">';
+            echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/desktop.css">';
+            break;
+        case 'services':
+            echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/services.css">';
+            break;
+        case 'about':
+            echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/about.css">';
+            break;
+        case 'contact':
+            echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/contact.css">';
+            break;
+    }
+    ?>
 </head>
 <body>
-    <!-- Scripts -->
-    <script src="<?= BASE_URL ?>/assets/js/loader.js"></script>
-    <script src="<?= BASE_URL ?>/assets/js/navigation.js"></script>
-    <script src="<?= BASE_URL ?>/assets/js/phone-links.js"></script>
-    <script src="<?= BASE_URL ?>/assets/js/home.js"></script>
-</body>
-</html>
+     <!-- Scripts Globais -->
+     <script src="<?= BASE_URL ?>/assets/js/loader.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/loaderSEO.js"></script>
+
+    <?php
+    // Scripts específicos por página
+    switch ($currentPage) {
+        case 'index':
+            echo '<script src="' . BASE_URL . '/assets/js/desktop.js"></script>';
+            echo '<script src="' . BASE_URL . '/assets/js/home.js"></script>';
+            break;
+        case 'services':
+            echo '<script src="' . BASE_URL . '/assets/js/services.js"></script>';
+            break;
+        case 'about':
+            echo '<script src="' . BASE_URL . '/assets/js/about.js"></script>';
+            break;
+        case 'contact':
+            echo '<script src="' . BASE_URL . '/assets/js/phone-links.js"></script>';
+            echo '<script src="' . BASE_URL . '/assets/js/contact.js"></script>';
+            break;
+    }
+    ?>
