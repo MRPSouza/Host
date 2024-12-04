@@ -19,26 +19,47 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateAssets(html) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
-        const newLinks = doc.querySelectorAll('link[rel="stylesheet"]');
-        const newScripts = doc.querySelectorAll('script[src]');
-
+        
+        // Obtém os novos links e scripts
+        const newLinks = Array.from(doc.querySelectorAll('link[rel="stylesheet"]:not([data-global])'));
+        const newScripts = Array.from(doc.querySelectorAll('script[src]:not([data-global])'));
+        
         const head = document.querySelector('head');
+        
+        // Obtém os links e scripts atuais não globais
+        const currentLinks = Array.from(head.querySelectorAll('link[rel="stylesheet"]:not([data-global])'));
+        const currentScripts = Array.from(head.querySelectorAll('script[src]:not([data-global])'));
 
-        // Remove CSS e JS antigos que não são globais
-        head.querySelectorAll('link[rel="stylesheet"]:not([data-global]), script[src]:not([data-global])').forEach(el => el.remove());
+        // Remove apenas os recursos que não estão na nova página
+        currentLinks.forEach(link => {
+            const exists = newLinks.some(newLink => newLink.href === link.href);
+            if (!exists) {
+                link.remove();
+            }
+        });
 
-        // Adiciona novos CSS
+        currentScripts.forEach(script => {
+            const exists = newScripts.some(newScript => newScript.src === script.src);
+            if (!exists) {
+                script.remove();
+            }
+        });
+
+        // Adiciona apenas os novos recursos que ainda não existem
         newLinks.forEach(link => {
-            if (!link.hasAttribute('data-global')) {
+            const exists = currentLinks.some(currentLink => currentLink.href === link.href);
+            if (!exists) {
                 head.appendChild(link.cloneNode(true));
             }
         });
 
-        // Adiciona novos JS
         newScripts.forEach(script => {
-            if (!script.hasAttribute('data-global')) {
+            const exists = currentScripts.some(currentScript => currentScript.src === script.src);
+            if (!exists) {
                 const newScript = document.createElement('script');
                 newScript.src = script.src;
+                if (script.hasAttribute('defer')) newScript.defer = true;
+                if (script.hasAttribute('async')) newScript.async = true;
                 head.appendChild(newScript);
             }
         });
