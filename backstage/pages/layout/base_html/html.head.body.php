@@ -43,6 +43,7 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/header.css" data-global>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/loader.css" data-global>
     <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/copy.css" data-global>
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/footer.css" data-global>
 
     <?php
     // Obtém a página atual da URL
@@ -75,7 +76,6 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     // Scripts específicos por página (não precisa do data-global pois são específicos)
     switch ($currentPage) {
         case 'index':
-            echo '<script src="' . BASE_URL . '/assets/js/desktop.js"></script>';
             echo '<script src="' . BASE_URL . '/assets/js/home.js"></script>';
             break;
         case 'services':
