@@ -8,11 +8,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Atualizar relógio
     function updateClock() {
-        const now = new Date();
-        taskbarTime.textContent = now.toLocaleTimeString();
+        if (taskbarTime) {
+            const now = new Date();
+            taskbarTime.textContent = now.toLocaleTimeString();
+        }
     }
-    updateClock();
-    setInterval(updateClock, 1000);
+
+    // Só inicia o relógio se o elemento existir
+    if (taskbarTime) {
+        updateClock();
+        setInterval(updateClock, 1000);
+    }
 
     // Carregar organização dos ícones
     function loadIconPositions() {
