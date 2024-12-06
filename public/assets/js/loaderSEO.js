@@ -65,6 +65,42 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Função para reinicializar scripts decorativos
+    function reinitializeScripts() {
+        // Reinicializa o desktop.js se estiver na página inicial
+        if (window.location.pathname === '/' || window.location.pathname === '/index.php') {
+            const taskbarTime = document.getElementById('taskbar-time');
+            if (taskbarTime) {
+                // Reinicializa o relógio
+                const updateClock = () => {
+                    taskbarTime.textContent = new Date().toLocaleTimeString();
+                };
+                updateClock();
+                setInterval(updateClock, 1000);
+            }
+
+            // Reinicializa os eventos de arrastar e soltar
+            const desktop = document.getElementById('desktop');
+            const icons = document.querySelectorAll('.desktop-icon');
+            if (desktop && icons.length > 0) {
+                icons.forEach(icon => {
+                    icon.addEventListener('dragstart', function(e) {
+                        e.dataTransfer.setData('text/plain', '');
+                        this.classList.add('dragging');
+                    });
+
+                    icon.addEventListener('dragend', function() {
+                        this.classList.remove('dragging');
+                        saveIconPositions();
+                    });
+                });
+
+                // Carrega posições salvas dos ícones
+                loadIconPositions();
+            }
+        }
+    }
+
     // Intercepta cliques em links para navegação AJAX
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a');
@@ -89,11 +125,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateSEO(html);
                 // Atualiza CSS e JS
                 updateAssets(html);
+                // Reinicializa scripts após a atualização do conteúdo
+                setTimeout(reinitializeScripts, 100);
             });
         }
     });
 
-    // Atualiza SEO, CSS e JS ao usar o botão voltar do navegador
+    // Atualiza SEO ao usar o botão voltar do navegador
     window.addEventListener('popstate', function() {
         fetch(window.location.href, {
             headers: {
@@ -104,6 +142,8 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(html => {
             updateSEO(html);
             updateAssets(html);
+            // Reinicializa scripts após a atualização do conteúdo
+            setTimeout(reinitializeScripts, 100);
         });
     });
 });
