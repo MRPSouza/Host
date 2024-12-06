@@ -71,3 +71,36 @@
         }, 500);
     }
 })();
+
+function initializeHome() {
+    const taskbarTime = document.getElementById('taskbar-time');
+    
+    // Limpa intervalos anteriores se existirem
+    if (window.clockInterval) {
+        clearInterval(window.clockInterval);
+    }
+    
+    // Atualiza o relógio
+    function updateClock() {
+        if (taskbarTime) {
+            const now = new Date();
+            taskbarTime.textContent = now.toLocaleTimeString();
+        }
+    }
+
+    // Inicializa o relógio
+    if (taskbarTime) {
+        updateClock();
+        window.clockInterval = setInterval(updateClock, 1000);
+    }
+}
+
+// Inicializa na carga inicial
+document.addEventListener('DOMContentLoaded', initializeHome);
+
+// Reinicializa após cada navegação
+document.addEventListener('navigationComplete', function(e) {
+    if (e.detail.path === '/' || e.detail.path === '/index.php') {
+        initializeHome();
+    }
+});
