@@ -66,6 +66,7 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
             break;
     }
     ?>
+    <meta name="base-url" content="<?php echo BASE_URL; ?>">
 </head>
 <body>
      <!-- Scripts Globais -->
