@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Obtém o BASE_URL do meta tag ou define um padrão
+    const BASE_URL = document.querySelector('meta[name="base-url"]')?.content || '';
+
     // Função para atualizar as meta tags de SEO
     function updateSEO(html) {
         const parser = new DOMParser();
@@ -115,8 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Scripts da página inicial
             loadScript(BASE_URL + '/assets/js/home.js').then(() => {
                 // Executa a inicialização após carregar o script
-                if (typeof initializeHome === 'function') {
-                    initializeHome();
+                if (typeof initializeTextAnimation === 'function') {
+                    initializeTextAnimation();
                 }
             });
         } else if (path.includes('/contato')) {
@@ -126,7 +129,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Scripts da página de serviços
             loadScript(BASE_URL + '/assets/js/services.js');
         }
-        // Adicione outras páginas conforme necessário
     }
 
     // Função para carregar um script
