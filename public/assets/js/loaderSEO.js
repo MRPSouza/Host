@@ -101,6 +101,45 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Função para carregar e executar scripts específicos da página
+    function loadPageScripts(html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const path = window.location.pathname;
+
+        // Remove scripts antigos específicos da página
+        document.querySelectorAll('script:not([data-global])').forEach(script => script.remove());
+
+        // Carrega os novos scripts específicos
+        if (path === '/' || path === '/index.php') {
+            // Scripts da página inicial
+            loadScript(BASE_URL + '/assets/js/home.js').then(() => {
+                // Executa a inicialização após carregar o script
+                if (typeof initializeHome === 'function') {
+                    initializeHome();
+                }
+            });
+        } else if (path.includes('/contato')) {
+            // Scripts da página de contato
+            loadScript(BASE_URL + '/assets/js/contact.js');
+        } else if (path.includes('/servicos')) {
+            // Scripts da página de serviços
+            loadScript(BASE_URL + '/assets/js/services.js');
+        }
+        // Adicione outras páginas conforme necessário
+    }
+
+    // Função para carregar um script
+    function loadScript(url) {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = url;
+            script.onload = resolve;
+            script.onerror = reject;
+            document.body.appendChild(script);
+        });
+    }
+
     // Intercepta cliques em links para navegação AJAX
     document.addEventListener('click', function(e) {
         const link = e.target.closest('a');
@@ -121,17 +160,15 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(response => response.text())
             .then(html => {
-                // Atualiza as meta tags de SEO
                 updateSEO(html);
-                // Atualiza CSS e JS
                 updateAssets(html);
-                // Reinicializa scripts após a atualização do conteúdo
-                setTimeout(reinitializeScripts, 100);
+                history.pushState({}, '', link.href);
+                loadPageScripts(html);
             });
         }
     });
 
-    // Atualiza SEO ao usar o botão voltar do navegador
+    // Atualiza ao usar o botão voltar do navegador
     window.addEventListener('popstate', function() {
         fetch(window.location.href, {
             headers: {
@@ -142,8 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(html => {
             updateSEO(html);
             updateAssets(html);
-            // Reinicializa scripts após a atualização do conteúdo
-            setTimeout(reinitializeScripts, 100);
+            loadPageScripts(html);
         });
     });
 });
