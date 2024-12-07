@@ -3,13 +3,7 @@
     height: 76px;
 }
 
-/* Dropdown hover em desktop */
-@media (min-width: 992px) {
-    .dropdown:hover .dropdown-menu-hover {
-        display: block;
-        margin-top: 0;
-    }
-} 
+
 
 .navbar {
     background: linear-gradient(45deg, #198754, #115c39) !important;
