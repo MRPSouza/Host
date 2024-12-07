@@ -92,26 +92,40 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Função para atualizar o conteúdo HTML
+    function updateContent(html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const newContent = doc.querySelector('main'); // ou o seletor do seu container principal
+        const currentContent = document.querySelector('main');
+        
+        if (newContent && currentContent) {
+            currentContent.innerHTML = newContent.innerHTML;
+        }
+    }
+
     // Função para carregar assets específicos da página
     async function loadPageAssets(html) {
         const path = window.location.pathname;
-
-        // Remove CSS e scripts antigos específicos da página
+        
+        // Primeiro atualiza o conteúdo HTML
+        updateContent(html);
+        
+        // Remove assets antigos não globais
         document.querySelectorAll('link[rel="stylesheet"]:not([data-global])').forEach(link => link.remove());
         document.querySelectorAll('script:not([data-global])').forEach(script => script.remove());
 
         // Carrega os novos assets específicos
         if (path === '/' || path === '/index.php') {
-            // Assets da página inicial
             await Promise.all([
                 loadCSS(BASE_URL + '/assets/css/home.css'),
-                loadCSS(BASE_URL + '/assets/css/desktop.css'),
-                loadScript(BASE_URL + '/assets/js/home.js')
-            ]).then(() => {
-                if (typeof initializeTextAnimation === 'function') {
-                    initializeTextAnimation();
-                }
-            });
+                loadCSS(BASE_URL + '/assets/css/desktop.css')
+            ]);
+            await loadScript(BASE_URL + '/assets/js/home.js');
+            // Agora o elemento já existe no DOM quando a função é chamada
+            if (typeof initializeTextAnimation === 'function') {
+                initializeTextAnimation();
+            }
         } else if (path.includes('/contato')) {
             await loadCSS(BASE_URL + '/assets/css/contact.css');
             await loadScript(BASE_URL + '/assets/js/contact.js');
