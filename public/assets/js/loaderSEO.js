@@ -18,120 +18,56 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Função para atualizar CSS e JS
-    function updateAssets(html) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        
-        // Obtém os novos links e scripts
-        const newLinks = Array.from(doc.querySelectorAll('link[rel="stylesheet"]:not([data-global])'));
-        const newScripts = Array.from(doc.querySelectorAll('script[src]:not([data-global])'));
-        
-        const head = document.querySelector('head');
-        
-        // Obtém os links e scripts atuais não globais
-        const currentLinks = Array.from(head.querySelectorAll('link[rel="stylesheet"]:not([data-global])'));
-        const currentScripts = Array.from(head.querySelectorAll('script[src]:not([data-global])'));
-
-        // Remove apenas os recursos que não estão na nova página
-        currentLinks.forEach(link => {
-            const exists = newLinks.some(newLink => newLink.href === link.href);
-            if (!exists) {
-                link.remove();
-            }
-        });
-
-        currentScripts.forEach(script => {
-            const exists = newScripts.some(newScript => newScript.src === script.src);
-            if (!exists) {
-                script.remove();
-            }
-        });
-
-        // Adiciona apenas os novos recursos que ainda não existem
-        newLinks.forEach(link => {
-            const exists = currentLinks.some(currentLink => currentLink.href === link.href);
-            if (!exists) {
-                head.appendChild(link.cloneNode(true));
-            }
-        });
-
-        newScripts.forEach(script => {
-            const exists = currentScripts.some(currentScript => currentScript.src === script.src);
-            if (!exists) {
-                const newScript = document.createElement('script');
-                newScript.src = script.src;
-                if (script.hasAttribute('defer')) newScript.defer = true;
-                if (script.hasAttribute('async')) newScript.async = true;
-                head.appendChild(newScript);
-            }
+    // Função para carregar CSS
+    function loadCSS(url) {
+        return new Promise((resolve, reject) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = url;
+            link.onload = resolve;
+            link.onerror = reject;
+            document.head.appendChild(link);
         });
     }
 
-    // Função para reinicializar scripts decorativos
-    function reinitializeScripts() {
-        // Reinicializa o desktop.js se estiver na página inicial
-        if (window.location.pathname === '/' || window.location.pathname === '/index.php') {
-            const taskbarTime = document.getElementById('taskbar-time');
-            if (taskbarTime) {
-                // Reinicializa o relógio
-                const updateClock = () => {
-                    taskbarTime.textContent = new Date().toLocaleTimeString();
-                };
-                updateClock();
-                setInterval(updateClock, 1000);
-            }
-
-            // Reinicializa os eventos de arrastar e soltar
-            const desktop = document.getElementById('desktop');
-            const icons = document.querySelectorAll('.desktop-icon');
-            if (desktop && icons.length > 0) {
-                icons.forEach(icon => {
-                    icon.addEventListener('dragstart', function(e) {
-                        e.dataTransfer.setData('text/plain', '');
-                        this.classList.add('dragging');
-                    });
-
-                    icon.addEventListener('dragend', function() {
-                        this.classList.remove('dragging');
-                        saveIconPositions();
-                    });
-                });
-
-                // Carrega posições salvas dos ícones
-                loadIconPositions();
-            }
-        }
-    }
-
-    // Função para carregar e executar scripts específicos da página
-    function loadPageScripts(html) {
+    // Função para carregar assets específicos da página
+    async function loadPageAssets(html) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
         const path = window.location.pathname;
 
-        // Remove scripts antigos específicos da página
+        // Remove CSS e scripts antigos específicos da página
+        document.querySelectorAll('link[rel="stylesheet"]:not([data-global])').forEach(link => link.remove());
         document.querySelectorAll('script:not([data-global])').forEach(script => script.remove());
 
-        // Carrega os novos scripts específicos
+        // Carrega os novos assets específicos
         if (path === '/' || path === '/index.php') {
-            // Scripts da página inicial
-            loadScript(BASE_URL + '/assets/js/home.js').then(() => {
-                // Executa a inicialização após carregar o script
+            // Assets da página inicial
+            await Promise.all([
+                loadCSS(BASE_URL + '/assets/css/home.css'),
+                loadCSS(BASE_URL + '/assets/css/desktop.css'),
+                loadScript(BASE_URL + '/assets/js/home.js')
+            ]).then(() => {
                 if (typeof initializeTextAnimation === 'function') {
                     initializeTextAnimation();
                 }
             });
         } else if (path.includes('/contato')) {
-            // Scripts da página de contato
-            loadScript(BASE_URL + '/assets/js/contact.js');
+            // Assets da página de contato
+            await Promise.all([
+                loadCSS(BASE_URL + '/assets/css/contact.css'),
+                loadScript(BASE_URL + '/assets/js/contact.js')
+            ]);
         } else if (path.includes('/servicos')) {
-            // Scripts da página de serviços
-            loadScript(BASE_URL + '/assets/js/services.js');
+            // Assets da página de serviços
+            await Promise.all([
+                loadCSS(BASE_URL + '/assets/css/services.css'),
+                loadScript(BASE_URL + '/assets/js/services.js')
+            ]);
         }
     }
 
-    // Função para carregar um script
+    // Função para carregar script
     function loadScript(url) {
         return new Promise((resolve, reject) => {
             const script = document.createElement('script');
@@ -163,9 +99,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.text())
             .then(html => {
                 updateSEO(html);
-                updateAssets(html);
+                loadPageAssets(html);
                 history.pushState({}, '', link.href);
-                loadPageScripts(html);
             });
         }
     });
@@ -180,8 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.text())
         .then(html => {
             updateSEO(html);
-            updateAssets(html);
-            loadPageScripts(html);
+            loadPageAssets(html);
         });
     });
 });
