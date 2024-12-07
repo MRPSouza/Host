@@ -30,64 +30,89 @@ header("Content-Security-Policy: default-src 'none'; script-src 'self' https://c
     }
     ?>
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
-    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
-    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo BASE_URL; ?>/assets/img/favicon.png" data-global>
-    <link rel="manifest" href="<?php echo BASE_URL; ?>/site.webmanifest" data-global>
+    <link rel="icon" type="image/x-icon" href="<?php echo BASE_URL; ?>/assets/img/favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo BASE_URL; ?>/assets/img/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo BASE_URL; ?>/assets/img/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo BASE_URL; ?>/assets/img/favicon.png">
+    <link rel="manifest" href="<?php echo BASE_URL; ?>/site.webmanifest">
     
     <!-- Previne requisições automáticas de favicon -->
-    <link rel="icon" href="data:," data-global>
-
-    <!-- CSS Global -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/header.css" data-global>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/loader.css" data-global>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/copy.css" data-global>
-    <!-- <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/footer.css" data-global> -->
-
-    <?php
-    // Obtém a página atual da URL
-    $currentPage = basename($_SERVER['PHP_SELF'], '.php');
-
-    // CSS específico por página (não precisa do data-global pois são específicos)
-    switch ($currentPage) {
-        case 'index':
-            echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/home.css">';
-            echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/desktop.css">';
-            break;
-        case 'services':
-            echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/services.css">';
-            break;
-        case 'about':
-            echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/about.css">';
-            break;
-        case 'contact':
-            echo '<link rel="stylesheet" href="' . BASE_URL . '/assets/css/contact.css">';
-            break;
-    }
-    ?>
-    <meta name="base-url" content="<?php echo BASE_URL; ?>">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/header.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/home.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/copy.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/loader.css">
 </head>
 <body>
-     <!-- Scripts Globais -->
-     <script src="<?= BASE_URL ?>/assets/js/loader.js" data-global></script>
-    <script src="<?= BASE_URL ?>/assets/js/loaderSEO.js" data-global></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Função para carregar conteúdo via AJAX
+        function loadContent(href) {
+            toggleLoader(true);
+            
+            fetch(href, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'text/html'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const mainContent = doc.querySelector('main');
+                
+                if (mainContent) {
+                    document.querySelector('main').innerHTML = mainContent.innerHTML;
+                    window.history.pushState({}, '', href);
+                } else {
+                    throw new Error('Elemento main não encontrado na resposta');
+                }
 
-    <?php
-    // Scripts específicos por página (não precisa do data-global pois são específicos)
-    switch ($currentPage) {
-        case 'index':
-            echo '<script src="' . BASE_URL . '/assets/js/home.js"></script>';
-            break;
-        case 'services':
-            echo '<script src="' . BASE_URL . '/assets/js/services.js"></script>';
-            break;
-        case 'about':
-            echo '<script src="' . BASE_URL . '/assets/js/about.js"></script>';
-            break;
-        case 'contact':
-            echo '<script src="' . BASE_URL . '/assets/js/phone-links.js"></script>';
-            echo '<script src="' . BASE_URL . '/assets/js/contact.js"></script>';
-            break;
-    }
-    ?>
+                const seoData = doc.querySelector('seo-data');
+                if (seoData) {
+                    const head = document.querySelector('head');
+                    // Remove as meta tags antigas de SEO
+                    head.querySelectorAll('meta[name="description"], meta[name="keywords"], title, meta[property^="og:"]').forEach(el => el.remove());
+                    
+                    // Adiciona apenas as novas meta tags de SEO
+                    const seoContent = seoData.innerHTML;
+                    head.insertAdjacentHTML('afterbegin', seoContent);
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao carregar página:', error);
+            })
+            .finally(() => {
+                toggleLoader(false);
+            });
+        }
+
+        // Intercepta todos os cliques em links do menu
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                loadContent(href);
+            });
+        });
+
+        // Gerencia o botão voltar do navegador
+        window.addEventListener('popstate', function(e) {
+            loadContent(window.location.href);
+        });
+    });
+    </script>
+
+    <!-- Scripts -->
+    <script src="<?= BASE_URL ?>/assets/js/loader.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/phone-links.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/home.js"></script>
+</body>
+</html>
