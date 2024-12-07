@@ -1,14 +1,7 @@
 console.log('home.js carregado');
 
-// Variável global para controlar os timeouts
-window.textAnimationTimeouts = window.textAnimationTimeouts || [];
-
 function initializeTextAnimation() {
     console.log('Inicializando animação de texto');
-    
-    // Limpa todas as animações anteriores
-    window.textAnimationTimeouts.forEach(timeout => clearTimeout(timeout));
-    window.textAnimationTimeouts = [];
     
     const textos = [
         "Seu celular tem conserto",
@@ -21,8 +14,8 @@ function initializeTextAnimation() {
 
     let textoAtual = 0;
     let letraAtual = 0;
-    let esperaAntesDeApagar = 4000;
-    let esperaAntesDeEscrever = 200;
+    const esperaAntesDeApagar = 4000;
+    const esperaAntesDeEscrever = 200;
     const velocidadeDigitacao = 50;
     const velocidadeApagar = 25;
 
@@ -31,60 +24,73 @@ function initializeTextAnimation() {
     
     if (elementoTexto) {
         console.log('Iniciando animação');
-
-        // Função para adicionar timeout à lista de controle
-        function addTimeout(callback, delay) {
-            const timeout = setTimeout(callback, delay);
-            window.textAnimationTimeouts.push(timeout);
-            return timeout;
+        
+        // Cancela animação anterior se existir
+        if (window.animationFrame) {
+            cancelAnimationFrame(window.animationFrame);
         }
 
-        // Primeiro apaga o texto default
-        function apagarTextoInicial() {
+        let ultimoTimestamp = 0;
+        let esperando = 0;
+        let modo = 'apagar-inicial';
+
+        function animate(timestamp) {
             if (!elementoTexto) return;
-            
-            const textoAtual = elementoTexto.textContent;
-            if (textoAtual.length > 0) {
-                elementoTexto.textContent = textoAtual.slice(0, -1);
-                requestAnimationFrame(() => {
-                    addTimeout(apagarTextoInicial, velocidadeApagar);
-                });
-            } else {
-                addTimeout(escrever, esperaAntesDeEscrever);
+
+            const delta = timestamp - ultimoTimestamp;
+
+            if (esperando > 0) {
+                esperando -= delta;
+                ultimoTimestamp = timestamp;
+                window.animationFrame = requestAnimationFrame(animate);
+                return;
             }
+
+            switch (modo) {
+                case 'apagar-inicial':
+                    const textoInicial = elementoTexto.textContent;
+                    if (textoInicial.length > 0) {
+                        elementoTexto.textContent = textoInicial.slice(0, -1);
+                        esperando = velocidadeApagar;
+                    } else {
+                        modo = 'escrever';
+                        esperando = esperaAntesDeEscrever;
+                    }
+                    break;
+
+                case 'escrever':
+                    if (letraAtual < textos[textoAtual].length) {
+                        elementoTexto.textContent += textos[textoAtual].charAt(letraAtual);
+                        letraAtual++;
+                        esperando = velocidadeDigitacao;
+                    } else {
+                        modo = 'esperar';
+                        esperando = esperaAntesDeApagar;
+                    }
+                    break;
+
+                case 'esperar':
+                    modo = 'apagar';
+                    break;
+
+                case 'apagar':
+                    if (letraAtual > 0) {
+                        elementoTexto.textContent = textos[textoAtual].substring(0, letraAtual - 1) || "\u00A0";
+                        letraAtual--;
+                        esperando = velocidadeApagar;
+                    } else {
+                        textoAtual = (textoAtual + 1) % textos.length;
+                        modo = 'escrever';
+                        esperando = esperaAntesDeEscrever;
+                    }
+                    break;
+            }
+
+            ultimoTimestamp = timestamp;
+            window.animationFrame = requestAnimationFrame(animate);
         }
 
-        function escrever() {
-            if (!elementoTexto) return;
-            
-            if (letraAtual < textos[textoAtual].length) {
-                elementoTexto.textContent += textos[textoAtual].charAt(letraAtual);
-                letraAtual++;
-                requestAnimationFrame(() => {
-                    addTimeout(escrever, velocidadeDigitacao);
-                });
-            } else {
-                addTimeout(apagar, esperaAntesDeApagar);
-            }
-        }
-
-        function apagar() {
-            if (!elementoTexto) return;
-            
-            if (letraAtual > 0) {
-                elementoTexto.textContent = textos[textoAtual].substring(0, letraAtual - 1) || "\u00A0";
-                letraAtual--;
-                requestAnimationFrame(() => {
-                    addTimeout(apagar, velocidadeApagar);
-                });
-            } else {
-                textoAtual = (textoAtual + 1) % textos.length;
-                addTimeout(escrever, esperaAntesDeEscrever);
-            }
-        }
-
-        // Inicia a animação
-        addTimeout(apagarTextoInicial, esperaAntesDeApagar);
+        window.animationFrame = requestAnimationFrame(animate);
     }
 }
 
@@ -96,7 +102,7 @@ document.addEventListener('navigationComplete', function(e) {
     console.log('Evento navigationComplete recebido');
     if (e.detail.path === '/' || e.detail.path === '/index.php') {
         console.log('Reinicializando animação de texto');
-        setTimeout(initializeTextAnimation, 100);
+        initializeTextAnimation();
     }
 });
 
