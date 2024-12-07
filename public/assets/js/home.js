@@ -1,7 +1,14 @@
 console.log('home.js carregado');
 
+// Variável global para controlar os timeouts
+window.textAnimationTimeouts = window.textAnimationTimeouts || [];
+
 function initializeTextAnimation() {
     console.log('Inicializando animação de texto');
+    
+    // Limpa todas as animações anteriores
+    window.textAnimationTimeouts.forEach(timeout => clearTimeout(timeout));
+    window.textAnimationTimeouts = [];
     
     const textos = [
         "Seu celular tem conserto",
@@ -18,14 +25,19 @@ function initializeTextAnimation() {
     let esperaAntesDeEscrever = 200;
     const velocidadeDigitacao = 50;
     const velocidadeApagar = 25;
-    let animacaoEmAndamento = false;
 
     const elementoTexto = document.getElementById('texto-animado');
     console.log('Elemento texto encontrado:', !!elementoTexto);
     
-    if (elementoTexto && !animacaoEmAndamento) {
+    if (elementoTexto) {
         console.log('Iniciando animação');
-        animacaoEmAndamento = true;
+
+        // Função para adicionar timeout à lista de controle
+        function addTimeout(callback, delay) {
+            const timeout = setTimeout(callback, delay);
+            window.textAnimationTimeouts.push(timeout);
+            return timeout;
+        }
 
         // Primeiro apaga o texto default
         function apagarTextoInicial() {
@@ -34,10 +46,11 @@ function initializeTextAnimation() {
             const textoAtual = elementoTexto.textContent;
             if (textoAtual.length > 0) {
                 elementoTexto.textContent = textoAtual.slice(0, -1);
-                requestAnimationFrame(() => setTimeout(apagarTextoInicial, velocidadeApagar));
+                requestAnimationFrame(() => {
+                    addTimeout(apagarTextoInicial, velocidadeApagar);
+                });
             } else {
-                // Depois de apagar, começa a animação normal
-                setTimeout(escrever, esperaAntesDeEscrever);
+                addTimeout(escrever, esperaAntesDeEscrever);
             }
         }
 
@@ -47,9 +60,11 @@ function initializeTextAnimation() {
             if (letraAtual < textos[textoAtual].length) {
                 elementoTexto.textContent += textos[textoAtual].charAt(letraAtual);
                 letraAtual++;
-                requestAnimationFrame(() => setTimeout(escrever, velocidadeDigitacao));
+                requestAnimationFrame(() => {
+                    addTimeout(escrever, velocidadeDigitacao);
+                });
             } else {
-                setTimeout(apagar, esperaAntesDeApagar);
+                addTimeout(apagar, esperaAntesDeApagar);
             }
         }
 
@@ -59,15 +74,17 @@ function initializeTextAnimation() {
             if (letraAtual > 0) {
                 elementoTexto.textContent = textos[textoAtual].substring(0, letraAtual - 1) || "\u00A0";
                 letraAtual--;
-                requestAnimationFrame(() => setTimeout(apagar, velocidadeApagar));
+                requestAnimationFrame(() => {
+                    addTimeout(apagar, velocidadeApagar);
+                });
             } else {
                 textoAtual = (textoAtual + 1) % textos.length;
-                setTimeout(escrever, esperaAntesDeEscrever);
+                addTimeout(escrever, esperaAntesDeEscrever);
             }
         }
 
-        // Aumenta o tempo de espera antes de começar a apagar
-        setTimeout(apagarTextoInicial, esperaAntesDeApagar);
+        // Inicia a animação
+        addTimeout(apagarTextoInicial, esperaAntesDeApagar);
     }
 }
 
@@ -79,7 +96,7 @@ document.addEventListener('navigationComplete', function(e) {
     console.log('Evento navigationComplete recebido');
     if (e.detail.path === '/' || e.detail.path === '/index.php') {
         console.log('Reinicializando animação de texto');
-        setTimeout(initializeTextAnimation, 100); // Pequeno delay para garantir que o DOM foi atualizado
+        setTimeout(initializeTextAnimation, 100);
     }
 });
 
