@@ -50,43 +50,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Pré-carrega os assets da próxima página
+    // Pré-carrega apenas os estilos CSS
     function preloadAssets(path) {
         const assets = {
             '/': [
                 { url: '/assets/css/home.css', type: 'style' },
-                { url: '/assets/css/desktop.css', type: 'style' },
-                { url: '/assets/js/home.js', type: 'script' }
+                { url: '/assets/css/desktop.css', type: 'style' }
             ],
             '/contato': [
-                { url: '/assets/css/contact.css', type: 'style' },
-                { url: '/assets/js/contact.js', type: 'script' }
+                { url: '/assets/css/contact.css', type: 'style' }
             ],
             '/servicos': [
-                { url: '/assets/css/services.css', type: 'style' },
-                { url: '/assets/js/services.js', type: 'script' }
+                { url: '/assets/css/services.css', type: 'style' }
             ]
         };
 
         const pathAssets = assets[path] || [];
         pathAssets.forEach(asset => {
-            // Verifica se o asset já não está carregado ou em processo de carregamento
-            const assetUrl = BASE_URL + asset.url;
-            if (!loadedAssets.has(assetUrl) && 
-                !document.querySelector(`link[href="${assetUrl}"]`) && 
-                !document.querySelector(`script[src="${assetUrl}"]`)) {
-                
-                // Para CSS, carrega diretamente como stylesheet
-                if (asset.type === 'style') {
+            // Carrega apenas CSS
+            if (asset.type === 'style') {
+                const assetUrl = BASE_URL + asset.url;
+                if (!loadedAssets.has(assetUrl) && 
+                    !document.querySelector(`link[href="${assetUrl}"]`)) {
                     loadCSS(assetUrl);
-                }
-                // Para JS, usa preload
-                else if (asset.type === 'script') {
-                    const link = document.createElement('link');
-                    link.rel = 'preload';
-                    link.as = 'script';
-                    link.href = assetUrl;
-                    document.head.appendChild(link);
                 }
             }
         });
