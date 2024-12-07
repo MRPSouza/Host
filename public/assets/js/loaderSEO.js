@@ -1,39 +1,85 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Obtém o BASE_URL do meta tag ou define um padrão
     const BASE_URL = document.querySelector('meta[name="base-url"]')?.content || '';
+    
+    // Cache para assets já carregados
+    const loadedAssets = new Set();
 
-    // Função para atualizar as meta tags de SEO
-    function updateSEO(html) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        const seoData = doc.querySelector('seo-data');
-        if (seoData) {
-            const head = document.querySelector('head');
-            // Remove as meta tags antigas de SEO
-            head.querySelectorAll('meta[name="description"], meta[name="keywords"], title, meta[property^="og:"]').forEach(el => el.remove());
-            
-            // Adiciona apenas as novas meta tags de SEO
-            const seoContent = seoData.innerHTML;
-            head.insertAdjacentHTML('afterbegin', seoContent);
-        }
-    }
-
-    // Função para carregar CSS
+    // Função para carregar CSS com cache
     function loadCSS(url) {
+        if (loadedAssets.has(url)) {
+            return Promise.resolve();
+        }
+
         return new Promise((resolve, reject) => {
             const link = document.createElement('link');
             link.rel = 'stylesheet';
             link.href = url;
-            link.onload = resolve;
+            link.fetchPriority = 'high';
+            
+            link.onload = () => {
+                loadedAssets.add(url);
+                resolve();
+            };
             link.onerror = reject;
+            requestAnimationFrame(() => {
+                document.head.appendChild(link);
+            });
+        });
+    }
+
+    // Função para carregar script com cache
+    function loadScript(url) {
+        if (loadedAssets.has(url)) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = url;
+            script.async = true;
+            script.fetchPriority = 'high';
+            
+            script.onload = () => {
+                loadedAssets.add(url);
+                resolve();
+            };
+            script.onerror = reject;
+            requestAnimationFrame(() => {
+                document.body.appendChild(script);
+            });
+        });
+    }
+
+    // Pré-carrega os assets da próxima página
+    function preloadAssets(path) {
+        const assets = {
+            '/': [
+                '/assets/css/home.css',
+                '/assets/css/desktop.css',
+                '/assets/js/home.js'
+            ],
+            '/contato': [
+                '/assets/css/contact.css',
+                '/assets/js/contact.js'
+            ],
+            '/servicos': [
+                '/assets/css/services.css',
+                '/assets/js/services.js'
+            ]
+        };
+
+        const pathAssets = assets[path] || [];
+        pathAssets.forEach(asset => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = asset.endsWith('.css') ? 'style' : 'script';
+            link.href = BASE_URL + asset;
             document.head.appendChild(link);
         });
     }
 
     // Função para carregar assets específicos da página
     async function loadPageAssets(html) {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
         const path = window.location.pathname;
 
         // Remove CSS e scripts antigos específicos da página
@@ -53,29 +99,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         } else if (path.includes('/contato')) {
-            // Assets da página de contato
-            await Promise.all([
-                loadCSS(BASE_URL + '/assets/css/contact.css'),
-                loadScript(BASE_URL + '/assets/js/contact.js')
-            ]);
+            await loadCSS(BASE_URL + '/assets/css/contact.css');
+            await loadScript(BASE_URL + '/assets/js/contact.js');
         } else if (path.includes('/servicos')) {
-            // Assets da página de serviços
-            await Promise.all([
-                loadCSS(BASE_URL + '/assets/css/services.css'),
-                loadScript(BASE_URL + '/assets/js/services.js')
-            ]);
+            await loadCSS(BASE_URL + '/assets/css/services.css');
+            await loadScript(BASE_URL + '/assets/js/services.js');
         }
     }
 
-    // Função para carregar script
-    function loadScript(url) {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = url;
-            script.onload = resolve;
-            script.onerror = reject;
-            document.body.appendChild(script);
-        });
+    // Função para atualizar as meta tags de SEO
+    function updateSEO(html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const seoData = doc.querySelector('seo-data');
+        if (seoData) {
+            const head = document.querySelector('head');
+            // Remove as meta tags antigas de SEO
+            head.querySelectorAll('meta[name="description"], meta[name="keywords"], title, meta[property^="og:"]').forEach(el => el.remove());
+            
+            // Adiciona apenas as novas meta tags de SEO
+            const seoContent = seoData.innerHTML;
+            head.insertAdjacentHTML('afterbegin', seoContent);
+        }
     }
 
     // Intercepta cliques em links para navegação AJAX
@@ -90,6 +135,10 @@ document.addEventListener('DOMContentLoaded', function() {
             link.href.indexOf('mailto:') !== 0) {
             
             e.preventDefault();
+            const url = new URL(link.href);
+            
+            // Pré-carrega os assets da página de destino
+            preloadAssets(url.pathname);
             
             fetch(link.href, {
                 headers: {
