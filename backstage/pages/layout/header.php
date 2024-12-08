@@ -32,7 +32,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="<?= BASE_URL ?>/">
-                <img src="<?= BASE_URL ?>/assets/img/logo-mister-cel.png" alt="Mister Cel" height="100" class="mb-3">
+                <img src="<?= BASE_URL ?>/assets/img/logo-mister-cel.png" alt="Mister Cel" height="40" class="me-2">
                 <span class="badge bg-light text-success rounded-pill align-self-end">Desde 2008</span>
             </a>
             
