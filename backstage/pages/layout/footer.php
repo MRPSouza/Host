@@ -32,7 +32,7 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-md-4">
-                <img src="<?= BASE_URL ?>/assets/img/logo-mister-cel.png" alt="Mister Cel" height="40" class="mb-3">
+                <img src="<?= BASE_URL ?>/assets/img/logo-mister-cel.png" alt="Mister Cel" height="200" class="mb-3">
                 <p class="mb-0">Sua parceira sempre disponível <br>para pronto atendimento desde 2008</p>
             </div>
             <div class="col-md-4">
