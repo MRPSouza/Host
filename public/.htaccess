@@ -87,8 +87,17 @@ AddType application/javascript .js
 # Configuração de tipos MIME
 <IfModule mod_mime.c>
     AddType text/css .css
-    AddType text/javascript .js
     AddType application/javascript .js
+    AddType text/javascript .js
+    
+    # Força o tipo MIME correto
+    <FilesMatch "\.css$">
+        ForceType text/css
+    </FilesMatch>
+    
+    <FilesMatch "\.js$">
+        ForceType application/javascript
+    </FilesMatch>
 </IfModule>
 
 # Força HTTPS - ajuste mais robusto
