@@ -1,17 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Debug para verificar caminhos
-$requestedFile = $_SERVER['REQUEST_URI'];
-$fullPath = $_SERVER['DOCUMENT_ROOT'] . $requestedFile;
-if (strpos($requestedFile, '.css') !== false || strpos($requestedFile, '.js') !== false) {
-    echo "Arquivo solicitado: " . $requestedFile . "\n";
-    echo "Caminho completo: " . $fullPath . "\n";
-    echo "Arquivo existe? " . (file_exists($fullPath) ? 'Sim' : 'Não') . "\n";
-    die();
-}
-
 $rootPrivate = 'SecretPath';
 
 # Verificação do Protocolo HTTPS
