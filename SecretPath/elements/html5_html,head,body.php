@@ -12,7 +12,7 @@ $seoKeywords = isset($seoData['keywords']) ? $seoData['keywords'] : '';
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <!-- CSS Crítico - carrega primeiro -->
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/critical.css">
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/critical.css" type="text/css">
     
     <!-- JavaScript Crítico - carrega primeiro -->
     <script src="<?php echo BASE_URL; ?>/js/critical.js"></script>
@@ -29,8 +29,8 @@ $seoKeywords = isset($seoData['keywords']) ? $seoData['keywords'] : '';
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?php echo BASE_URL; ?>/medias/favicon.ico">
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/style.css">
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/style.css" type="text/css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/style_main_header.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/style_main_footer.css">
     <link rel="stylesheet" href="<?php echo BASE_URL; ?>/css/loader.css">
