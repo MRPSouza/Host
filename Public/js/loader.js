@@ -14,7 +14,7 @@
             // Se falhar novamente, tenta vendor local
             link.onerror = () => {
                 console.warn(`Falha no CDN alternativo, tentando vendor local...`);
-                const localPath = url.replace('https://cdn.jsdelivr.net/npm/', '/assets/vendor/');
+                const localPath = url.replace('https://cdn.jsdelivr.net/npm/', '/vendor/');
                 link.href = localPath;
                 
                 // Se ainda falhar, registra erro
@@ -32,17 +32,19 @@
 
 // CSS essenciais (carregamento imediato)
 const criticalCssFiles = [
-    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
-    'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css',
-    'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css'
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'
 ];
 
 // CSS não essenciais (carregamento posterior)
 const nonCriticalCssFiles = [
+    'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
+    'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css',
+    'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css',
     'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css',
     'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-grid.min.css',
     'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-reboot.min.css',
-    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-utilities.min.css'
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-utilities.min.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css'
 ];
 
 // Carrega CSS críticos imediatamente
@@ -95,8 +97,12 @@ function loadScript(url) {
 
 // Array com os scripts essenciais
 const jsFiles = [
+    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
     'https://code.jquery.com/jquery-3.7.1.min.js',
-    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
+    'https://matheusrpsouza.com/js/loader.js',
+    'https://matheusrpsouza.com/js/ajax-navigation.js',
+    'https://matheusrpsouza.com/js/script_main_header.js',
+    'https://matheusrpsouza.com/js/script_main_footer.js',
 ];
 
 // Otimização do carregamento sequencial

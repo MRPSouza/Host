@@ -26,7 +26,7 @@
         <div class="mx-auto my-3 d-lg-none d-sm-block d-xs-block">
           <div class="input-group">
             <span class="border-warning input-group-text bg-warning text-white"><i class="fa-solid fa-magnifying-glass"></i></span>
-            <input type="text" class="form-control border-warning" style="color:#7a7a7a">
+            <input type="text" class="form-control border-warning">
             <button class="btn btn-warning text-white">Search</button>
           </div>
         </div>
@@ -34,7 +34,7 @@
           <div class="ms-auto d-none d-lg-block">
             <div class="input-group">
               <span class="border-warning input-group-text bg-warning text-white"><i class="fa-solid fa-magnifying-glass"></i></span>
-              <input type="text" class="form-control border-warning" style="color:#7a7a7a">
+              <input type="text" class="form-control border-warning">
               <button class="btn btn-warning text-white">Search</button>
             </div>
           </div>
