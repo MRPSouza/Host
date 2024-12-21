@@ -24,11 +24,11 @@ $seoKeywords = isset($seoData['keywords']) ? $seoData['keywords'] : '';
 
     <link rel="stylesheet" 
           href="<?php echo BASE_URL; ?>/css/loader.css" 
-          integrity="sha512-zVkc1+vgdzqKI6O7OLUIiaT/wskDBg83oW/pSF9uRF/YMY9oPhd2+Ud2uG4zlB2qAus4lIQBN/t3svQtZpK7BA==" 
+          integrity="<?=$hashLoaderCSS?>" 
           crossorigin="anonymous">
     <link rel="stylesheet" 
           href="<?php echo BASE_URL; ?>/css/style.css" 
-          integrity="sha512-+PpZPxGht9g30mAu3bWYo6A9hL/hPWkeuu7JMb1+15fjlENKs1yzluGRBfDsGAfLW26Gcc1P1pa9y0xf6XCpaA==" 
+          integrity="<?=$hashStyleCSS?>" 
           crossorigin="anonymous">
 
 </head>
